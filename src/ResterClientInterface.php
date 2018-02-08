@@ -1,4 +1,5 @@
 <?php
+
 namespace Corp104\Rester;
 
 use Psr\Http\Message\ResponseInterface;
