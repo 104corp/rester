@@ -43,10 +43,8 @@ class ResterClientBasicTest extends TestCase
      */
     public function shouldThrowInvalidArgumentExceptionWhenFirstParamsIsNotArray()
     {
-        // Arrange
         $this->expectException(InvalidArgumentException::class);
 
-        // Act
         $this->target->getFoo('NotArray');
     }
 
@@ -55,14 +53,12 @@ class ResterClientBasicTest extends TestCase
      */
     public function shouldThrowClientExceptionWhenServerReturn401()
     {
-        // Arrange
         $history = new ArrayObject();
 
         $httpClient = $this->createHttpClient(new Response(401), $history);
         $this->target->setHttpClient($httpClient);
         $this->expectException(ClientException::class);
 
-        // Act
         $this->target->getFoo();
     }
 
@@ -71,14 +67,12 @@ class ResterClientBasicTest extends TestCase
      */
     public function shouldThrowApiNotFoundExceptionWhenServerReturn404()
     {
-        // Arrange
         $history = new ArrayObject();
 
         $httpClient = $this->createHttpClient(new Response(404), $history);
         $this->target->setHttpClient($httpClient);
         $this->expectException(ApiNotFoundException::class);
 
-        // Act
         $this->target->getFoo();
     }
 
@@ -87,14 +81,12 @@ class ResterClientBasicTest extends TestCase
      */
     public function shouldThrowApiNotFoundExceptionWhenServerReturn405()
     {
-        // Arrange
         $history = new ArrayObject();
 
         $httpClient = $this->createHttpClient(new Response(405), $history);
         $this->target->setHttpClient($httpClient);
         $this->expectException(ApiNotFoundException::class);
 
-        // Act
         $this->target->postFoo();
     }
 
@@ -103,14 +95,12 @@ class ResterClientBasicTest extends TestCase
      */
     public function shouldThrowServerExceptionWhenServerReturn500()
     {
-        // Arrange
         $history = new ArrayObject();
 
         $httpClient = $this->createHttpClient(new Response(500), $history);
         $this->target->setHttpClient($httpClient);
         $this->expectException(ServerException::class);
 
-        // Act
         $this->target->getFoo();
     }
 
@@ -131,7 +121,6 @@ class ResterClientBasicTest extends TestCase
      */
     public function shouldCallAnotherApiWhenApiUrlIsSetAnother()
     {
-        // Arrange
         $history = new ArrayObject();
 
         $responseJson = '[]';
@@ -140,10 +129,8 @@ class ResterClientBasicTest extends TestCase
 
         $this->target->getRestMapping()->set('postFoo', new Api('POST', '/bar'));
 
-        // Act
         $this->target->postFoo();
 
-        // Assert
         /** @var RequestInterface $request */
         $request = $history[0]['request'];
 

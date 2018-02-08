@@ -33,10 +33,8 @@ class MappingTest extends TestCase
      */
     public function shouldThrowInvalidApiExceptionWhenApiNotFound()
     {
-        // Arrange
         $this->expectException(ApiNotFoundException::class);
 
-        // Act
         $this->target->get('UnknownApi');
     }
 
@@ -45,11 +43,7 @@ class MappingTest extends TestCase
      */
     public function shouldGetEmptyArrayWhenGetApiListFirst()
     {
-        // Act
-        $actual = $this->target->all();
-
-        // Assert
-        $this->assertEquals([], $actual);
+        $this->assertEquals([], $this->target->all());
     }
 
     /**
@@ -57,15 +51,12 @@ class MappingTest extends TestCase
      */
     public function shouldGetOneApiListWhenAfterSetOneApiList()
     {
-        // Arrange
         $exceptedApiName = 'some-api';
         $exceptedCount = 1;
 
-        // Act
         $this->target->set($exceptedApiName, new Api('GET', $exceptedApiName));
         $actualApiList = $this->target->all();
 
-        // Assert
         $this->assertArrayHasKey($exceptedApiName, $actualApiList);
         $this->assertCount($exceptedCount, $actualApiList);
     }
