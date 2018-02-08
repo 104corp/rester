@@ -134,20 +134,20 @@ trait ResterClientTrait
      * Send request hook when after
      *
      * @param ResponseInterface $response
-     * @param string $api
+     * @param Api $api
      * @param array $params
      */
-    protected function afterSendRequest(ResponseInterface $response, $api, array $params = [])
+    protected function afterSendRequest(ResponseInterface $response, Api $api, array $params = [])
     {
     }
 
     /**
      * Send request hook when before
      *
-     * @param string $api
+     * @param Api $api
      * @param array $params
      */
-    protected function beforeSendRequest($api, array $params = [])
+    protected function beforeSendRequest(Api $api, array $params = [])
     {
     }
 
