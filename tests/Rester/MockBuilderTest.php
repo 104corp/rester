@@ -7,6 +7,9 @@ use GuzzleHttp\Client;
 use Tests\Fixture\TestResterClientWithMockBuilder;
 use Tests\TestCase;
 
+/**
+ * Mock builder test
+ */
 class MockBuilderTest extends TestCase
 {
     /**

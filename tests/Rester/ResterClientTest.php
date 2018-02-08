@@ -8,7 +8,7 @@ use Tests\Fixture\TestResterClient;
 use Tests\TestCase;
 
 /**
- * Rester Client test
+ * REST test
  */
 class ResterClientTest extends TestCase
 {
