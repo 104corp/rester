@@ -110,7 +110,29 @@ trait ResterClientTrait
     {
         $route = $this->restMapping->get($api);
 
-        return $this->sendRequest($route, $params);
+        $this->preSendRequest($route, $params);
+        return $this->transformResponse($this->sendRequest($route, $params));
+    }
+
+    /**
+     * Send request hook for prepare
+     *
+     * @param string $api
+     * @param array $params
+     */
+    protected function preSendRequest($api, array $params = [])
+    {
+    }
+
+    /**
+     * Send request hook for post
+     *
+     * @param ResponseInterface $response
+     * @return mixed
+     */
+    protected function transformResponse(ResponseInterface $response)
+    {
+        return $response;
     }
 
     public function delete(string $url, array $params = [])
