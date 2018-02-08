@@ -1,0 +1,30 @@
+{
+    "name": "104corp/rester",
+    "description": "A library for calling REST API.",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": ">=7.0",
+        "104corp/support": "^1.0",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.7",
+        "mockery/mockery": "^1.0",
+        "phpunit/phpunit": "^6.5",
+        "squizlabs/php_codesniffer": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Corp104\\Rester\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

@@ -1,0 +1,33 @@
+sudo: false
+os: linux
+dist: trusty
+language: php
+
+php:
+- 7.0
+- 7.1
+- 7.2
+- nightly
+
+matrix:
+  allow_failures:
+  - php: nightly
+
+branches:
+  only:
+  - master
+  - /^\d+\.x$/
+  - /^\d+\.\d+\.\d+$/
+
+install:
+- composer install --prefer-dist
+
+script:
+- php vendor/bin/phpcs
+- php vendor/bin/phpunit
+
+cache:
+  directories:
+  # See https://blog.wyrihaximus.net/2015/07/composer-cache-on-travis/
+  - $HOME/.composer/cache/files
+  - vendor
