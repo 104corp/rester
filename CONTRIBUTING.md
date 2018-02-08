@@ -48,7 +48,6 @@ Git Commit 的內容沒有特別規範，但請先參考[這份文件](https://b
 其他細節規範如下：
 
 * Array 實字請使用 `[]` ，不要使用 `array()`
-* 開頭 `namespace` 關鍵字與 `<?php` 間不空行
 * variable 、 function 、 property 、 method 等，均使用 `camelCase` 風格 
 
 PHP Document 建議參考 [104 Guideline][] 上的說明。
