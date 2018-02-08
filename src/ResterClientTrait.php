@@ -123,22 +123,36 @@ trait ResterClientTrait
     {
         $api = $this->restMapping->get($apiName);
 
-        $this->preSendRequest($api, $params);
-        return $this->transformResponse($this->sendRequestByApi($api, $params));
+        $this->beforeSendRequest($api, $params);
+        $response = $this->sendRequestByApi($api, $params);
+        $this->afterSendRequest($response, $api, $params);
+
+        return $this->transformResponse($response);
     }
 
     /**
-     * Send request hook for prepare
+     * Send request hook when after
      *
+     * @param ResponseInterface $response
      * @param string $api
      * @param array $params
      */
-    protected function preSendRequest($api, array $params = [])
+    protected function afterSendRequest(ResponseInterface $response, $api, array $params = [])
     {
     }
 
     /**
-     * Send request hook for post
+     * Send request hook when before
+     *
+     * @param string $api
+     * @param array $params
+     */
+    protected function beforeSendRequest($api, array $params = [])
+    {
+    }
+
+    /**
+     * Transform response
      *
      * @param ResponseInterface $response
      * @return mixed
