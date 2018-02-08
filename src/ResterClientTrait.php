@@ -53,17 +53,28 @@ trait ResterClientTrait
     }
 
     /**
-     * @param Api $route
+     * @param Api $api
      * @param array $params
      * @return ResponseInterface
      * @throws ResterException
      */
-    protected function sendRequest($route, $params)
+    protected function sendRequestByApi(Api $api, $params)
     {
-        $url = $this->baseUrl . $route->getPath();
+        $httpMethod = strtolower($api->getMethod());
+        $url = $this->baseUrl . $api->getPath();
 
-        $httpMethod = strtolower($route->getMethod());
+        return $this->sendRequest($httpMethod, $url, $params);
+    }
 
+    /**
+     * @param $httpMethod
+     * @param $url
+     * @param array $params
+     * @return ResponseInterface
+     * @throws ResterException
+     */
+    protected function sendRequest($httpMethod, $url, $params)
+    {
         try {
             /** @var ResponseInterface $response */
             $response = $this->$httpMethod($url, $params);
@@ -103,17 +114,17 @@ trait ResterClientTrait
     }
 
     /**
-     * @param string $api
+     * @param string $apiName
      * @param array $params
      * @return mixed
      * @throws ResterException
      */
-    public function call($api, array $params = [])
+    public function call($apiName, array $params = [])
     {
-        $route = $this->restMapping->get($api);
+        $api = $this->restMapping->get($apiName);
 
-        $this->preSendRequest($route, $params);
-        return $this->transformResponse($this->sendRequest($route, $params));
+        $this->preSendRequest($api, $params);
+        return $this->transformResponse($this->sendRequestByApi($api, $params));
     }
 
     /**
