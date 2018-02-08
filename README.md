@@ -1,4 +1,4 @@
-# Rester
+# RESTer
 
 A library for calling REST API.
 
