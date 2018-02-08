@@ -8,10 +8,12 @@ use Corp104\Rester\Exception\InvalidArgumentException;
 use Corp104\Rester\Exception\ResterException;
 use Corp104\Rester\Exception\ServerException;
 use Corp104\Support\GuzzleClientAwareTrait;
+use Corp104\Support\LoggerTrait;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LogLevel;
 
 /**
  * Rester Client trait
@@ -19,6 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 trait ResterClientTrait
 {
     use GuzzleClientAwareTrait;
+    use LoggerTrait;
     use MappingAwareTrait;
 
     /**
@@ -139,6 +142,7 @@ trait ResterClientTrait
     {
         $uri = $this->buildUrl($url, $params);
 
+        $this->log(LogLevel::INFO, "DELETE {$uri}");
         return $this->getHttpClient()->delete($uri, $this->options);
     }
 
@@ -146,6 +150,7 @@ trait ResterClientTrait
     {
         $uri = $this->buildUrl($url, $params);
 
+        $this->log(LogLevel::INFO, "GET {$uri}");
         return $this->getHttpClient()->get($uri, $this->options);
     }
 
@@ -167,6 +172,7 @@ trait ResterClientTrait
 
         $uri = $this->buildUrl($url);
 
+        $this->log(LogLevel::INFO, "POST {$uri}, payload: " . json_encode($params));
         return $this->getHttpClient()->post($uri, $options);
     }
 
@@ -180,6 +186,7 @@ trait ResterClientTrait
 
         $uri = $this->buildUrl($url);
 
+        $this->log(LogLevel::INFO, "PUT {$uri}, payload: " . json_encode($params));
         return $this->getHttpClient()->put($uri, $options);
     }
 
