@@ -65,6 +65,7 @@ trait ResterClientTrait
         $httpMethod = strtolower($route->getMethod());
 
         try {
+            /** @var ResponseInterface $response */
             $response = $this->$httpMethod($url, $params);
         } catch (GuzzleClientException $e) {
             $httpMethod = strtoupper($httpMethod);
@@ -102,14 +103,12 @@ trait ResterClientTrait
     }
 
     /**
-     * Call api
-     *
      * @param string $api
      * @param array $params
-     * @return ResponseInterface
+     * @return mixed
      * @throws ResterException
      */
-    public function call($api, array $params = []): ResponseInterface
+    public function call($api, array $params = [])
     {
         $route = $this->restMapping->get($api);
 
