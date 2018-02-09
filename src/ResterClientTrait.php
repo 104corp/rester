@@ -5,7 +5,6 @@ namespace Corp104\Rester;
 use Corp104\Rester\Exception\ApiNotFoundException;
 use Corp104\Rester\Exception\ClientException;
 use Corp104\Rester\Exception\InvalidArgumentException;
-use Corp104\Rester\Exception\ResterException;
 use Corp104\Rester\Exception\ServerException;
 use Corp104\Support\GuzzleClientAwareTrait;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
@@ -53,18 +52,32 @@ trait ResterClientTrait
     /**
      * @param string $apiName
      * @param array $params
+     * @param array $query
      * @return mixed
-     * @throws ResterException
      */
-    public function call($apiName, array $params = [])
+    public function call($apiName, array $params = [], array $query = [])
     {
         $api = $this->restMapping->get($apiName);
 
-        $this->beforeSendRequest($api, $params);
-        $response = $this->sendRequestByApi($api, $params);
-        $this->afterSendRequest($response, $api, $params);
+        $this->beforeCallApi($api, $params, $query);
+        $response = $this->callApi($api, $params, $query);
+        $this->afterCallApi($response, $api, $params, $query);
 
         return $this->transformResponse($response);
+    }
+
+    /**
+     * @param Api $api
+     * @param array $params
+     * @param array $query
+     * @return ResponseInterface
+     */
+    public function callApi(Api $api, array $params = [], array $query = []): ResponseInterface
+    {
+        $httpMethod = strtolower($api->getMethod());
+        $url = $this->baseUrl . $api->getPath();
+
+        return $this->sendRequest($httpMethod, $url, $params, $query);
     }
 
     public function delete(string $url, array $params = [], array $query = []): ResponseInterface
@@ -129,8 +142,9 @@ trait ResterClientTrait
      * @param ResponseInterface $response
      * @param Api $api
      * @param array $params
+     * @param array $query
      */
-    protected function afterSendRequest(ResponseInterface $response, Api $api, array $params = [])
+    protected function afterCallApi(ResponseInterface $response, Api $api, array $params = [], array $query = [])
     {
     }
 
@@ -139,8 +153,9 @@ trait ResterClientTrait
      *
      * @param Api $api
      * @param array $params
+     * @param array $query
      */
-    protected function beforeSendRequest(Api $api, array $params = [])
+    protected function beforeCallApi(Api $api, array $params = [], array $query = [])
     {
     }
 
@@ -165,14 +180,18 @@ trait ResterClientTrait
      * @param string $httpMethod
      * @param string $url
      * @param array $params
+     * @param array $query
      * @return ResponseInterface
-     * @throws ResterException
      */
-    protected function sendRequest(string $httpMethod, string $url, array $params = []): ResponseInterface
-    {
+    protected function sendRequest(
+        string $httpMethod,
+        string $url,
+        array $params = [],
+        array $query = []
+    ): ResponseInterface {
         try {
             /** @var ResponseInterface $response */
-            $response = $this->$httpMethod($url, $params);
+            $response = $this->$httpMethod($url, $params, $query);
         } catch (GuzzleClientException $e) {
             $httpMethod = strtoupper($httpMethod);
             $code = $e->getCode();
@@ -191,20 +210,6 @@ trait ResterClientTrait
         }
 
         return $response;
-    }
-
-    /**
-     * @param Api $api
-     * @param array $params
-     * @return ResponseInterface
-     * @throws ResterException
-     */
-    protected function sendRequestByApi(Api $api, array $params = []): ResponseInterface
-    {
-        $httpMethod = strtolower($api->getMethod());
-        $url = $this->baseUrl . $api->getPath();
-
-        return $this->sendRequest($httpMethod, $url, $params);
     }
 
     /**
