@@ -163,14 +163,14 @@ trait ResterClientTrait
     {
         $uri = $this->buildUrl($url, $params);
 
-        return $this->getHttpClient()->delete($uri, $this->options);
+        return $this->httpClient->delete($uri, $this->options);
     }
 
     public function get(string $url, array $params = [])
     {
         $uri = $this->buildUrl($url, $params);
 
-        return $this->getHttpClient()->get($uri, $this->options);
+        return $this->httpClient->get($uri, $this->options);
     }
 
     /**
@@ -191,7 +191,7 @@ trait ResterClientTrait
 
         $uri = $this->buildUrl($url);
 
-        return $this->getHttpClient()->post($uri, $options);
+        return $this->httpClient->post($uri, $options);
     }
 
     public function put(string $url, array $params = [])
@@ -204,7 +204,7 @@ trait ResterClientTrait
 
         $uri = $this->buildUrl($url);
 
-        return $this->getHttpClient()->put($uri, $options);
+        return $this->httpClient->put($uri, $options);
     }
 
     /**
