@@ -28,12 +28,12 @@ class Api
     /**
      * @var string
      */
-    private $method;
+    protected $method;
 
     /**
      * @var string
      */
-    private $path;
+    protected $path;
 
     /**
      * @return array
@@ -41,6 +41,17 @@ class Api
     public static function getValidMethods(): array
     {
         return self::$VALID_METHOD;
+    }
+
+    /**
+     * @param string $method
+     * @return bool
+     */
+    public static function isValidMethod(string $method): bool
+    {
+        $method = strtoupper($method);
+
+        return \in_array($method, static::$VALID_METHOD, true);
     }
 
     /**
@@ -60,11 +71,7 @@ class Api
      */
     public function __construct($method, $path)
     {
-        $method = strtoupper($method);
-
-        $validMethod = \in_array($method, static::$VALID_METHOD, true);
-
-        if (!$validMethod) {
+        if (!static::isValidMethod($method)) {
             throw new InvalidArgumentException('Invalid HTTP method: ' . $method);
         }
 
@@ -85,10 +92,26 @@ class Api
     }
 
     /**
+     * @param array $binding
      * @return string
+     * @throws InvalidArgumentException
      */
-    public function getPath(): string
+    public function getPath(array $binding = []): string
     {
-        return $this->path;
+        if (empty($binding)) {
+            return $this->path;
+        }
+
+        $path = $this->path;
+
+        foreach ($binding as $key => $value) {
+            $path = str_replace("{{$key}}", $value, $path);
+        }
+
+        if (preg_match('/\{.+\}/', $path)) {
+            throw new InvalidArgumentException('Binding not complete');
+        }
+
+        return $path;
     }
 }

@@ -5,6 +5,7 @@ namespace Corp104\Rester;
 use Corp104\Rester\Exception\ApiNotFoundException;
 use Corp104\Rester\Exception\ClientException;
 use Corp104\Rester\Exception\InvalidArgumentException;
+use Corp104\Rester\Exception\ResterException;
 use Corp104\Rester\Exception\ServerException;
 use Corp104\Support\GuzzleClientAwareTrait;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
@@ -36,31 +37,41 @@ trait ResterClientTrait
 
     public function __call($method, $args)
     {
-        $params = [];
+        $binding = $args[0] ?? [];
 
-        if (isset($args[0])) {
-            if (!\is_array($args[0])) {
-                throw new InvalidArgumentException('args[0] must be an array');
-            }
-
-            $params = $args[0];
+        if (!\is_array($binding)) {
+            throw new InvalidArgumentException('$binding must be an array');
         }
 
-        return $this->call($method, $params);
+        $params = $args[1] ?? [];
+
+        if (!\is_array($params)) {
+            throw new InvalidArgumentException('$params must be an array');
+        }
+
+        $query = $args[2] ?? [];
+
+        if (!\is_array($query)) {
+            throw new InvalidArgumentException('$query must be an array');
+        }
+
+        return $this->call($method, $binding, $params, $query);
     }
 
     /**
      * @param string $apiName
+     * @param array $binding
      * @param array $params
      * @param array $query
      * @return mixed
+     * @throws ResterException
      */
-    public function call($apiName, array $params = [], array $query = [])
+    public function call($apiName, array $binding = [], array $params = [], array $query = [])
     {
         $api = $this->restMapping->get($apiName);
 
         $this->beforeCallApi($api, $params, $query);
-        $response = $this->callApi($api, $params, $query);
+        $response = $this->callApi($api, $binding, $params, $query);
         $this->afterCallApi($response, $api, $params, $query);
 
         return $this->transformResponse($response);
@@ -68,28 +79,29 @@ trait ResterClientTrait
 
     /**
      * @param Api $api
+     * @param array $binding
      * @param array $params
      * @param array $query
      * @return ResponseInterface
      */
-    public function callApi(Api $api, array $params = [], array $query = []): ResponseInterface
+    public function callApi(Api $api, array $binding = [], array $params = [], array $query = []): ResponseInterface
     {
-        $httpMethod = strtolower($api->getMethod());
-        $url = $this->baseUrl . $api->getPath();
+        $method = strtolower($api->getMethod());
+        $url = $this->baseUrl . $api->getPath($binding);
 
-        return $this->sendRequest($httpMethod, $url, $params, $query);
+        return $this->sendRequest($method, $url, $params, $query);
     }
 
     public function delete(string $url, array $params = [], array $query = []): ResponseInterface
     {
-        $uri = $this->buildUrl($url, $params, $query);
+        $uri = $this->buildQueryString($url, $query);
 
         return $this->httpClient->delete($uri, $this->options);
     }
 
     public function get(string $url, array $params = [], array $query = []): ResponseInterface
     {
-        $uri = $this->buildUrl($url, $params, $query);
+        $uri = $this->buildQueryString($url, $query);
 
         return $this->httpClient->get($uri, $this->options);
     }
@@ -110,9 +122,9 @@ trait ResterClientTrait
         $options[RequestOptions::HEADERS]['Content-type'] = 'application/json; charset=UTF-8';
         $options[RequestOptions::HEADERS]['Expect'] = '100-continue';
 
-        $uri = $this->buildUrl($url, [], $query);
+        $url = $this->buildQueryString($url, $query);
 
-        return $this->httpClient->post($uri, $options);
+        return $this->httpClient->post($url, $options);
     }
 
     public function put(string $url, array $params = [], array $query = []): ResponseInterface
@@ -123,9 +135,9 @@ trait ResterClientTrait
         $options[RequestOptions::HEADERS]['Content-type'] = 'application/json; charset=UTF-8';
         $options[RequestOptions::HEADERS]['Expect'] = '100-continue';
 
-        $uri = $this->buildUrl($url, [], $query);
+        $url = $this->buildQueryString($url, $query);
 
-        return $this->httpClient->put($uri, $options);
+        return $this->httpClient->put($url, $options);
     }
 
     /**
@@ -165,47 +177,43 @@ trait ResterClientTrait
      * @param array $query
      * @return string
      */
-    protected function buildUrl(string $url, array $params = [], array $query = []): string
+    protected function buildQueryString(string $url, array $params = [], array $query = []): string
     {
-        if (!empty($params)) {
-            $url = $url . '/' . implode('/', $params);
-        }
-
         $queryString = http_build_query($query, null, '&', PHP_QUERY_RFC3986);
 
         return '' === $queryString ? $url : "{$url}?{$queryString}";
     }
 
     /**
-     * @param string $httpMethod
+     * @param string $method
      * @param string $url
      * @param array $params
      * @param array $query
      * @return ResponseInterface
      */
     protected function sendRequest(
-        string $httpMethod,
+        string $method,
         string $url,
         array $params = [],
         array $query = []
     ): ResponseInterface {
         try {
             /** @var ResponseInterface $response */
-            $response = $this->$httpMethod($url, $params, $query);
+            $response = $this->$method($url, $params, $query);
         } catch (GuzzleClientException $e) {
-            $httpMethod = strtoupper($httpMethod);
+            $method = strtoupper($method);
             $code = $e->getCode();
             switch ($code) {
                 case 404:
                 case 405:
-                    $message = "API '$httpMethod $url' is not found.";
+                    $message = "API '$method $url' is not found.";
                     throw new ApiNotFoundException($message, $code, $e);
                 default:
                     $message = $e->getMessage();
                     throw new ClientException($message, $code, $e);
             }
         } catch (GuzzleServerException $e) {
-            $message = "Internal ERROR in API '$httpMethod $url'.";
+            $message = "Internal ERROR in API '$method $url'.";
             throw new ServerException($message, $e->getCode(), $e);
         }
 
