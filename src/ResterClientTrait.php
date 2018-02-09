@@ -67,16 +67,16 @@ trait ResterClientTrait
         return $this->transformResponse($response);
     }
 
-    public function delete(string $url, array $params = []): ResponseInterface
+    public function delete(string $url, array $params = [], array $query = []): ResponseInterface
     {
-        $uri = $this->buildUrl($url, $params);
+        $uri = $this->buildUrl($url, $params, $query);
 
         return $this->httpClient->delete($uri, $this->options);
     }
 
-    public function get(string $url, array $params = []): ResponseInterface
+    public function get(string $url, array $params = [], array $query = []): ResponseInterface
     {
-        $uri = $this->buildUrl($url, $params);
+        $uri = $this->buildUrl($url, $params, $query);
 
         return $this->httpClient->get($uri, $this->options);
     }
@@ -89,7 +89,7 @@ trait ResterClientTrait
         return $this->baseUrl;
     }
 
-    public function post(string $url, array $params = []): ResponseInterface
+    public function post(string $url, array $params = [], array $query = []): ResponseInterface
     {
         $options = $this->options;
 
@@ -97,12 +97,12 @@ trait ResterClientTrait
         $options[RequestOptions::HEADERS]['Content-type'] = 'application/json; charset=UTF-8';
         $options[RequestOptions::HEADERS]['Expect'] = '100-continue';
 
-        $uri = $this->buildUrl($url);
+        $uri = $this->buildUrl($url, [], $query);
 
         return $this->httpClient->post($uri, $options);
     }
 
-    public function put(string $url, array $params = []): ResponseInterface
+    public function put(string $url, array $params = [], array $query = []): ResponseInterface
     {
         $options = $this->options;
 
@@ -110,7 +110,7 @@ trait ResterClientTrait
         $options[RequestOptions::HEADERS]['Content-type'] = 'application/json; charset=UTF-8';
         $options[RequestOptions::HEADERS]['Expect'] = '100-continue';
 
-        $uri = $this->buildUrl($url);
+        $uri = $this->buildUrl($url, [], $query);
 
         return $this->httpClient->put($uri, $options);
     }
@@ -147,15 +147,18 @@ trait ResterClientTrait
     /**
      * @param string $url
      * @param array $params
+     * @param array $query
      * @return string
      */
-    protected function buildUrl(string $url, array $params = []): string
+    protected function buildUrl(string $url, array $params = [], array $query = []): string
     {
         if (!empty($params)) {
             $url = $url . '/' . implode('/', $params);
         }
 
-        return $url;
+        $queryString = http_build_query($query, null, '&', PHP_QUERY_RFC3986);
+
+        return '' === $queryString ? $url : "{$url}?{$queryString}";
     }
 
     /**
