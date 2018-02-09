@@ -11,26 +11,26 @@ interface ResterClientInterface
      * @param array $params
      * @return ResponseInterface
      */
-    public function get(string $url, array $params = []);
+    public function get(string $url, array $params = []): ResponseInterface;
 
     /**
      * @param string $url
      * @param array $params
      * @return ResponseInterface
      */
-    public function post(string $url, array $params = []);
+    public function post(string $url, array $params = []): ResponseInterface;
 
     /**
      * @param string $url
      * @param array $params
      * @return ResponseInterface
      */
-    public function put(string $url, array $params = []);
+    public function put(string $url, array $params = []): ResponseInterface;
 
     /**
      * @param string $url
      * @param array $params
      * @return ResponseInterface
      */
-    public function delete(string $url, array $params = []);
+    public function delete(string $url, array $params = []): ResponseInterface;
 }
