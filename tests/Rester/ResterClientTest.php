@@ -43,7 +43,7 @@ class ResterClientTest extends TestCase
 
         $this->target->setHttpClient($httpClient);
 
-        $this->target->get($exceptedUrl);
+        $this->target->getFoo();
 
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $history[0]['request'];
@@ -61,13 +61,13 @@ class ResterClientTest extends TestCase
         $httpClient = $this->createHttpClient(new Response(), $history);
 
         $id = 'some-id';
-        $params = ['id' => $id];
+        $parsedBody = ['id' => $id];
 
         $exceptedUrl = $this->target->getBaseUrl() . '/foo';
 
         $this->target->setHttpClient($httpClient);
 
-        $this->target->post($exceptedUrl, $params);
+        $this->target->postFoo([], $parsedBody);
 
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $history[0]['request'];
@@ -87,13 +87,13 @@ class ResterClientTest extends TestCase
         $httpClient = $this->createHttpClient(new Response(), $history);
 
         $id = 'some-id';
-        $params = ['id' => $id];
+        $parsedBody = ['id' => $id];
 
         $exceptedUrl = $this->target->getBaseUrl() . '/foo';
 
         $this->target->setHttpClient($httpClient);
 
-        $this->target->put($exceptedUrl, $params);
+        $this->target->putFoo([], $parsedBody);
 
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $history[0]['request'];
@@ -112,10 +112,10 @@ class ResterClientTest extends TestCase
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
 
-        $exceptedUrl = $this->target->getBaseUrl() . '/foo/';
+        $exceptedUrl = $this->target->getBaseUrl() . '/foo';
 
         $this->target->setHttpClient($httpClient);
-        $this->target->delete($exceptedUrl);
+        $this->target->deleteFoo();
 
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $history[0]['request'];

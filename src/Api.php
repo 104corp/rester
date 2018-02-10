@@ -3,6 +3,10 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Exception\InvalidArgumentException;
+use Corp104\Rester\Http\Factory;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Uri;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Api Class
@@ -81,6 +85,16 @@ class Api
 
         $this->method = $method;
         $this->path = $path;
+    }
+
+    /**
+     * @param Client $httpClient
+     * @return Http\ResterRequestInterface
+     * @throws InvalidArgumentException
+     */
+    public function createRequest(Client $httpClient): Http\ResterRequestInterface
+    {
+        return (new Factory())->create($this->method, $httpClient);
     }
 
     /**

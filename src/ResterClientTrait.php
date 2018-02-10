@@ -14,7 +14,7 @@ use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Rester Client trait
+ * ResterClient trait
  */
 trait ResterClientTrait
 {
@@ -90,24 +90,29 @@ trait ResterClientTrait
         array $parsedBody = [],
         array $queryParams = []
     ): ResponseInterface {
-        $method = strtolower($api->getMethod());
         $url = $this->baseUrl . $api->getPath($binding);
+        $request = $api->createRequest($this->httpClient);
 
-        return $this->sendRequest($method, $url, $parsedBody, $queryParams);
-    }
+        try {
+            /** @var ResponseInterface $response */
+            $response = $request->sendRequest($url, $parsedBody, $queryParams, $this->options);
+        } catch (GuzzleClientException $e) {
+            $code = $e->getCode();
+            switch ($code) {
+                case 404:
+                case 405:
+                    $message = "API '{$api->getMethod()} {$url}' is not found.";
+                    throw new ApiNotFoundException($message, $code, $e);
+                default:
+                    $message = $e->getMessage();
+                    throw new ClientException($message, $code, $e);
+            }
+        } catch (GuzzleServerException $e) {
+            $message = "Internal ERROR in API '{$api->getMethod()} {$url}'.";
+            throw new ServerException($message, $e->getCode(), $e);
+        }
 
-    public function delete(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface
-    {
-        $uri = $this->buildQueryString($url, $queryParams);
-
-        return $this->httpClient->delete($uri, $this->options);
-    }
-
-    public function get(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface
-    {
-        $uri = $this->buildQueryString($url, $queryParams);
-
-        return $this->httpClient->get($uri, $this->options);
+        return $response;
     }
 
     /**
@@ -116,32 +121,6 @@ trait ResterClientTrait
     public function getBaseUrl(): string
     {
         return $this->baseUrl;
-    }
-
-    public function post(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface
-    {
-        $options = $this->options;
-
-        $options[RequestOptions::JSON] = $parsedBody;
-        $options[RequestOptions::HEADERS]['Content-type'] = 'application/json; charset=UTF-8';
-        $options[RequestOptions::HEADERS]['Expect'] = '100-continue';
-
-        $url = $this->buildQueryString($url, $queryParams);
-
-        return $this->httpClient->post($url, $options);
-    }
-
-    public function put(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface
-    {
-        $options = $this->options;
-
-        $options[RequestOptions::JSON] = $parsedBody;
-        $options[RequestOptions::HEADERS]['Content-type'] = 'application/json; charset=UTF-8';
-        $options[RequestOptions::HEADERS]['Expect'] = '100-continue';
-
-        $url = $this->buildQueryString($url, $queryParams);
-
-        return $this->httpClient->put($url, $options);
     }
 
     /**
@@ -177,54 +156,6 @@ trait ResterClientTrait
      */
     protected function beforeCallApi(Api $api, array $parsedBody = [], array $queryParams = [])
     {
-    }
-
-    /**
-     * @param string $url
-     * @param array $queryParams
-     * @return string
-     */
-    protected function buildQueryString(string $url, array $queryParams = []): string
-    {
-        $queryString = http_build_query($queryParams, null, '&', PHP_QUERY_RFC3986);
-
-        return '' === $queryString ? $url : "{$url}?{$queryString}";
-    }
-
-    /**
-     * @param string $method
-     * @param string $url
-     * @param array $parsedBody
-     * @param array $queryParams
-     * @return ResponseInterface
-     */
-    protected function sendRequest(
-        string $method,
-        string $url,
-        array $parsedBody = [],
-        array $queryParams = []
-    ): ResponseInterface {
-        try {
-            /** @var ResponseInterface $response */
-            $response = $this->$method($url, $parsedBody, $queryParams);
-        } catch (GuzzleClientException $e) {
-            $method = strtoupper($method);
-            $code = $e->getCode();
-            switch ($code) {
-                case 404:
-                case 405:
-                    $message = "API '$method $url' is not found.";
-                    throw new ApiNotFoundException($message, $code, $e);
-                default:
-                    $message = $e->getMessage();
-                    throw new ClientException($message, $code, $e);
-            }
-        } catch (GuzzleServerException $e) {
-            $message = "Internal ERROR in API '$method $url'.";
-            throw new ServerException($message, $e->getCode(), $e);
-        }
-
-        return $response;
     }
 
     /**
