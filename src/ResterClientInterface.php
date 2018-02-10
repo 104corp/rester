@@ -8,33 +8,32 @@ interface ResterClientInterface
 {
     /**
      * @param string $url
-     * @param array $params
-     * @param array $query
+     * @param array $queryParams
      * @return ResponseInterface
      */
-    public function get(string $url, array $params = [], array $query = []): ResponseInterface;
+    public function get(string $url, array $queryParams = []): ResponseInterface;
 
     /**
      * @param string $url
-     * @param array $params
-     * @param array $query
+     * @param array $parsedBody
+     * @param array $queryParams
      * @return ResponseInterface
      */
-    public function post(string $url, array $params = [], array $query = []): ResponseInterface;
+    public function post(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface;
 
     /**
      * @param string $url
-     * @param array $params
-     * @param array $query
+     * @param array $parsedBody
+     * @param array $queryParams
      * @return ResponseInterface
      */
-    public function put(string $url, array $params = [], array $query = []): ResponseInterface;
+    public function put(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface;
 
     /**
      * @param string $url
-     * @param array $params
-     * @param array $query
+     * @param array $parsedBody
+     * @param array $queryParams
      * @return ResponseInterface
      */
-    public function delete(string $url, array $params = [], array $query = []): ResponseInterface;
+    public function delete(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface;
 }

@@ -43,36 +43,36 @@ trait ResterClientTrait
             throw new InvalidArgumentException('$binding must be an array');
         }
 
-        $params = $args[1] ?? [];
+        $parsedBody = $args[1] ?? [];
 
-        if (!\is_array($params)) {
+        if (!\is_array($parsedBody)) {
             throw new InvalidArgumentException('$params must be an array');
         }
 
-        $query = $args[2] ?? [];
+        $queryParams = $args[2] ?? [];
 
-        if (!\is_array($query)) {
+        if (!\is_array($queryParams)) {
             throw new InvalidArgumentException('$query must be an array');
         }
 
-        return $this->call($method, $binding, $params, $query);
+        return $this->call($method, $binding, $parsedBody, $queryParams);
     }
 
     /**
      * @param string $apiName
      * @param array $binding
-     * @param array $params
-     * @param array $query
+     * @param array $parsedBody
+     * @param array $queryParams
      * @return mixed
      * @throws ResterException
      */
-    public function call($apiName, array $binding = [], array $params = [], array $query = [])
+    public function call($apiName, array $binding = [], array $parsedBody = [], array $queryParams = [])
     {
         $api = $this->restMapping->get($apiName);
 
-        $this->beforeCallApi($api, $params, $query);
-        $response = $this->callApi($api, $binding, $params, $query);
-        $this->afterCallApi($response, $api, $params, $query);
+        $this->beforeCallApi($api, $parsedBody, $queryParams);
+        $response = $this->callApi($api, $binding, $parsedBody, $queryParams);
+        $this->afterCallApi($response, $api, $parsedBody, $queryParams);
 
         return $this->transformResponse($response);
     }
@@ -80,28 +80,32 @@ trait ResterClientTrait
     /**
      * @param Api $api
      * @param array $binding
-     * @param array $params
-     * @param array $query
+     * @param array $parsedBody
+     * @param array $queryParams
      * @return ResponseInterface
      */
-    public function callApi(Api $api, array $binding = [], array $params = [], array $query = []): ResponseInterface
-    {
+    public function callApi(
+        Api $api,
+        array $binding = [],
+        array $parsedBody = [],
+        array $queryParams = []
+    ): ResponseInterface {
         $method = strtolower($api->getMethod());
         $url = $this->baseUrl . $api->getPath($binding);
 
-        return $this->sendRequest($method, $url, $params, $query);
+        return $this->sendRequest($method, $url, $parsedBody, $queryParams);
     }
 
-    public function delete(string $url, array $params = [], array $query = []): ResponseInterface
+    public function delete(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface
     {
-        $uri = $this->buildQueryString($url, $query);
+        $uri = $this->buildQueryString($url, $queryParams);
 
         return $this->httpClient->delete($uri, $this->options);
     }
 
-    public function get(string $url, array $params = [], array $query = []): ResponseInterface
+    public function get(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface
     {
-        $uri = $this->buildQueryString($url, $query);
+        $uri = $this->buildQueryString($url, $queryParams);
 
         return $this->httpClient->get($uri, $this->options);
     }
@@ -114,28 +118,28 @@ trait ResterClientTrait
         return $this->baseUrl;
     }
 
-    public function post(string $url, array $params = [], array $query = []): ResponseInterface
+    public function post(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface
     {
         $options = $this->options;
 
-        $options[RequestOptions::JSON] = $params;
+        $options[RequestOptions::JSON] = $parsedBody;
         $options[RequestOptions::HEADERS]['Content-type'] = 'application/json; charset=UTF-8';
         $options[RequestOptions::HEADERS]['Expect'] = '100-continue';
 
-        $url = $this->buildQueryString($url, $query);
+        $url = $this->buildQueryString($url, $queryParams);
 
         return $this->httpClient->post($url, $options);
     }
 
-    public function put(string $url, array $params = [], array $query = []): ResponseInterface
+    public function put(string $url, array $parsedBody = [], array $queryParams = []): ResponseInterface
     {
         $options = $this->options;
 
-        $options[RequestOptions::JSON] = $params;
+        $options[RequestOptions::JSON] = $parsedBody;
         $options[RequestOptions::HEADERS]['Content-type'] = 'application/json; charset=UTF-8';
         $options[RequestOptions::HEADERS]['Expect'] = '100-continue';
 
-        $url = $this->buildQueryString($url, $query);
+        $url = $this->buildQueryString($url, $queryParams);
 
         return $this->httpClient->put($url, $options);
     }
@@ -153,33 +157,36 @@ trait ResterClientTrait
      *
      * @param ResponseInterface $response
      * @param Api $api
-     * @param array $params
-     * @param array $query
+     * @param array $parsedBody
+     * @param array $queryParams
      */
-    protected function afterCallApi(ResponseInterface $response, Api $api, array $params = [], array $query = [])
-    {
+    protected function afterCallApi(
+        ResponseInterface $response,
+        Api $api,
+        array $parsedBody = [],
+        array $queryParams = []
+    ) {
     }
 
     /**
      * Send request hook when before
      *
      * @param Api $api
-     * @param array $params
-     * @param array $query
+     * @param array $parsedBody
+     * @param array $queryParams
      */
-    protected function beforeCallApi(Api $api, array $params = [], array $query = [])
+    protected function beforeCallApi(Api $api, array $parsedBody = [], array $queryParams = [])
     {
     }
 
     /**
      * @param string $url
-     * @param array $params
-     * @param array $query
+     * @param array $queryParams
      * @return string
      */
-    protected function buildQueryString(string $url, array $params = [], array $query = []): string
+    protected function buildQueryString(string $url, array $queryParams = []): string
     {
-        $queryString = http_build_query($query, null, '&', PHP_QUERY_RFC3986);
+        $queryString = http_build_query($queryParams, null, '&', PHP_QUERY_RFC3986);
 
         return '' === $queryString ? $url : "{$url}?{$queryString}";
     }
@@ -187,19 +194,19 @@ trait ResterClientTrait
     /**
      * @param string $method
      * @param string $url
-     * @param array $params
-     * @param array $query
+     * @param array $parsedBody
+     * @param array $queryParams
      * @return ResponseInterface
      */
     protected function sendRequest(
         string $method,
         string $url,
-        array $params = [],
-        array $query = []
+        array $parsedBody = [],
+        array $queryParams = []
     ): ResponseInterface {
         try {
             /** @var ResponseInterface $response */
-            $response = $this->$method($url, $params, $query);
+            $response = $this->$method($url, $parsedBody, $queryParams);
         } catch (GuzzleClientException $e) {
             $method = strtoupper($method);
             $code = $e->getCode();

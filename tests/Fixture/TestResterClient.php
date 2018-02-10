@@ -8,10 +8,10 @@ use Corp104\Rester\ResterClient;
 use GuzzleHttp\Psr7\Response;
 
 /**
- * @method Response getFoo(array $params = [])
- * @method Response postFoo(array $params = [])
- * @method Response putFoo(array $params = [])
- * @method Response deleteFoo(array $params = [])
+ * @method Response getFoo(array $binding = [], array $params = [], array $query = [])
+ * @method Response postFoo(array $binding = [], array $params = [], array $query = [])
+ * @method Response putFoo(array $binding = [], array $params = [], array $query = [])
+ * @method Response deleteFoo(array $binding = [], array $params = [], array $query = [])
  */
 class TestResterClient extends ResterClient
 {
