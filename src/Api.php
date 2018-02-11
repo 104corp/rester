@@ -91,7 +91,7 @@ class Api
      * @return ResterRequestInterface
      * @throws InvalidArgumentException
      */
-    public function createRequest(Client $httpClient): ResterRequestInterface
+    public function createResterRequest(Client $httpClient): ResterRequestInterface
     {
         return (new Factory())->create($this->method, $httpClient);
     }

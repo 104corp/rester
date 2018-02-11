@@ -96,7 +96,7 @@ class ApiTest extends TestCase
         $exceptedUrl = $baseUrl . '/foo';
 
         $target = new Api($method, '/foo');
-        $request = $target->createRequest($httpClient);
+        $request = $target->createResterRequest($httpClient);
         $request->sendRequest($baseUrl . $target->getPath());
 
         /** @var \GuzzleHttp\Psr7\Request $request */

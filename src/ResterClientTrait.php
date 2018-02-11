@@ -91,7 +91,7 @@ trait ResterClientTrait
         array $queryParams = []
     ): ResponseInterface {
         $url = $this->baseUrl . $api->getPath($binding);
-        $request = $api->createRequest($this->httpClient);
+        $request = $api->createResterRequest($this->httpClient);
 
         try {
             /** @var ResponseInterface $response */
