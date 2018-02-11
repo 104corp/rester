@@ -93,7 +93,7 @@ class Api
      */
     public function createResterRequest(Client $httpClient): ResterRequestInterface
     {
-        return (new Factory())->create($this->method, $httpClient);
+        return (new Factory($httpClient))->create($this->method);
     }
 
     /**
