@@ -5,7 +5,6 @@ namespace Corp104\Rester;
 use Corp104\Rester\Exception\InvalidArgumentException;
 use Corp104\Rester\Http\Factory;
 use Corp104\Rester\Http\ResterRequestInterface;
-use GuzzleHttp\Client;
 
 /**
  * Api Class
@@ -87,13 +86,13 @@ class Api
     }
 
     /**
-     * @param Client $httpClient
+     * @param Factory $resterRequestFactory
      * @return ResterRequestInterface
      * @throws InvalidArgumentException
      */
-    public function createResterRequest(Client $httpClient): ResterRequestInterface
+    public function createResterRequest(Factory $resterRequestFactory): ResterRequestInterface
     {
-        return (new Factory($httpClient))->create($this->method);
+        return $resterRequestFactory->create($this->method);
     }
 
     /**

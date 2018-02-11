@@ -7,6 +7,7 @@ use Corp104\Rester\Exception\ClientException;
 use Corp104\Rester\Exception\InvalidArgumentException;
 use Corp104\Rester\Exception\ResterException;
 use Corp104\Rester\Exception\ServerException;
+use Corp104\Rester\Http\Factory;
 use Corp104\Support\GuzzleClientAwareTrait;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
@@ -83,6 +84,7 @@ trait ResterClientTrait
      * @param array $parsedBody
      * @param array $queryParams
      * @return ResponseInterface
+     * @throws InvalidArgumentException
      */
     public function callApi(
         Api $api,
@@ -91,7 +93,8 @@ trait ResterClientTrait
         array $queryParams = []
     ): ResponseInterface {
         $url = $this->baseUrl . $api->getPath($binding);
-        $request = $api->createResterRequest($this->httpClient);
+        $resterRequestFactory = new Factory($this->httpClient);
+        $request = $api->createResterRequest($resterRequestFactory);
 
         try {
             /** @var ResponseInterface $response */

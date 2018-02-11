@@ -5,6 +5,7 @@ namespace Tests\Rester;
 use ArrayObject;
 use Corp104\Rester\Api;
 use Corp104\Rester\Exception\InvalidArgumentException;
+use Corp104\Rester\Http\Factory;
 use GuzzleHttp\Psr7\Response;
 use Tests\TestCase;
 
@@ -96,7 +97,9 @@ class ApiTest extends TestCase
         $exceptedUrl = $baseUrl . '/foo';
 
         $target = new Api($method, '/foo');
-        $request = $target->createResterRequest($httpClient);
+        $request = $target->createResterRequest(
+            new Factory($httpClient)
+        );
         $request->sendRequest($baseUrl . $target->getPath());
 
         /** @var \GuzzleHttp\Psr7\Request $request */
