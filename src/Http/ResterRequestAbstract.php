@@ -28,14 +28,11 @@ abstract class ResterRequestAbstract implements ResterRequestInterface, GuzzleCl
     }
 
     /**
-     * @param string $url
      * @param array $queryParams
      * @return string
      */
-    protected function buildQueryString(string $url, array $queryParams = []): string
+    protected function buildQueryString(array $queryParams): string
     {
-        $queryString = http_build_query($queryParams, null, '&', PHP_QUERY_RFC3986);
-
-        return '' === $queryString ? $url : "{$url}?{$queryString}";
+        return http_build_query($queryParams, null, '&', PHP_QUERY_RFC3986);
     }
 }

@@ -15,8 +15,10 @@ class Delete extends ResterRequestAbstract
         array $queryParams = [],
         array $guzzleOptions = []
     ): ResponseInterface {
-        $uri = $this->buildQueryString($url, $queryParams);
+        $this->uri->withQuery(
+            $this->buildQueryString($queryParams)
+        );
 
-        return $this->httpClient->delete($uri, $guzzleOptions);
+        return $this->httpClient->delete((string)$this->uri, $guzzleOptions);
     }
 }

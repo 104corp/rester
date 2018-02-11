@@ -21,8 +21,10 @@ class Post extends ResterRequestAbstract
         $guzzleOptions[RequestOptions::HEADERS]['Content-type'] = 'application/json; charset=UTF-8';
         $guzzleOptions[RequestOptions::HEADERS]['Expect'] = '100-continue';
 
-        $url = $this->buildQueryString($url, $queryParams);
+        $this->uri->withQuery(
+            $this->buildQueryString($queryParams)
+        );
 
-        return $this->httpClient->post($url, $guzzleOptions);
+        return $this->httpClient->post((string)$this->uri, $guzzleOptions);
     }
 }
