@@ -34,6 +34,16 @@ class ApiTest extends TestCase
     /**
      * @test
      */
+    public function shouldBindPathOkWithoutBinding()
+    {
+        $target = new Api('GET', '/foo');
+
+        $this->assertSame('/foo', $target->getPath());
+    }
+
+    /**
+     * @test
+     */
     public function shouldBindPathOk()
     {
         $target = new Api('GET', '/foo/{bar}');
@@ -59,6 +69,18 @@ class ApiTest extends TestCase
         ];
 
         $target->getPath($binding);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowExceptionWhenBindingNotCompleteWithEmptyBinding()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $target = new Api('GET', '/foo/{bar}');
+
+        $target->getPath();
     }
 
     /**
