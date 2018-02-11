@@ -11,7 +11,6 @@ use Psr\Http\Message\ResponseInterface;
 class Put extends ResterRequestAbstract
 {
     public function sendRequest(
-        $url,
         array $parsedBody = [],
         array $queryParams = [],
         array $guzzleOptions = []

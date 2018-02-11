@@ -11,7 +11,6 @@ use Corp104\Rester\Http\Factory;
 use Corp104\Support\GuzzleClientAwareTrait;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
-use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
@@ -99,7 +98,7 @@ trait ResterClientTrait
 
         try {
             /** @var ResponseInterface $response */
-            $response = $request->sendRequest($url, $parsedBody, $queryParams, $this->options);
+            $response = $request->sendRequest($parsedBody, $queryParams, $this->options);
         } catch (GuzzleClientException $e) {
             $code = $e->getCode();
             switch ($code) {

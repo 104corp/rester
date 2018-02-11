@@ -10,7 +10,6 @@ use Psr\Http\Message\ResponseInterface;
 class Get extends ResterRequestAbstract
 {
     public function sendRequest(
-        $url,
         array $parsedBody = [],
         array $queryParams = [],
         array $guzzleOptions = []

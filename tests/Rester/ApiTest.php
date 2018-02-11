@@ -102,7 +102,7 @@ class ApiTest extends TestCase
             new Factory($httpClient),
             $baseUrl
         );
-        $request->sendRequest($baseUrl . $target->getPath());
+        $request->sendRequest();
 
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $history[0]['request'];
