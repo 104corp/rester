@@ -2,23 +2,29 @@
 
 namespace Corp104\Rester\Http;
 
+use Corp104\Rester\UriAwareInterface;
+use Corp104\Rester\UriAwareTrait;
 use Corp104\Support\GuzzleClientAwareInterface;
 use Corp104\Support\GuzzleClientAwareTrait;
 use GuzzleHttp\Client;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Http abstract class
  */
-abstract class ResterRequestAbstract implements ResterRequestInterface, GuzzleClientAwareInterface
+abstract class ResterRequestAbstract implements ResterRequestInterface, GuzzleClientAwareInterface, UriAwareInterface
 {
     use GuzzleClientAwareTrait;
+    use UriAwareTrait;
 
     /**
      * @param Client $httpClient
+     * @param UriInterface $uri
      */
-    public function __construct(Client $httpClient)
+    public function __construct(Client $httpClient, UriInterface $uri)
     {
         $this->setHttpClient($httpClient);
+        $this->setUri($uri);
     }
 
     /**

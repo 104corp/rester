@@ -7,6 +7,7 @@ use Corp104\Rester\Api;
 use Corp104\Rester\Exception\InvalidArgumentException;
 use Corp104\Rester\Http\Factory;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Uri;
 use Tests\TestCase;
 
 class ApiTest extends TestCase
@@ -98,7 +99,7 @@ class ApiTest extends TestCase
 
         $target = new Api($method, '/foo');
         $request = $target->createResterRequest(
-            new Factory($httpClient)
+            new Factory($httpClient, new Uri($baseUrl))
         );
         $request->sendRequest($baseUrl . $target->getPath());
 

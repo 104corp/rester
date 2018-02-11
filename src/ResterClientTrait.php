@@ -11,6 +11,7 @@ use Corp104\Rester\Http\Factory;
 use Corp104\Support\GuzzleClientAwareTrait;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use GuzzleHttp\Exception\ServerException as GuzzleServerException;
+use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
@@ -93,7 +94,7 @@ trait ResterClientTrait
         array $queryParams = []
     ): ResponseInterface {
         $url = $this->baseUrl . $api->getPath($binding);
-        $resterRequestFactory = new Factory($this->httpClient);
+        $resterRequestFactory = new Factory($this->httpClient, new Uri($this->baseUrl));
         $request = $api->createResterRequest($resterRequestFactory);
 
         try {
