@@ -94,8 +94,8 @@ trait ResterClientTrait
         array $queryParams = []
     ): ResponseInterface {
         $url = $this->baseUrl . $api->getPath($binding);
-        $resterRequestFactory = new Factory($this->httpClient, new Uri($this->baseUrl));
-        $request = $api->createResterRequest($resterRequestFactory);
+        $resterRequestFactory = new Factory($this->httpClient);
+        $request = $api->createRequest($resterRequestFactory, $this->baseUrl, $binding);
 
         try {
             /** @var ResponseInterface $response */

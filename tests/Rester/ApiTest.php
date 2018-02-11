@@ -98,8 +98,9 @@ class ApiTest extends TestCase
         $exceptedUrl = $baseUrl . '/foo';
 
         $target = new Api($method, '/foo');
-        $request = $target->createResterRequest(
-            new Factory($httpClient, new Uri($baseUrl))
+        $request = $target->createRequest(
+            new Factory($httpClient),
+            $baseUrl
         );
         $request->sendRequest($baseUrl . $target->getPath());
 

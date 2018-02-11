@@ -5,6 +5,8 @@ namespace Corp104\Rester;
 use Corp104\Rester\Exception\InvalidArgumentException;
 use Corp104\Rester\Http\Factory;
 use Corp104\Rester\Http\ResterRequestInterface;
+use GuzzleHttp\Psr7\Uri;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Api Class
@@ -86,13 +88,18 @@ class Api
     }
 
     /**
-     * @param Factory $resterRequestFactory
+     * @param Factory $factory
+     * @param string $baseUrl
+     * @param array $binding
      * @return ResterRequestInterface
      * @throws InvalidArgumentException
      */
-    public function createResterRequest(Factory $resterRequestFactory): ResterRequestInterface
+    public function createRequest(Factory $factory, string $baseUrl, array $binding = []): ResterRequestInterface
     {
-        return $resterRequestFactory->create($this->method);
+        return $factory->create(
+            $this->getMethod(),
+            new Uri($baseUrl . $this->getPath($binding))
+        );
     }
 
     /**
