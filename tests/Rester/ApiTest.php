@@ -2,8 +2,10 @@
 
 namespace Tests\Rester;
 
+use ArrayObject;
 use Corp104\Rester\Api;
 use Corp104\Rester\Exception\InvalidArgumentException;
+use GuzzleHttp\Psr7\Response;
 use Tests\TestCase;
 
 class ApiTest extends TestCase
@@ -57,5 +59,38 @@ class ApiTest extends TestCase
         ];
 
         $target->getPath($binding);
+    }
+
+    /**
+     * @test
+     * @dataProvider availableMethod
+     */
+    public function shouldSendCorrectRequestWhenUsingApiRequest($method)
+    {
+        $history = new ArrayObject();
+        $httpClient = $this->createHttpClient(new Response(), $history);
+
+        $baseUrl = 'http://127.0.0.1';
+        $exceptedUrl = $baseUrl . '/foo';
+
+        $target = new Api($method, '/foo');
+        $request = $target->createRequest($httpClient);
+        $request->sendRequest($baseUrl . $target->getPath());
+
+        /** @var \GuzzleHttp\Psr7\Request $request */
+        $request = $history[0]['request'];
+
+        $this->assertEquals($method, $request->getMethod());
+        $this->assertContains($exceptedUrl, (string)$request->getUri());
+    }
+
+    public function availableMethod(): array
+    {
+        return [
+            ['GET'],
+            ['POST'],
+            ['PUT'],
+            ['DELETE'],
+        ];
     }
 }
