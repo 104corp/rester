@@ -10,14 +10,12 @@ use Psr\Http\Message\RequestInterface;
 interface ApiInterface
 {
     /**
-     * @param string $baseUrl
      * @param array $binding
      * @param array $queryParams
      * @param array $parsedBody
      * @return RequestInterface
      */
     public function createRequest(
-        string $baseUrl,
         array $binding = [],
         array $queryParams = [],
         array $parsedBody = []

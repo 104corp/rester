@@ -40,13 +40,11 @@ class EndpointTest extends TestCase
         $exceptedUrl = 'http://127.0.0.1/foo/some';
 
         $target = new Endpoint($method, $endpoint);
-        $request = $target->createRequest(
-            '',
-            $binding
-        );
 
-        $this->assertEquals($method, $request->getMethod());
-        $this->assertContains($exceptedUrl, (string)$request->getUri());
+        $actual = $target->createRequest($binding);
+
+        $this->assertEquals($method, $actual->getMethod());
+        $this->assertContains($exceptedUrl, (string)$actual->getUri());
     }
 
     public function availableMethod(): array

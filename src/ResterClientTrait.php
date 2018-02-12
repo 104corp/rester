@@ -63,7 +63,7 @@ trait ResterClientTrait
     {
         $api = $this->restMapping->get($name);
 
-        $request = $api->createRequest($this->baseUrl, $binding, $queryParams, $parsedBody);
+        $request = $api->createRequest($binding, $queryParams, $parsedBody);
 
         $this->beforeSendRequest($request);
 

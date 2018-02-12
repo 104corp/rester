@@ -40,7 +40,6 @@ class Path extends Api implements BaseUrlAwareInterface
     }
 
     public function createRequest(
-        string $baseUrl,
         array $binding = [],
         array $queryParams = [],
         array $parsedBody = []

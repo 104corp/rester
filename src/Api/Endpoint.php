@@ -32,7 +32,6 @@ class Endpoint extends Api
     }
 
     public function createRequest(
-        string $baseUrl,
         array $binding = [],
         array $queryParams = [],
         array $parsedBody = []
