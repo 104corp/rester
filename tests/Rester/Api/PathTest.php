@@ -40,10 +40,11 @@ class PathTest extends TestCase
         $target = new Path($method, '/foo');
         $target->setBaseUrl($baseUrl);
 
-        $actual = $target->createRequest();
+        $actual = $target->createRequest([], ['q' => 'some']);
 
         $this->assertEquals($method, $actual->getMethod());
         $this->assertContains($exceptedUrl, (string)$actual->getUri());
+        $this->assertContains('q=some', (string)$actual->getUri());
     }
 
     public function availableMethod(): array
