@@ -65,43 +65,48 @@ trait ResterClientTrait
 
         $request = $api->createRequest($binding, $queryParams, $parsedBody);
 
-        $this->beforeSendRequest($request);
+        $this->beforeSendRequest($request, $name);
 
         try {
             $response = $this->httpClient->send($request, $this->options);
         } catch (RequestException $e) {
-            throw $this->handleException($e);
+            throw $this->handleException($e, $name);
         }
 
-        $this->afterSendRequest($response, $request);
+        $this->afterSendRequest($response, $request, $name);
 
-        return $this->transformResponse($response);
+        return $this->transformResponse($response, $name);
     }
 
     /**
      * Send request hook when after
      *
      * @param ResponseInterface $response
-     * @param RequestInterface $api
+     * @param RequestInterface $request
+     * @param string $name
      */
-    protected function afterSendRequest(ResponseInterface $response, RequestInterface $api)
+    protected function afterSendRequest(ResponseInterface $response, RequestInterface $request, string $name)
     {
     }
 
     /**
      * Send request hook when before
      *
-     * @param RequestInterface $api
+     * @param RequestInterface $request
+     * @param string $name
      */
-    protected function beforeSendRequest(RequestInterface $api)
+    protected function beforeSendRequest(RequestInterface $request, string $name)
     {
     }
 
     /**
+     * Exception handler
+     *
      * @param RequestException $exception
+     * @param string $name
      * @return null|Exception
      */
-    protected function handleException(RequestException $exception): Exception
+    protected function handleException(RequestException $exception, string $name): Exception
     {
         return $exception;
     }
@@ -110,9 +115,10 @@ trait ResterClientTrait
      * Transform response hook
      *
      * @param ResponseInterface $response
+     * @param string $name
      * @return mixed
      */
-    protected function transformResponse(ResponseInterface $response)
+    protected function transformResponse(ResponseInterface $response, string $name)
     {
         return $response;
     }
