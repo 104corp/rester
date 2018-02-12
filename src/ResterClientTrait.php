@@ -3,15 +3,13 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Api\Api;
-use Corp104\Rester\Exceptions\ApiNotFoundException;
-use Corp104\Rester\Exceptions\ClientException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Exceptions\ResterException;
-use Corp104\Rester\Exceptions\ServerException;
 use Corp104\Rester\Http\Factory;
 use Corp104\Support\GuzzleClientAwareTrait;
-use GuzzleHttp\Exception\ClientException as GuzzleClientException;
-use GuzzleHttp\Exception\ServerException as GuzzleServerException;
+use Exception;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 
@@ -66,7 +64,7 @@ trait ResterClientTrait
      * @param array $parsedBody
      * @param array $queryParams
      * @return mixed
-     * @throws ResterException
+     * @throws Exception
      */
     public function call($apiName, array $binding = [], array $parsedBody = [], array $queryParams = [])
     {
@@ -85,7 +83,7 @@ trait ResterClientTrait
      * @param array $parsedBody
      * @param array $queryParams
      * @return ResponseInterface
-     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function callApi(
         Api $api,
@@ -93,27 +91,14 @@ trait ResterClientTrait
         array $parsedBody = [],
         array $queryParams = []
     ): ResponseInterface {
-        $url = $this->baseUrl . $api->getPath($binding);
         $resterRequestFactory = new Factory($this->httpClient);
         $request = $api->createRequest($resterRequestFactory, $this->baseUrl, $binding);
 
         try {
             /** @var ResponseInterface $response */
             $response = $request->sendRequest($parsedBody, $queryParams, $this->options);
-        } catch (GuzzleClientException $e) {
-            $code = $e->getCode();
-            switch ($code) {
-                case 404:
-                case 405:
-                    $message = "API '{$api->getMethod()} {$url}' is not found.";
-                    throw new ApiNotFoundException($message, $code, $e);
-                default:
-                    $message = $e->getMessage();
-                    throw new ClientException($message, $code, $e);
-            }
-        } catch (GuzzleServerException $e) {
-            $message = "Internal ERROR in API '{$api->getMethod()} {$url}'.";
-            throw new ServerException($message, $e->getCode(), $e);
+        } catch (RequestException $e) {
+            throw $this->handleException($e);
         }
 
         return $response;
@@ -160,6 +145,15 @@ trait ResterClientTrait
      */
     protected function beforeCallApi(Api $api, array $parsedBody = [], array $queryParams = [])
     {
+    }
+
+    /**
+     * @param RequestException $exception
+     * @return null|Exception
+     */
+    protected function handleException(RequestException $exception): Exception
+    {
+        return $exception;
     }
 
     /**

@@ -4,11 +4,10 @@ namespace Tests\Rester;
 
 use ArrayObject;
 use Corp104\Rester\Api\Api;
-use Corp104\Rester\Exceptions\ApiNotFoundException;
-use Corp104\Rester\Exceptions\ClientException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\Exceptions\ServerException;
 use Corp104\Rester\ResterClient;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Tests\Fixture\TestResterClient;
@@ -71,7 +70,7 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(404), $history);
         $this->target->setHttpClient($httpClient);
-        $this->expectException(ApiNotFoundException::class);
+        $this->expectException(ClientException::class);
 
         $this->target->getFoo();
     }
@@ -85,7 +84,7 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(405), $history);
         $this->target->setHttpClient($httpClient);
-        $this->expectException(ApiNotFoundException::class);
+        $this->expectException(ClientException::class);
 
         $this->target->postFoo();
     }
