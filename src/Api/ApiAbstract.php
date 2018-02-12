@@ -34,11 +34,6 @@ abstract class ApiAbstract implements ApiInterface
     protected $method;
 
     /**
-     * @var string
-     */
-    protected $path;
-
-    /**
      * @return array
      */
     public static function getValidMethods(): array
@@ -69,28 +64,19 @@ abstract class ApiAbstract implements ApiInterface
      * @param array $queryParams
      * @return string
      */
-    protected static function buildQueryString(array $queryParams): string
+    public static function buildQueryString(array $queryParams): string
     {
         return http_build_query($queryParams, null, '&', PHP_QUERY_RFC3986);
     }
 
     /**
-     * @return string
-     */
-    public function getMethod(): string
-    {
-        return $this->method;
-    }
-
-    /**
+     * @param string $path
      * @param array $binding
      * @return string
      * @throws InvalidArgumentException
      */
-    public function getPath(array $binding = []): string
+    public static function buildPath(string $path, array $binding = []): string
     {
-        $path = $this->path;
-
         foreach ($binding as $key => $value) {
             $path = str_replace("{{$key}}", $value, $path);
         }
@@ -100,5 +86,13 @@ abstract class ApiAbstract implements ApiInterface
         }
 
         return $path;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
     }
 }

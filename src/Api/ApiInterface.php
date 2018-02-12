@@ -27,10 +27,4 @@ interface ApiInterface
      * @return string
      */
     public function getMethod(): string;
-
-    /**
-     * @param array $binding
-     * @return string
-     */
-    public function getPath(array $binding = []): string;
 }

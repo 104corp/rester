@@ -13,6 +13,11 @@ use Psr\Http\Message\RequestInterface;
 class Api extends ApiAbstract
 {
     /**
+     * @var string
+     */
+    protected $path;
+
+    /**
      * API constructor.
      *
      * @param string $method
@@ -43,7 +48,7 @@ class Api extends ApiAbstract
         $headers = [];
         $body = null;
 
-        $uri = $baseUrl . $this->getPath($binding);
+        $uri = $baseUrl . static::buildPath($this->path, $binding);
 
         if (!empty($queryParams)) {
             $uri = $uri . '?' . static::buildQueryString($queryParams);
