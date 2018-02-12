@@ -8,7 +8,7 @@ namespace Corp104\Rester;
 interface BaseUrlAwareInterface
 {
     /**
-     * @param string $baseUrl
+     * @param null|string $baseUrl
      */
-    public function setBaseUrl(string $baseUrl);
+    public function setBaseUrl($baseUrl);
 }
