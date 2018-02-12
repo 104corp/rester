@@ -4,7 +4,6 @@ namespace Tests\Fixture;
 
 use Corp104\Rester\Api\Endpoint;
 use Corp104\Rester\Api\Path;
-use Corp104\Rester\Mapping;
 use Corp104\Rester\ResterClient;
 use GuzzleHttp\Psr7\Response;
 

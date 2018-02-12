@@ -19,7 +19,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     public function createHandlerStack($responses, $history = [])
     {
-        if (!is_array($responses)) {
+        if (!\is_array($responses)) {
             $responses = [$responses];
         }
 

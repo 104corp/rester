@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Rester;
+namespace Tests\Rester\Plugins;
 
 use Corp104\Rester\ResterClient;
 use GuzzleHttp\Client;

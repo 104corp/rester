@@ -2,6 +2,9 @@
 
 namespace Corp104\Rester;
 
+/**
+ * ResterClient base Interface
+ */
 interface ResterClientInterface
 {
     /**
