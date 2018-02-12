@@ -12,25 +12,6 @@ use Psr\Http\Message\RequestInterface;
  */
 class Endpoint extends Api
 {
-    /**
-     * @var string
-     */
-    private $endpoint;
-
-    /**
-     * API constructor.
-     *
-     * @param string $method
-     * @param string $endpoint
-     * @throws InvalidArgumentException
-     */
-    public function __construct(string $method, string $endpoint)
-    {
-        parent::__construct($method);
-
-        $this->endpoint = $endpoint;
-    }
-
     public function createRequest(
         array $binding = [],
         array $queryParams = [],
@@ -40,7 +21,7 @@ class Endpoint extends Api
         $headers = [];
         $body = null;
 
-        $uri = static::bindUri($this->endpoint, $binding);
+        $uri = static::bindUri($this->uri, $binding);
 
         if (!empty($queryParams)) {
             $uri = $uri . '?' . static::buildQueryString($queryParams);

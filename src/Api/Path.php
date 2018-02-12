@@ -17,11 +17,6 @@ class Path extends Api implements BaseUrlAwareInterface
     use BaseUrlAwareTrait;
 
     /**
-     * @var string
-     */
-    protected $path;
-
-    /**
      * API constructor.
      *
      * @param string $method
@@ -30,13 +25,11 @@ class Path extends Api implements BaseUrlAwareInterface
      */
     public function __construct($method, $path)
     {
-        parent::__construct($method);
-
         if ('/' !== $path[0]) {
             $path = '/' . $path;
         }
 
-        $this->path = $path;
+        parent::__construct($method, $path);
     }
 
     public function createRequest(
@@ -48,7 +41,7 @@ class Path extends Api implements BaseUrlAwareInterface
         $headers = [];
         $body = null;
 
-        $uri = $this->baseUrl . static::bindUri($this->path, $binding);
+        $uri = $this->baseUrl . static::bindUri($this->uri, $binding);
 
         if (!empty($queryParams)) {
             $uri = $uri . '?' . static::buildQueryString($queryParams);
