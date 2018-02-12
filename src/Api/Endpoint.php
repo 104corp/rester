@@ -40,7 +40,7 @@ class Endpoint extends Api
         $headers = [];
         $body = null;
 
-        $uri = static::buildPath($this->endpoint, $binding);
+        $uri = static::bindUri($this->endpoint, $binding);
 
         if (!empty($queryParams)) {
             $uri = $uri . '?' . static::buildQueryString($queryParams);

@@ -13,7 +13,7 @@ class ApiTest extends TestCase
      */
     public function shouldBindPathOkWithoutBinding()
     {
-        $this->assertSame('/foo', Api::buildPath('/foo'));
+        $this->assertSame('/foo', Api::bindUri('/foo'));
     }
 
     /**
@@ -21,7 +21,7 @@ class ApiTest extends TestCase
      */
     public function shouldBindPathOk()
     {
-        $actual = Api::buildPath('/foo/{bar}', [
+        $actual = Api::bindUri('/foo/{bar}', [
             'bar' => 'some',
         ]);
 
@@ -39,7 +39,7 @@ class ApiTest extends TestCase
             'bar' => 'some',
         ];
 
-        Api::buildPath('/foo/{bar}/{baz}', $binding);
+        Api::bindUri('/foo/{bar}/{baz}', $binding);
     }
 
     /**
@@ -49,6 +49,6 @@ class ApiTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        Api::buildPath('/foo/{bar}');
+        Api::bindUri('/foo/{bar}');
     }
 }

@@ -51,22 +51,22 @@ abstract class Api implements ApiInterface
     }
 
     /**
-     * @param string $path
+     * @param string $uri
      * @param array $binding
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function buildPath(string $path, array $binding = []): string
+    public static function bindUri(string $uri, array $binding = []): string
     {
         foreach ($binding as $key => $value) {
-            $path = str_replace("{{$key}}", $value, $path);
+            $uri = str_replace("{{$key}}", $value, $uri);
         }
 
-        if (preg_match('/\{.+\}/', $path)) {
+        if (preg_match('/\{.+\}/', $uri)) {
             throw new InvalidArgumentException('Binding not complete');
         }
 
-        return $path;
+        return $uri;
     }
 
     /**
