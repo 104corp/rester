@@ -9,14 +9,14 @@ use Corp104\Rester\ResterClient;
 use GuzzleHttp\Psr7\Response;
 
 /**
- * @method Response getFoo(array $binding = [], array $parsedBody = [], array $query = [])
- * @method Response postFoo(array $binding = [], array $parsedBody = [], array $query = [])
- * @method Response putFoo(array $binding = [], array $parsedBody = [], array $query = [])
- * @method Response deleteFoo(array $binding = [], array $parsedBody = [], array $query = [])
- * @method Response getEndpoint(array $binding = [], array $parsedBody = [], array $query = [])
- * @method Response postEndpoint(array $binding = [], array $parsedBody = [], array $query = [])
- * @method Response putEndpoint(array $binding = [], array $parsedBody = [], array $query = [])
- * @method Response deleteEndpoint(array $binding = [], array $parsedBody = [], array $query = [])
+ * @method Response getFoo(array $binding = [], array $query = [], array $parsedBody = [])
+ * @method Response postFoo(array $binding = [], array $query = [], array $parsedBody = [])
+ * @method Response putFoo(array $binding = [], array $query = [], array $parsedBody = [])
+ * @method Response deleteFoo(array $binding = [], array $query = [], array $parsedBody = [])
+ * @method Response getEndpoint(array $binding = [], array $query = [], array $parsedBody = [])
+ * @method Response postEndpoint(array $binding = [], array $query = [], array $parsedBody = [])
+ * @method Response putEndpoint(array $binding = [], array $query = [], array $parsedBody = [])
+ * @method Response deleteEndpoint(array $binding = [], array $query = [], array $parsedBody = [])
  */
 class TestResterClient extends ResterClient
 {

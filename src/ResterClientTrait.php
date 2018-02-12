@@ -36,30 +36,30 @@ trait ResterClientTrait
             throw new InvalidArgumentException('$binding must be an array');
         }
 
-        $parsedBody = $args[1] ?? [];
-
-        if (!\is_array($parsedBody)) {
-            throw new InvalidArgumentException('$params must be an array');
-        }
-
-        $queryParams = $args[2] ?? [];
+        $queryParams = $args[1] ?? [];
 
         if (!\is_array($queryParams)) {
             throw new InvalidArgumentException('$query must be an array');
         }
 
-        return $this->call($method, $binding, $parsedBody, $queryParams);
+        $parsedBody = $args[2] ?? [];
+
+        if (!\is_array($parsedBody)) {
+            throw new InvalidArgumentException('$params must be an array');
+        }
+
+        return $this->call($method, $binding, $queryParams, $parsedBody);
     }
 
     /**
      * @param string $name
      * @param array $binding
-     * @param array $parsedBody
      * @param array $queryParams
+     * @param array $parsedBody
      * @return mixed
      * @throws Exception
      */
-    public function call($name, array $binding = [], array $parsedBody = [], array $queryParams = [])
+    public function call($name, array $binding = [], array $queryParams = [], array $parsedBody = [])
     {
         $api = $this->restMapping->get($name);
 

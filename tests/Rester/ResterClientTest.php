@@ -67,7 +67,7 @@ class ResterClientTest extends TestCase
 
         $this->target->setHttpClient($httpClient);
 
-        $this->target->postFoo([], $parsedBody);
+        $this->target->postFoo([], [], $parsedBody);
 
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $history[0]['request'];
@@ -93,7 +93,7 @@ class ResterClientTest extends TestCase
 
         $this->target->setHttpClient($httpClient);
 
-        $this->target->putFoo([], $parsedBody);
+        $this->target->putFoo([], [], $parsedBody);
 
         /** @var \GuzzleHttp\Psr7\Request $request */
         $request = $history[0]['request'];
