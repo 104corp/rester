@@ -2,11 +2,11 @@
 
 namespace Corp104\Rester;
 
-use Corp104\Rester\Exception\ApiNotFoundException;
-use Corp104\Rester\Exception\ClientException;
-use Corp104\Rester\Exception\InvalidArgumentException;
-use Corp104\Rester\Exception\ResterException;
-use Corp104\Rester\Exception\ServerException;
+use Corp104\Rester\Exceptions\ApiNotFoundException;
+use Corp104\Rester\Exceptions\ClientException;
+use Corp104\Rester\Exceptions\InvalidArgumentException;
+use Corp104\Rester\Exceptions\ResterException;
+use Corp104\Rester\Exceptions\ServerException;
 use Corp104\Rester\Http\Factory;
 use Corp104\Support\GuzzleClientAwareTrait;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;

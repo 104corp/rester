@@ -4,10 +4,10 @@ namespace Tests\Rester;
 
 use ArrayObject;
 use Corp104\Rester\Api;
-use Corp104\Rester\Exception\ApiNotFoundException;
-use Corp104\Rester\Exception\ClientException;
-use Corp104\Rester\Exception\InvalidArgumentException;
-use Corp104\Rester\Exception\ServerException;
+use Corp104\Rester\Exceptions\ApiNotFoundException;
+use Corp104\Rester\Exceptions\ClientException;
+use Corp104\Rester\Exceptions\InvalidArgumentException;
+use Corp104\Rester\Exceptions\ServerException;
 use Corp104\Rester\ResterClient;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;

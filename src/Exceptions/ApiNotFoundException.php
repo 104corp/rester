@@ -1,6 +1,6 @@
 <?php
 
-namespace Corp104\Rester\Exception;
+namespace Corp104\Rester\Exceptions;
 
 /**
  * API not found Exception

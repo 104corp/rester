@@ -2,7 +2,7 @@
 
 namespace Corp104\Rester;
 
-use Corp104\Rester\Exception\InvalidArgumentException;
+use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Http\Factory;
 use Corp104\Rester\Http\ResterRequestInterface;
 use GuzzleHttp\Psr7\Uri;

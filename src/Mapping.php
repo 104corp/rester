@@ -2,7 +2,7 @@
 
 namespace Corp104\Rester;
 
-use Corp104\Rester\Exception\ApiNotFoundException;
+use Corp104\Rester\Exceptions\ApiNotFoundException;
 
 /**
  * REST API mapping collection

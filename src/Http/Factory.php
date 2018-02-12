@@ -2,7 +2,7 @@
 
 namespace Corp104\Rester\Http;
 
-use Corp104\Rester\Exception\InvalidArgumentException;
+use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Support\GuzzleClientAwareInterface;
 use Corp104\Support\GuzzleClientAwareTrait;
 use GuzzleHttp\Client;
