@@ -59,40 +59,21 @@ trait ResterClientTrait
     }
 
     /**
-     * @param string $apiName
+     * @param string $name
      * @param array $binding
      * @param array $parsedBody
      * @param array $queryParams
      * @return mixed
      * @throws Exception
      */
-    public function call($apiName, array $binding = [], array $parsedBody = [], array $queryParams = [])
+    public function call($name, array $binding = [], array $parsedBody = [], array $queryParams = [])
     {
-        $api = $this->restMapping->get($apiName);
+        $api = $this->restMapping->get($name);
 
-        $this->beforeCallApi($api, $parsedBody, $queryParams);
-        $response = $this->callApi($api, $binding, $parsedBody, $queryParams);
-        $this->afterCallApi($response, $api, $parsedBody, $queryParams);
+        $this->beforeSendRequest($api, $parsedBody, $queryParams);
 
-        return $this->transformResponse($response);
-    }
-
-    /**
-     * @param Api $api
-     * @param array $binding
-     * @param array $parsedBody
-     * @param array $queryParams
-     * @return ResponseInterface
-     * @throws Exception
-     */
-    public function callApi(
-        Api $api,
-        array $binding = [],
-        array $parsedBody = [],
-        array $queryParams = []
-    ): ResponseInterface {
-        $resterRequestFactory = new Factory($this->httpClient);
-        $request = $api->createRequest($resterRequestFactory, $this->baseUrl, $binding);
+        $requestFactory = new Factory($this->httpClient);
+        $request = $api->createRequest($requestFactory, $this->baseUrl, $binding);
 
         try {
             /** @var ResponseInterface $response */
@@ -101,7 +82,9 @@ trait ResterClientTrait
             throw $this->handleException($e);
         }
 
-        return $response;
+        $this->afterSendRequest($response, $api, $parsedBody, $queryParams);
+
+        return $this->transformResponse($response);
     }
 
     /**
@@ -128,7 +111,7 @@ trait ResterClientTrait
      * @param array $parsedBody
      * @param array $queryParams
      */
-    protected function afterCallApi(
+    protected function afterSendRequest(
         ResponseInterface $response,
         Api $api,
         array $parsedBody = [],
@@ -143,7 +126,7 @@ trait ResterClientTrait
      * @param array $parsedBody
      * @param array $queryParams
      */
-    protected function beforeCallApi(Api $api, array $parsedBody = [], array $queryParams = [])
+    protected function beforeSendRequest(Api $api, array $parsedBody = [], array $queryParams = [])
     {
     }
 
