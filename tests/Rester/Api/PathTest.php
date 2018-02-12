@@ -32,12 +32,14 @@ class PathTest extends TestCase
      * @test
      * @dataProvider availableMethod
      */
-    public function shouldSendCorrectRequestWhenUsingApiRequest($method)
+    public function shouldSendCorrectRequestWhenUsingPathRequest($method)
     {
         $baseUrl = 'http://127.0.0.1';
         $exceptedUrl = $baseUrl . '/foo';
 
         $target = new Path($method, '/foo');
+        $target->setBaseUrl($baseUrl);
+
         $request = $target->createRequest(
             $baseUrl
         );

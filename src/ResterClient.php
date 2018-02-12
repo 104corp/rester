@@ -17,10 +17,6 @@ class ResterClient implements ResterClientInterface, GuzzleClientAwareInterface,
      */
     public function __construct($baseUrl, array $guzzleOptions = [])
     {
-        if ('/' === substr($baseUrl, -1)) {
-            $baseUrl = substr($baseUrl, 0, -1);
-        }
-
         $this->setBaseUrl($baseUrl);
 
         $this->options = array_merge($this->options, $guzzleOptions);

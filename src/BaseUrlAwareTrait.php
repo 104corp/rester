@@ -30,6 +30,10 @@ trait BaseUrlAwareTrait
      */
     public function setBaseUrl(string $baseUrl)
     {
+        if ('/' === substr($baseUrl, -1)) {
+            $baseUrl = substr($baseUrl, 0, -1);
+        }
+
         $this->baseUrl = $baseUrl;
     }
 }

@@ -32,7 +32,7 @@ class EndpointTest extends TestCase
      * @test
      * @dataProvider availableMethod
      */
-    public function shouldSendCorrectRequestWhenUsingApiRequest($method)
+    public function shouldSendCorrectRequestWhenUsingEndpointRequest($method)
     {
         $endpoint = 'http://127.0.0.1/foo/{bar}';
         $binding = ['bar' => 'some'];

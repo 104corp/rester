@@ -2,6 +2,7 @@
 
 namespace Corp104\Rester\Api;
 
+use Corp104\Rester\BaseUrlAwareInterface;
 use Corp104\Rester\BaseUrlAwareTrait;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use GuzzleHttp\Psr7\Request;
@@ -11,7 +12,7 @@ use Psr\Http\Message\RequestInterface;
 /**
  * Api Class
  */
-class Path extends Api
+class Path extends Api implements BaseUrlAwareInterface
 {
     use BaseUrlAwareTrait;
 
@@ -48,7 +49,7 @@ class Path extends Api
         $headers = [];
         $body = null;
 
-        $uri = $baseUrl . static::buildPath($this->path, $binding);
+        $uri = $this->baseUrl . static::buildPath($this->path, $binding);
 
         if (!empty($queryParams)) {
             $uri = $uri . '?' . static::buildQueryString($queryParams);

@@ -18,6 +18,14 @@ class Mapping implements BaseUrlAwareInterface
     protected $list = [];
 
     /**
+     * @param Api[] $mapping
+     */
+    public function __construct(array $mapping = [])
+    {
+        $this->init($mapping);
+    }
+
+    /**
      * @return Api[]
      */
     public function all(): array
@@ -26,17 +34,31 @@ class Mapping implements BaseUrlAwareInterface
     }
 
     /**
-     * @param string $api
+     * @param string $name
      * @return Api
      * @throws ApiNotFoundException
      */
-    public function get($api): Api
+    public function get($name): Api
     {
-        if (!isset($this->list[$api])) {
-            throw new ApiNotFoundException("Invalid API: {$api}");
+        $api = $this->resolve($name);
+
+        if ($api instanceof BaseUrlAwareInterface) {
+            $api->setBaseUrl($this->baseUrl);
         }
 
-        return $this->list[$api];
+        return $api;
+    }
+
+    /**
+     * Initial mapping object
+     *
+     * @param Api[] $mapping
+     */
+    public function init(array $mapping)
+    {
+        foreach ($mapping as $name => $api) {
+            $this->set($name, $api);
+        }
     }
 
     /**
@@ -45,10 +67,20 @@ class Mapping implements BaseUrlAwareInterface
      */
     public function set($name, Api $api)
     {
-        if ($api instanceof BaseUrlAwareInterface) {
-            $api->setBaseUrl($this->baseUrl);
+        $this->list[$name] = $api;
+    }
+
+    /**
+     * @param string $name
+     * @return Api
+     * @throws ApiNotFoundException
+     */
+    protected function resolve($name): Api
+    {
+        if (!isset($this->list[$name])) {
+            throw new ApiNotFoundException("Invalid API: {$name}");
         }
 
-        $this->list[$name] = $api;
+        return $this->list[$name];
     }
 }
