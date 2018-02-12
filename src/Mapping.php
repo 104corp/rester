@@ -2,7 +2,7 @@
 
 namespace Corp104\Rester;
 
-use Corp104\Rester\Api\Api;
+use Corp104\Rester\Api\Path;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 
 /**
@@ -11,12 +11,12 @@ use Corp104\Rester\Exceptions\ApiNotFoundException;
 class Mapping
 {
     /**
-     * @var Api[]
+     * @var Path[]
      */
     protected $list = [];
 
     /**
-     * @return Api[]
+     * @return Path[]
      */
     public function all(): array
     {
@@ -25,10 +25,10 @@ class Mapping
 
     /**
      * @param string $api
-     * @return Api
+     * @return Path
      * @throws ApiNotFoundException
      */
-    public function get($api): Api
+    public function get($api): Path
     {
         if (!isset($this->list[$api])) {
             throw new ApiNotFoundException("Invalid API: {$api}");
@@ -39,9 +39,9 @@ class Mapping
 
     /**
      * @param string $name
-     * @param Api $api
+     * @param Path $api
      */
-    public function set($name, Api $api)
+    public function set($name, Path $api)
     {
         $this->list[$name] = $api;
     }

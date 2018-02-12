@@ -2,8 +2,8 @@
 
 namespace Tests\Rester;
 
+use Corp104\Rester\Api\Path;
 use Corp104\Rester\Api\Api;
-use Corp104\Rester\Api\ApiAbstract;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Tests\TestCase;
 
@@ -16,7 +16,7 @@ class ApiTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        new Api('Unknown', 'some-url');
+        new Path('Unknown', 'some-url');
     }
 
     /**
@@ -24,7 +24,7 @@ class ApiTest extends TestCase
      */
     public function shouldGetNormalApiWhenCallBuildWithNormalApiAndNormalMode()
     {
-        $target = new Api('GET', '/foo');
+        $target = new Path('GET', '/foo');
 
         $this->assertSame('GET', $target->getMethod());
     }
@@ -34,7 +34,7 @@ class ApiTest extends TestCase
      */
     public function shouldBindPathOkWithoutBinding()
     {
-        $this->assertSame('/foo', ApiAbstract::buildPath('/foo'));
+        $this->assertSame('/foo', Api::buildPath('/foo'));
     }
 
     /**
@@ -42,7 +42,7 @@ class ApiTest extends TestCase
      */
     public function shouldBindPathOk()
     {
-        $actual = ApiAbstract::buildPath('/foo/{bar}', [
+        $actual = Api::buildPath('/foo/{bar}', [
             'bar' => 'some',
         ]);
 
@@ -60,7 +60,7 @@ class ApiTest extends TestCase
             'bar' => 'some',
         ];
 
-        ApiAbstract::buildPath('/foo/{bar}/{baz}', $binding);
+        Api::buildPath('/foo/{bar}/{baz}', $binding);
     }
 
     /**
@@ -70,7 +70,7 @@ class ApiTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        ApiAbstract::buildPath('/foo/{bar}');
+        Api::buildPath('/foo/{bar}');
     }
 
     /**
@@ -82,7 +82,7 @@ class ApiTest extends TestCase
         $baseUrl = 'http://127.0.0.1';
         $exceptedUrl = $baseUrl . '/foo';
 
-        $target = new Api($method, '/foo');
+        $target = new Path($method, '/foo');
         $request = $target->createRequest(
             $baseUrl
         );

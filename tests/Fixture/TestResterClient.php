@@ -2,7 +2,7 @@
 
 namespace Tests\Fixture;
 
-use Corp104\Rester\Api\Api;
+use Corp104\Rester\Api\Path;
 use Corp104\Rester\Mapping;
 use Corp104\Rester\ResterClient;
 use GuzzleHttp\Psr7\Response;
@@ -21,11 +21,10 @@ class TestResterClient extends ResterClient
 
         $mapping = new Mapping();
 
-        $mapping->set('getFoo', new Api('GET', '/foo'));
-        $mapping->set('postFoo', new Api('POST', '/foo'));
-        $mapping->set('putFoo', new Api('PUT', '/foo'));
-        $mapping->set('deleteFoo', new Api('DELETE', '/foo'));
-        $mapping->set('deleteFoo', new Api('DELETE', '/foo', 'http://baseurl'));
+        $mapping->set('getFoo', new Path('GET', '/foo'));
+        $mapping->set('postFoo', new Path('POST', '/foo'));
+        $mapping->set('putFoo', new Path('PUT', '/foo'));
+        $mapping->set('deleteFoo', new Path('DELETE', '/foo'));
 
         $this->setRestMapping($mapping);
     }

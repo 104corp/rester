@@ -2,7 +2,7 @@
 
 namespace Corp104\Rester;
 
-use Corp104\Rester\Api\Api;
+use Corp104\Rester\Api\Path;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Support\GuzzleClientAwareTrait;
 use Exception;
@@ -102,13 +102,13 @@ trait ResterClientTrait
      * Send request hook when after
      *
      * @param ResponseInterface $response
-     * @param Api $api
+     * @param Path $api
      * @param array $parsedBody
      * @param array $queryParams
      */
     protected function afterSendRequest(
         ResponseInterface $response,
-        Api $api,
+        Path $api,
         array $parsedBody = [],
         array $queryParams = []
     ) {
@@ -117,11 +117,11 @@ trait ResterClientTrait
     /**
      * Send request hook when before
      *
-     * @param Api $api
+     * @param Path $api
      * @param array $parsedBody
      * @param array $queryParams
      */
-    protected function beforeSendRequest(Api $api, array $parsedBody = [], array $queryParams = [])
+    protected function beforeSendRequest(Path $api, array $parsedBody = [], array $queryParams = [])
     {
     }
 

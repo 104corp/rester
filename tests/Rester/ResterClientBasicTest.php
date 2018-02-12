@@ -3,7 +3,7 @@
 namespace Tests\Rester;
 
 use ArrayObject;
-use Corp104\Rester\Api\Api;
+use Corp104\Rester\Api\Path;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\ResterClient;
 use GuzzleHttp\Exception\ClientException;
@@ -126,7 +126,7 @@ class ResterClientBasicTest extends TestCase
         $httpClient = $this->createHttpClient(new Response(200, [], $responseJson), $history);
         $this->target->setHttpClient($httpClient);
 
-        $this->target->getRestMapping()->set('postFoo', new Api('POST', '/bar'));
+        $this->target->getRestMapping()->set('postFoo', new Path('POST', '/bar'));
 
         $this->target->postFoo();
 

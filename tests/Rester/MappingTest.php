@@ -2,7 +2,7 @@
 
 namespace Tests\Rester;
 
-use Corp104\Rester\Api\Api;
+use Corp104\Rester\Api\Path;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 use Corp104\Rester\Mapping;
 use Tests\TestCase;
@@ -54,7 +54,7 @@ class MappingTest extends TestCase
         $exceptedApiName = 'some-api';
         $exceptedCount = 1;
 
-        $this->target->set($exceptedApiName, new Api('GET', $exceptedApiName));
+        $this->target->set($exceptedApiName, new Path('GET', $exceptedApiName));
         $actualApiList = $this->target->all();
 
         $this->assertArrayHasKey($exceptedApiName, $actualApiList);
