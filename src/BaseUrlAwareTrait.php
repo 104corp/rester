@@ -14,7 +14,6 @@ trait BaseUrlAwareTrait
 
     /**
      * @return null|string
-     * @throws \BadMethodCallException
      */
     public function getBaseUrl()
     {

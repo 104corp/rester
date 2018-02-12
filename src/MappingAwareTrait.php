@@ -7,8 +7,6 @@ namespace Corp104\Rester;
  */
 trait MappingAwareTrait
 {
-    use BaseUrlAwareTrait;
-
     /**
      * @var Mapping
      */
@@ -44,8 +42,8 @@ trait MappingAwareTrait
     {
         if (null !== $baseUrl) {
             $restMapping->setBaseUrl($baseUrl);
-        } elseif (null !== $this->baseUrl) {
-            $restMapping->setBaseUrl($this->baseUrl);
+        } elseif (method_exists($this, 'getBaseUrl')) {
+            $restMapping->setBaseUrl($this->getBaseUrl());
         }
 
         $this->restMapping = $restMapping;
