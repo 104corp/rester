@@ -51,4 +51,18 @@ class ApiTest extends TestCase
 
         Api::buildPath('/foo/{bar}');
     }
+
+    /**
+     * @test
+     */
+    public function shouldBeOkayWhenSwapValidMethods()
+    {
+        $excepted = Api::getValidMethods();
+        $excepted[] = 'NEW';
+
+        Api::setValidMethods($excepted);
+
+        $this->assertSame($excepted, Api::getValidMethods());
+        $this->assertTrue(Api::isValidMethod('NEW'));
+    }
 }
