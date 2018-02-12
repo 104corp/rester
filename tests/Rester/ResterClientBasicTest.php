@@ -51,6 +51,26 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrowInvalidArgumentExceptionWhenSecondParamsIsNotArray()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->target->getFoo([], 'NotArray');
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowInvalidArgumentExceptionWhenThirdParamsIsNotArray()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->target->getFoo([], [], 'NotArray');
+    }
+
+    /**
+     * @test
+     */
     public function shouldThrowClientExceptionWhenServerReturn401()
     {
         $history = new ArrayObject();

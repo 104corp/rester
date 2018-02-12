@@ -31,3 +31,6 @@ Desktop.ini
 /vendor
 /composer.lock
 /composer.phar
+
+# Build files
+/build

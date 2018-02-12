@@ -9,14 +9,14 @@ use Corp104\Rester\ResterClient;
 use GuzzleHttp\Psr7\Response;
 
 /**
- * @method Response getFoo(array $binding = [], array $query = [], array $parsedBody = [])
- * @method Response postFoo(array $binding = [], array $query = [], array $parsedBody = [])
- * @method Response putFoo(array $binding = [], array $query = [], array $parsedBody = [])
- * @method Response deleteFoo(array $binding = [], array $query = [], array $parsedBody = [])
- * @method Response getEndpoint(array $binding = [], array $query = [], array $parsedBody = [])
- * @method Response postEndpoint(array $binding = [], array $query = [], array $parsedBody = [])
- * @method Response putEndpoint(array $binding = [], array $query = [], array $parsedBody = [])
- * @method Response deleteEndpoint(array $binding = [], array $query = [], array $parsedBody = [])
+ * @method Response getFoo(array $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response postFoo(array $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response putFoo(array $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response deleteFoo(array $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response getEndpoint(array $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response postEndpoint(array $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response putEndpoint(array $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response deleteEndpoint(array $binding = [], array $queryParams = [], array $parsedBody = [])
  */
 class TestResterClient extends ResterClient
 {
@@ -24,17 +24,15 @@ class TestResterClient extends ResterClient
     {
         parent::__construct('http://127.0.0.1');
 
-        $mapping = new Mapping();
-
-        $mapping->set('getFoo', new Path('GET', '/foo'));
-        $mapping->set('postFoo', new Path('POST', '/foo'));
-        $mapping->set('putFoo', new Path('PUT', '/foo'));
-        $mapping->set('deleteFoo', new Path('DELETE', '/foo'));
-        $mapping->set('getEndpoint', new Endpoint('GET', '/foo'));
-        $mapping->set('postEndpoint', new Endpoint('POST', '/foo'));
-        $mapping->set('putEndpoint', new Endpoint('PUT', '/foo'));
-        $mapping->set('deleteEndpoint', new Endpoint('DELETE', '/foo'));
-
-        $this->setRestMapping($mapping);
+        $this->provisionRestMapping([
+            'getFoo' => new Path('GET', '/foo'),
+            'postFoo' => new Path('POST', '/foo'),
+            'putFoo' => new Path('PUT', '/foo'),
+            'deleteFoo' => new Path('DELETE', '/foo'),
+            'getEndpoint' => new Endpoint('GET', '/foo'),
+            'postEndpoint' => new Endpoint('POST', '/foo'),
+            'putEndpoint' => new Endpoint('PUT', '/foo'),
+            'deleteEndpoint' => new Endpoint('DELETE', '/foo'),
+        ], 'http://127.0.0.1');
     }
 }
