@@ -2,12 +2,12 @@
 
 namespace Corp104\Rester;
 
-use Corp104\Rester\Api\Path;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Support\GuzzleClientAwareTrait;
 use Exception;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -67,9 +67,9 @@ trait ResterClientTrait
     {
         $api = $this->restMapping->get($name);
 
-        $this->beforeSendRequest($api, $parsedBody, $queryParams);
-
         $request = $api->createRequest($this->baseUrl, $binding, $queryParams, $parsedBody);
+
+        $this->beforeSendRequest($request);
 
         try {
             $response = $this->httpClient->send($request, $this->options);
@@ -77,7 +77,7 @@ trait ResterClientTrait
             throw $this->handleException($e);
         }
 
-        $this->afterSendRequest($response, $api, $parsedBody, $queryParams);
+        $this->afterSendRequest($response, $request);
 
         return $this->transformResponse($response);
     }
@@ -102,26 +102,18 @@ trait ResterClientTrait
      * Send request hook when after
      *
      * @param ResponseInterface $response
-     * @param Path $api
-     * @param array $parsedBody
-     * @param array $queryParams
+     * @param RequestInterface $api
      */
-    protected function afterSendRequest(
-        ResponseInterface $response,
-        Path $api,
-        array $parsedBody = [],
-        array $queryParams = []
-    ) {
+    protected function afterSendRequest(ResponseInterface $response, RequestInterface $api)
+    {
     }
 
     /**
      * Send request hook when before
      *
-     * @param Path $api
-     * @param array $parsedBody
-     * @param array $queryParams
+     * @param RequestInterface $api
      */
-    protected function beforeSendRequest(Path $api, array $parsedBody = [], array $queryParams = [])
+    protected function beforeSendRequest(RequestInterface $api)
     {
     }
 

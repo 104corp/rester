@@ -3,6 +3,7 @@
 namespace Tests\Rester;
 
 use ArrayObject;
+use Corp104\Rester\Api\Endpoint;
 use Corp104\Rester\Api\Path;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\ResterClient;
@@ -113,6 +114,33 @@ class ResterClientBasicTest extends TestCase
 
         $target = new ResterClient('http://some-endpoint');
         $this->assertSame('http://some-endpoint', $target->getBaseUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotEffectToEndpointApiWhenBaseUrlIsDifferent()
+    {
+        $exceptedEndpoint = 'http://some-endpoint/some';
+
+        $mapping = $this->target->getRestMapping();
+        $mapping->set('someEndpoint', new Endpoint('GET', $exceptedEndpoint));
+
+        $history = new ArrayObject();
+
+        $responseJson = '[]';
+        $httpClient = $this->createHttpClient(new Response(200, [], $responseJson), $history);
+
+        $target = new ResterClient('http://some-endpoint/');
+        $target->setRestMapping($mapping);
+        $target->setHttpClient($httpClient);
+
+        $target->someEndpoint();
+
+        /** @var RequestInterface $request */
+        $request = $history[0]['request'];
+
+        $this->assertSame($exceptedEndpoint, (string)$request->getUri());
     }
 
     /**
