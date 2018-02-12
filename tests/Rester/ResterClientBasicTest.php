@@ -3,7 +3,7 @@
 namespace Tests\Rester;
 
 use ArrayObject;
-use Corp104\Rester\Api;
+use Corp104\Rester\Api\Api;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 use Corp104\Rester\Exceptions\ClientException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;

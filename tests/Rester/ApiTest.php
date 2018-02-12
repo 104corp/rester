@@ -3,7 +3,7 @@
 namespace Tests\Rester;
 
 use ArrayObject;
-use Corp104\Rester\Api;
+use Corp104\Rester\Api\Api;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Http\Factory;
 use GuzzleHttp\Psr7\Response;

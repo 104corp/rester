@@ -2,7 +2,7 @@
 
 namespace Tests\Rester;
 
-use Corp104\Rester\Api;
+use Corp104\Rester\Api\Api;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 use Corp104\Rester\Mapping;
 use Tests\TestCase;

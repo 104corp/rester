@@ -2,6 +2,7 @@
 
 namespace Corp104\Rester;
 
+use Corp104\Rester\Api\Api;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 
 /**

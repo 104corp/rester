@@ -1,17 +1,16 @@
 <?php
 
-namespace Corp104\Rester;
+namespace Corp104\Rester\Api;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Http\Factory;
 use Corp104\Rester\Http\ResterRequestInterface;
 use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\UriInterface;
 
 /**
  * Api Class
  */
-class Api
+class Api implements ApiInterface
 {
     /**
      * @var array

@@ -2,7 +2,7 @@
 
 namespace Tests\Fixture;
 
-use Corp104\Rester\Api;
+use Corp104\Rester\Api\Api;
 use Corp104\Rester\Mapping;
 use Corp104\Rester\ResterClient;
 use GuzzleHttp\Psr7\Response;
