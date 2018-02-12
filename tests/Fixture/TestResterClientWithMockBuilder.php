@@ -2,7 +2,7 @@
 
 namespace Tests\Fixture;
 
-use Corp104\Rester\Traits\MockBuilderTrait;
+use Corp104\Rester\Plugins\MockBuilderTrait;
 
 class TestResterClientWithMockBuilder extends TestResterClient
 {

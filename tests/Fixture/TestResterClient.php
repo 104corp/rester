@@ -25,6 +25,7 @@ class TestResterClient extends ResterClient
         $mapping->set('postFoo', new Api('POST', '/foo'));
         $mapping->set('putFoo', new Api('PUT', '/foo'));
         $mapping->set('deleteFoo', new Api('DELETE', '/foo'));
+        $mapping->set('deleteFoo', new Api('DELETE', '/foo', 'http://baseurl'));
 
         $this->setRestMapping($mapping);
     }

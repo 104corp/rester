@@ -1,6 +1,6 @@
 <?php
 
-namespace Corp104\Rester\Traits;
+namespace Corp104\Rester\Plugins;
 
 use Mockery;
 
