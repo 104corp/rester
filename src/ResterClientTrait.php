@@ -15,13 +15,9 @@ use Psr\Http\Message\ResponseInterface;
  */
 trait ResterClientTrait
 {
+    use BaseUrlTrait;
     use GuzzleClientAwareTrait;
     use MappingAwareTrait;
-
-    /**
-     * @var string
-     */
-    protected $baseUrl = '';
 
     /**
      * @var array
@@ -80,22 +76,6 @@ trait ResterClientTrait
         $this->afterSendRequest($response, $request);
 
         return $this->transformResponse($response);
-    }
-
-    /**
-     * @return string
-     */
-    public function getBaseUrl(): string
-    {
-        return $this->baseUrl;
-    }
-
-    /**
-     * @param string $baseUrl
-     */
-    public function setBaseUrl(string $baseUrl)
-    {
-        $this->baseUrl = $baseUrl;
     }
 
     /**
