@@ -26,15 +26,12 @@ class Path extends Api
      */
     public function __construct($method, $path)
     {
-        if (!static::isValidMethod($method)) {
-            throw new InvalidArgumentException('Invalid HTTP method: ' . $method);
-        }
+        parent::__construct($method);
 
         if ('/' !== $path[0]) {
             $path = '/' . $path;
         }
 
-        $this->method = $method;
         $this->path = $path;
     }
 

@@ -86,6 +86,19 @@ abstract class Api implements ApiInterface
     }
 
     /**
+     * @param string $method
+     * @throws InvalidArgumentException
+     */
+    public function __construct(string $method)
+    {
+        if (!static::isValidMethod($method)) {
+            throw new InvalidArgumentException('Invalid HTTP method: ' . $method);
+        }
+
+        $this->method = $method;
+    }
+
+    /**
      * @return string
      */
     public function getMethod(): string

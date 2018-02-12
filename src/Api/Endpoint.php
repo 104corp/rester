@@ -26,11 +26,8 @@ class Endpoint extends Api
      */
     public function __construct(string $method, string $endpoint)
     {
-        if (!static::isValidMethod($method)) {
-            throw new InvalidArgumentException('Invalid HTTP method: ' . $method);
-        }
+        parent::__construct($method);
 
-        $this->method = $method;
         $this->endpoint = $endpoint;
     }
 
