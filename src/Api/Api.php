@@ -13,7 +13,7 @@ abstract class Api implements ApiInterface
      * @var array
      * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
      */
-    protected static $VALID_METHOD = [
+    const VALID_METHOD = [
         'GET',
         'HEAD',
         'POST',
@@ -31,14 +31,6 @@ abstract class Api implements ApiInterface
     protected $method;
 
     /**
-     * @return array
-     */
-    public static function getValidMethods(): array
-    {
-        return self::$VALID_METHOD;
-    }
-
-    /**
      * @param string $method
      * @return bool
      */
@@ -46,15 +38,7 @@ abstract class Api implements ApiInterface
     {
         $method = strtoupper($method);
 
-        return \in_array($method, static::$VALID_METHOD, true);
-    }
-
-    /**
-     * @param array $methods
-     */
-    public static function setValidMethods(array $methods)
-    {
-        self::$VALID_METHOD = $methods;
+        return \in_array($method, static::VALID_METHOD, true);
     }
 
     /**
