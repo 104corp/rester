@@ -3,9 +3,9 @@
 namespace Corp104\Rester\Api;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\Http\Factory;
-use Corp104\Rester\Http\ResterRequestInterface;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Api Class
@@ -66,6 +66,15 @@ class Api implements ApiInterface
     }
 
     /**
+     * @param array $queryParams
+     * @return string
+     */
+    protected static function buildQueryString(array $queryParams): string
+    {
+        return http_build_query($queryParams, null, '&', PHP_QUERY_RFC3986);
+    }
+
+    /**
      * API constructor.
      *
      * @param string $method
@@ -86,19 +95,33 @@ class Api implements ApiInterface
         $this->path = $path;
     }
 
-    /**
-     * @param Factory $factory
-     * @param string $baseUrl
-     * @param array $binding
-     * @return ResterRequestInterface
-     * @throws InvalidArgumentException
-     */
-    public function createRequest(Factory $factory, string $baseUrl, array $binding = []): ResterRequestInterface
-    {
-        return $factory->create(
-            $this->getMethod(),
-            new Uri($baseUrl . $this->getPath($binding))
-        );
+    public function createRequest(
+        string $baseUrl,
+        array $binding = [],
+        array $queryParams = [],
+        array $parsedBody = []
+    ): RequestInterface {
+        $method = $this->getMethod();
+        $headers = [];
+        $body = null;
+
+        $uri = $baseUrl . $this->getPath($binding);
+
+        if (!empty($queryParams)) {
+            $uri = $uri . '?' . static::buildQueryString($queryParams);
+        }
+
+        $uri = new Uri($uri);
+
+        if (!empty($parsedBody)) {
+            // TODO: JSON only now, but it is not good
+            $body = \GuzzleHttp\json_encode($parsedBody);
+
+            $headers['Content-type'] = 'application/json; charset=UTF-8';
+            $headers['Expect'] = '100-continue';
+        }
+
+        return new Request($method, $uri, $headers, $body);
     }
 
     /**

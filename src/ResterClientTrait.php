@@ -4,11 +4,8 @@ namespace Corp104\Rester;
 
 use Corp104\Rester\Api\Api;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\Exceptions\ResterException;
-use Corp104\Rester\Http\Factory;
 use Corp104\Support\GuzzleClientAwareTrait;
 use Exception;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
@@ -72,12 +69,10 @@ trait ResterClientTrait
 
         $this->beforeSendRequest($api, $parsedBody, $queryParams);
 
-        $requestFactory = new Factory($this->httpClient);
-        $request = $api->createRequest($requestFactory, $this->baseUrl, $binding);
+        $request = $api->createRequest($this->baseUrl, $binding, $queryParams, $parsedBody);
 
         try {
-            /** @var ResponseInterface $response */
-            $response = $request->sendRequest($parsedBody, $queryParams, $this->options);
+            $response = $this->httpClient->send($request, $this->options);
         } catch (RequestException $e) {
             throw $this->handleException($e);
         }

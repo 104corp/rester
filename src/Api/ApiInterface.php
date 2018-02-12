@@ -2,11 +2,7 @@
 
 namespace Corp104\Rester\Api;
 
-use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\Http\Factory;
-use Corp104\Rester\Http\ResterRequestInterface;
-use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\UriInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Api Class
@@ -14,13 +10,18 @@ use Psr\Http\Message\UriInterface;
 interface ApiInterface
 {
     /**
-     * @param Factory $factory
      * @param string $baseUrl
      * @param array $binding
-     * @return ResterRequestInterface
-     * @throws InvalidArgumentException
+     * @param array $queryParams
+     * @param array $parsedBody
+     * @return RequestInterface
      */
-    public function createRequest(Factory $factory, string $baseUrl, array $binding = []): ResterRequestInterface;
+    public function createRequest(
+        string $baseUrl,
+        array $binding = [],
+        array $queryParams = [],
+        array $parsedBody = []
+    ): RequestInterface;
 
     /**
      * @return string

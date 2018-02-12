@@ -2,12 +2,8 @@
 
 namespace Tests\Rester;
 
-use ArrayObject;
 use Corp104\Rester\Api\Api;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\Http\Factory;
-use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Uri;
 use Tests\TestCase;
 
 class ApiTest extends TestCase
@@ -91,21 +87,13 @@ class ApiTest extends TestCase
      */
     public function shouldSendCorrectRequestWhenUsingApiRequest($method)
     {
-        $history = new ArrayObject();
-        $httpClient = $this->createHttpClient(new Response(), $history);
-
         $baseUrl = 'http://127.0.0.1';
         $exceptedUrl = $baseUrl . '/foo';
 
         $target = new Api($method, '/foo');
         $request = $target->createRequest(
-            new Factory($httpClient),
             $baseUrl
         );
-        $request->sendRequest();
-
-        /** @var \GuzzleHttp\Psr7\Request $request */
-        $request = $history[0]['request'];
 
         $this->assertEquals($method, $request->getMethod());
         $this->assertContains($exceptedUrl, (string)$request->getUri());
