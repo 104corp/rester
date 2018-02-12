@@ -76,6 +76,7 @@ abstract class Api implements ApiInterface
 
     /**
      * @param string $method
+     * @param string $uri
      * @throws InvalidArgumentException
      */
     public function __construct(string $method, string $uri)
@@ -97,10 +98,35 @@ abstract class Api implements ApiInterface
     }
 
     /**
+     * @param bool $withBinding
      * @return string
      */
-    public function getUri(): string
+    public function getUri($withBinding = true): string
     {
-        return $this->uri;
+        if ($withBinding) {
+            return $this->uri;
+        }
+
+        return preg_replace('/\/{.*}/', '', $this->uri);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUriWithoutBinding(): string
+    {
+        return $this->getUri(false);
+    }
+
+    /**
+     * @return array
+     */
+    public function getUriBindingKeys(): array
+    {
+        $binding = [];
+
+        preg_match_all('/\/{(.*)}/U', $this->uri, $binding);
+
+        return $binding[1];
     }
 }
