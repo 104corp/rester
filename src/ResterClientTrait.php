@@ -15,7 +15,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 trait ResterClientTrait
 {
-    use BaseUrlTrait;
     use GuzzleClientAwareTrait;
     use MappingAwareTrait;
 

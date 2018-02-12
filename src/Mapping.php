@@ -8,8 +8,10 @@ use Corp104\Rester\Exceptions\ApiNotFoundException;
 /**
  * REST API mapping collection
  */
-class Mapping
+class Mapping implements BaseUrlAwareInterface
 {
+    use BaseUrlAwareTrait;
+
     /**
      * @var Api[]
      */
@@ -43,6 +45,10 @@ class Mapping
      */
     public function set($name, Api $api)
     {
+        if ($api instanceof BaseUrlAwareInterface) {
+            $api->setBaseUrl($this->baseUrl);
+        }
+
         $this->list[$name] = $api;
     }
 }

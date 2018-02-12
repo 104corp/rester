@@ -21,7 +21,8 @@ class ResterClient implements ResterClientInterface, GuzzleClientAwareInterface,
             $baseUrl = substr($baseUrl, 0, -1);
         }
 
-        $this->baseUrl = $baseUrl;
+        $this->setBaseUrl($baseUrl);
+
         $this->options = array_merge($this->options, $guzzleOptions);
     }
 }
