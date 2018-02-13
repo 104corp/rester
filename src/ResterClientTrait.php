@@ -48,22 +48,24 @@ trait ResterClientTrait
             throw new InvalidArgumentException('$params must be an array');
         }
 
-        return $this->call($method, $binding, $queryParams, $parsedBody);
+        return $this->call($method, ResterRequest::create($binding, $queryParams, $parsedBody));
     }
 
     /**
      * @param string $name
-     * @param array $binding
-     * @param array $queryParams
-     * @param array $parsedBody
+     * @param ResterRequest $resterRequest
      * @return mixed
      * @throws Exception
      */
-    public function call($name, array $binding = [], array $queryParams = [], array $parsedBody = [])
+    public function call(string $name, ResterRequest $resterRequest)
     {
         $api = $this->restMapping->get($name);
 
-        $request = $api->createRequest($binding, $queryParams, $parsedBody);
+        $request = $api->createRequest(
+            $resterRequest->getBinding(),
+            $resterRequest->getQueryParams(),
+            $resterRequest->getParsedBody()
+        );
 
         $this->beforeSendRequest($request, $name);
 
