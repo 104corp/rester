@@ -38,6 +38,6 @@ class MockBuilderTest extends TestCase
     {
         $clientMock = TestResterClientWithMockBuilder::createMock();
 
-        $this->assertInstanceOf(Client::class, $clientMock->getHttpClient());
+        $this->assertNull($clientMock->getHttpClient());
     }
 }

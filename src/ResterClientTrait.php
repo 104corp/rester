@@ -3,10 +3,9 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Support\GuzzleClientAwareTrait;
+use Corp104\Support\HttpClientAwareTrait;
 use Exception;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -16,17 +15,8 @@ use Psr\Http\Message\ResponseInterface;
 trait ResterClientTrait
 {
     use BaseUrlAwareTrait;
-    use GuzzleClientAwareTrait;
+    use HttpClientAwareTrait;
     use MappingAwareTrait;
-
-    /**
-     * @var array
-     */
-    protected $options = [
-        RequestOptions::CONNECT_TIMEOUT => 3,
-        RequestOptions::HEADERS => [],
-        RequestOptions::TIMEOUT => 5,
-    ];
 
     public function __call($method, $args)
     {
@@ -73,7 +63,7 @@ trait ResterClientTrait
         $this->beforeSendRequest($request, $name);
 
         try {
-            $response = $this->httpClient->send($request, $this->options);
+            $response = $this->httpClient->send($request, $this->httpOptions);
         } catch (RequestException $e) {
             throw $this->handleException($e, $name);
         }
