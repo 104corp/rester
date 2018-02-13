@@ -3,6 +3,7 @@
 
 # Exclude unused files
 # see: https://github.com/slimphp/Slim/blob/3.x/.gitattributes
+/docs                      export-ignore
 /scripts                   export-ignore
 /tests                     export-ignore
 /.gitattributes            export-ignore

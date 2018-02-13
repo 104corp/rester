@@ -6,6 +6,10 @@
 
 A library for calling REST API.
 
+## Document
+
+* [zh-TW](/docs/zh_TW/README.md)
+
 # Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md).
