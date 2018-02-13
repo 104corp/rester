@@ -32,6 +32,11 @@ trait ResterClientTrait
     {
         $binding = $args[0] ?? [];
 
+        // Call directly when first parameter is instance of ResterRequest
+        if ($binding instanceof ResterRequest) {
+            return $this->call($method, $binding);
+        }
+
         if (!\is_array($binding)) {
             throw new InvalidArgumentException('$binding must be an array');
         }
@@ -48,7 +53,7 @@ trait ResterClientTrait
             throw new InvalidArgumentException('$params must be an array');
         }
 
-        return $this->call($method, ResterRequest::create($binding, $queryParams, $parsedBody));
+        return $this->callByArray($method, $binding, $queryParams, $parsedBody);
     }
 
     /**
@@ -78,6 +83,19 @@ trait ResterClientTrait
         $this->afterSendRequest($response, $request, $name);
 
         return $this->transformResponse($response, $name);
+    }
+
+    /**
+     * @param string $name
+     * @param array $binding
+     * @param array $queryParams
+     * @param array $parsedBody
+     * @return mixed
+     * @throws Exception
+     */
+    public function callByArray(string $name, array $binding = [], array $queryParams = [], array $parsedBody = [])
+    {
+        return $this->call($name, ResterRequest::create($binding, $queryParams, $parsedBody));
     }
 
     /**

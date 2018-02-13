@@ -7,6 +7,7 @@ use Corp104\Rester\Api\Endpoint;
 use Corp104\Rester\Api\Path;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\ResterClient;
+use Corp104\Rester\ResterRequest;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response;
@@ -147,9 +148,7 @@ class ResterClientBasicTest extends TestCase
         $mapping->set('someEndpoint', new Endpoint('GET', $exceptedEndpoint));
 
         $history = new ArrayObject();
-
-        $responseJson = '[]';
-        $httpClient = $this->createHttpClient(new Response(200, [], $responseJson), $history);
+        $httpClient = $this->createHttpClient(new Response(), $history);
 
         $target = new ResterClient('http://some-endpoint/');
         $target->setRestMapping($mapping);
@@ -166,12 +165,38 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
+    public function shouldBeOkayWhenCallEndpointWithResterRequest()
+    {
+        $endpoint = 'http://some-endpoint/{foo}';
+        $binding = ['foo' => 'some'];
+        $exceptedEndpoint = 'http://some-endpoint/some';
+
+        $mapping = $this->target->getRestMapping();
+        $mapping->set('someEndpoint', new Endpoint('GET', $endpoint));
+
+        $history = new ArrayObject();
+        $httpClient = $this->createHttpClient(new Response(), $history);
+
+        $target = new ResterClient('http://some-endpoint/');
+        $target->setRestMapping($mapping);
+        $target->setHttpClient($httpClient);
+
+        $target->someEndpoint(ResterRequest::create($binding));
+
+        /** @var RequestInterface $request */
+        $request = $history[0]['request'];
+
+        $this->assertSame($exceptedEndpoint, (string)$request->getUri());
+    }
+
+    /**
+     * @test
+     */
     public function shouldCallAnotherApiWhenApiUrlIsSetAnother()
     {
         $history = new ArrayObject();
 
-        $responseJson = '[]';
-        $httpClient = $this->createHttpClient(new Response(200, [], $responseJson), $history);
+        $httpClient = $this->createHttpClient(new Response(), $history);
         $this->target->setHttpClient($httpClient);
 
         $this->target->getRestMapping()->set('postFoo', new Path('POST', '/bar'));
