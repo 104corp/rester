@@ -8,9 +8,11 @@ namespace Corp104\Rester;
 interface ResterClientInterface
 {
     /**
-     * @param string $apiName
-     * @param ResterRequest $resterRequest
+     * @param string $name
+     * @param array $binding
+     * @param array $queryParams
+     * @param array $parsedBody
      * @return mixed
      */
-    public function call(string $apiName, ResterRequest $resterRequest);
+    public function call(string $name, array $binding = [], array $queryParams = [], array $parsedBody = []);
 }

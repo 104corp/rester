@@ -34,7 +34,7 @@ trait ResterClientTrait
 
         // Call directly when first parameter is instance of ResterRequest
         if ($binding instanceof ResterRequest) {
-            return $this->call($method, $binding);
+            return $this->callByResterRequest($method, $binding);
         }
 
         if (!\is_array($binding)) {
@@ -53,24 +53,22 @@ trait ResterClientTrait
             throw new InvalidArgumentException('$params must be an array');
         }
 
-        return $this->callByArray($method, $binding, $queryParams, $parsedBody);
+        return $this->call($method, $binding, $queryParams, $parsedBody);
     }
 
     /**
      * @param string $name
-     * @param ResterRequest $resterRequest
+     * @param array $binding
+     * @param array $queryParams
+     * @param array $parsedBody
      * @return mixed
      * @throws Exception
      */
-    public function call(string $name, ResterRequest $resterRequest)
+    public function call(string $name, array $binding = [], array $queryParams = [], array $parsedBody = [])
     {
         $api = $this->restMapping->get($name);
 
-        $request = $api->createRequest(
-            $resterRequest->getBinding(),
-            $resterRequest->getQueryParams(),
-            $resterRequest->getParsedBody()
-        );
+        $request = $api->createRequest($binding, $queryParams, $parsedBody);
 
         $this->beforeSendRequest($request, $name);
 
@@ -87,15 +85,18 @@ trait ResterClientTrait
 
     /**
      * @param string $name
-     * @param array $binding
-     * @param array $queryParams
-     * @param array $parsedBody
+     * @param ResterRequest $resterRequest
      * @return mixed
      * @throws Exception
      */
-    public function callByArray(string $name, array $binding = [], array $queryParams = [], array $parsedBody = [])
+    public function callByResterRequest(string $name, ResterRequest $resterRequest)
     {
-        return $this->call($name, ResterRequest::create($binding, $queryParams, $parsedBody));
+        return $this->call(
+            $name,
+            $resterRequest->getBinding(),
+            $resterRequest->getQueryParams(),
+            $resterRequest->getParsedBody()
+        );
     }
 
     /**
