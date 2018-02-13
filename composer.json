@@ -3,6 +3,9 @@
     "description": "A library for calling REST API.",
     "type": "library",
     "license": "BSD-3-Clause",
+    "support": {
+        "issues": "https://github.com/104corp/php-rester/issues"
+    },
     "require": {
         "php": ">=7.0",
         "104corp/support": "^1.0",
