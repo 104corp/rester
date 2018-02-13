@@ -64,7 +64,7 @@ trait ResterClientTrait
      * @return mixed
      * @throws Exception
      */
-    public function call(string $name, array $binding = [], array $queryParams = [], array $parsedBody = [])
+    public function call($name, array $binding = [], array $queryParams = [], array $parsedBody = [])
     {
         $api = $this->restMapping->get($name);
 
