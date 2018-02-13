@@ -18,6 +18,12 @@ trait ResterClientTrait
     use HttpClientAwareTrait;
     use MappingAwareTrait;
 
+    /**
+     * @param string $method
+     * @param array $args
+     * @return mixed
+     * @throws Exception
+     */
     public function __call($method, $args)
     {
         $binding = $args[0] ?? [];
