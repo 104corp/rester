@@ -35,6 +35,15 @@ class Mapping implements BaseUrlAwareInterface
 
     /**
      * @param string $name
+     * @return bool
+     */
+    public function has(string $name): bool
+    {
+        return array_key_exists($name, $this->list);
+    }
+
+    /**
+     * @param string $name
      * @return Api
      * @throws ApiNotFoundException
      */

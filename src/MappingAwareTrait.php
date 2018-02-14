@@ -12,6 +12,11 @@ trait MappingAwareTrait
      */
     protected $restMapping;
 
+    public function hasApi($name): bool
+    {
+        return $this->restMapping->has($name);
+    }
+
     /**
      * @return Mapping
      */

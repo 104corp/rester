@@ -209,4 +209,16 @@ class ResterClientBasicTest extends TestCase
         $this->assertContains('/bar', (string)$request->getUri());
         $this->assertNotContains('/foo', (string)$request->getUri());
     }
+
+    /**
+     * @test
+     */
+    public function shouldBeOkayWhenCallHasApi()
+    {
+        $this->assertFalse($this->target->hasApi('newOne'));
+
+        $this->target->getRestMapping()->set('newOne', new Path('GET', '/foo'));
+
+        $this->assertTrue($this->target->hasApi('newOne'));
+    }
 }
