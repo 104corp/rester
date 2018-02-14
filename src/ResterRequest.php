@@ -35,6 +35,33 @@ class ResterRequest
 
     /**
      * @param array $binding
+     * @return ResterRequest
+     */
+    public static function createFromBinding(array $binding): ResterRequest
+    {
+        return new static($binding, [], []);
+    }
+
+    /**
+     * @param array $parsedBody
+     * @return ResterRequest
+     */
+    public static function createFromParsedBody(array $parsedBody): ResterRequest
+    {
+        return new static([], [], $parsedBody);
+    }
+
+    /**
+     * @param array $queryParams
+     * @return ResterRequest
+     */
+    public static function createFromQueryParams(array $queryParams): ResterRequest
+    {
+        return new static([], $queryParams, []);
+    }
+
+    /**
+     * @param array $binding
      * @param array $queryParams
      * @param array $parsedBody
      */
