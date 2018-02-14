@@ -8,7 +8,11 @@ use GuzzleHttp\RequestOptions;
 /**
  * Client base Class
  */
-class ResterClient implements ResterClientInterface, HttpClientAwareInterface, MappingAwareInterface
+class ResterClient implements
+    ResterClientInterface,
+    BaseUrlAwareInterface,
+    HttpClientAwareInterface,
+    MappingAwareInterface
 {
     use ResterClientTrait;
 
