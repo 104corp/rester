@@ -36,14 +36,18 @@ abstract class Api implements ApiInterface
     protected $uri;
 
     /**
-     * @param string $method
-     * @return bool
+     * @param array $bindingKeys
+     * @param array $bindingValue
+     * @return array
+     * @throws InvalidArgumentException
      */
-    public static function isValidMethod(string $method): bool
+    public static function buildBindingBySequence(array $bindingKeys, array $bindingValue): array
     {
-        $method = strtoupper($method);
+        if (count($bindingKeys) !== count($bindingValue)) {
+            throw new InvalidArgumentException('Binding and key count is not same');
+        }
 
-        return \in_array($method, static::VALID_METHOD, true);
+        return array_combine($bindingKeys, $bindingValue);
     }
 
     /**
@@ -56,22 +60,18 @@ abstract class Api implements ApiInterface
     }
 
     /**
-     * @param string $uri
      * @param array $binding
-     * @return string
-     * @throws InvalidArgumentException
+     * @return bool
      */
-    public static function bindUri(string $uri, array $binding = []): string
+    protected static function guessArrayIsSequence(array $binding): bool
     {
-        foreach ($binding as $key => $value) {
-            $uri = str_replace("{{$key}}", $value, $uri);
+        if (empty($binding)) {
+            return false;
         }
 
-        if (preg_match('/\{.+\}/', $uri)) {
-            throw new InvalidArgumentException('Binding not complete');
-        }
+        $keys = array_keys($binding);
 
-        return $uri;
+        return \is_int($keys[0]);
     }
 
     /**
@@ -81,12 +81,41 @@ abstract class Api implements ApiInterface
      */
     public function __construct(string $method, string $uri)
     {
-        if (!static::isValidMethod($method)) {
+        $method = strtoupper($method);
+
+        if (!\in_array($method, static::VALID_METHOD, true)) {
             throw new InvalidArgumentException('Invalid HTTP method: ' . $method);
         }
 
         $this->method = $method;
         $this->uri = $uri;
+    }
+
+    /**
+     * @param array $binding
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    public function bindUri(array $binding = []): string
+    {
+        $uri = $this->getUri();
+
+        if (static::guessArrayIsSequence($binding)) {
+            $binding = static::buildBindingBySequence(
+                $this->getUriBindingKeys(),
+                $binding
+            );
+        }
+
+        foreach ($binding as $key => $value) {
+            $uri = str_replace("{{$key}}", $value, $uri);
+        }
+
+        if (preg_match('/\{.+\}/', $uri)) {
+            throw new InvalidArgumentException('Binding not complete');
+        }
+
+        return $uri;
     }
 
     /**
@@ -111,14 +140,6 @@ abstract class Api implements ApiInterface
     }
 
     /**
-     * @return string
-     */
-    public function getUriWithoutBinding(): string
-    {
-        return $this->getUri(false);
-    }
-
-    /**
      * @return array
      */
     public function getUriBindingKeys(): array
@@ -128,5 +149,13 @@ abstract class Api implements ApiInterface
         preg_match_all('/\/{(.*)}/U', $this->uri, $binding);
 
         return $binding[1];
+    }
+
+    /**
+     * @return string
+     */
+    public function getUriWithoutBinding(): string
+    {
+        return $this->getUri(false);
     }
 }
