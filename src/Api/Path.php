@@ -41,7 +41,7 @@ class Path extends Api implements BaseUrlAwareInterface
         $headers = [];
         $body = null;
 
-        $uri = $this->baseUrl . static::bindUri($this->uri, $binding);
+        $uri = $this->baseUrl . $this->bindUri($binding);
 
         if (!empty($queryParams)) {
             $uri = $uri . '?' . static::buildQueryString($queryParams);

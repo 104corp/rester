@@ -11,9 +11,73 @@ class ApiTest extends TestCase
     /**
      * @test
      */
+    public function shouldThrowInvalidArgumentExceptionWhenPassUnknownHttpMethod()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->getMockForAbstractClass(
+            Api::class,
+            ['Unknown', '/foo']
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeOkayWhenCallGetMethod()
+    {
+        /** @var Api $target */
+        $target = $this->getMockForAbstractClass(
+            Api::class,
+            ['GET', '/foo']
+        );
+
+        $this->assertSame('GET', $target->getMethod());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeOkayWhenCallGetUriBindingKeys()
+    {
+        /** @var Api $target */
+        $target = $this->getMockForAbstractClass(
+            Api::class,
+            ['GET', '/{foo}/{bar}']
+        );
+
+        $excepted = ['foo', 'bar'];
+
+        $this->assertSame($excepted, $target->getUriBindingKeys());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeOkayWhenCallGetUriWithAndWithoutBinding()
+    {
+        /** @var Api $target */
+        $target = $this->getMockForAbstractClass(
+            Api::class,
+            ['GET', '/some/{foo}/bar/{baz}']
+        );
+
+        $this->assertSame('/some/{foo}/bar/{baz}', $target->getUri());
+        $this->assertSame('/some', $target->getUriWithoutBinding());
+    }
+
+    /**
+     * @test
+     */
     public function shouldBindPathOkWithoutBinding()
     {
-        $this->assertSame('/foo', Api::bindUri('/foo'));
+        /** @var Api $target */
+        $target = $this->getMockForAbstractClass(
+            Api::class,
+            ['GET', '/foo']
+        );
+
+        $this->assertSame('/foo', $target->bindUri());
     }
 
     /**
@@ -21,11 +85,47 @@ class ApiTest extends TestCase
      */
     public function shouldBindPathOk()
     {
-        $actual = Api::bindUri('/foo/{bar}', [
-            'bar' => 'some',
-        ]);
+        /** @var Api $target */
+        $target = $this->getMockForAbstractClass(
+            Api::class,
+            ['GET', '/foo/{bar}']
+        );
+
+        $actual = $target->bindUri(['bar' => 'some']);
 
         $this->assertSame('/foo/some', $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBuildOkayWhenUsingSequenceArray()
+    {
+        /** @var Api $target */
+        $target = $this->getMockForAbstractClass(
+            Api::class,
+            ['GET', '/foo/{bar}/{baz}']
+        );
+
+        $actual = $target->bindUri(['some', 'str']);
+
+        $this->assertSame('/foo/some/str', $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowExceptionWhenSequenceArrayAndBindingCountIsNotMatch()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        /** @var Api $target */
+        $target = $this->getMockForAbstractClass(
+            Api::class,
+            ['GET', '/foo/{bar}/{baz}']
+        );
+
+        $target->bindUri(['onlyone']);
     }
 
     /**
@@ -35,11 +135,13 @@ class ApiTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $binding = [
-            'bar' => 'some',
-        ];
+        /** @var Api $target */
+        $target = $this->getMockForAbstractClass(
+            Api::class,
+            ['GET', '/foo/{bar}/{baz}']
+        );
 
-        Api::bindUri('/foo/{bar}/{baz}', $binding);
+        $target->bindUri(['bar' => 'some']);
     }
 
     /**
@@ -49,6 +151,12 @@ class ApiTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        Api::bindUri('/foo/{bar}');
+        /** @var Api $target */
+        $target = $this->getMockForAbstractClass(
+            Api::class,
+            ['GET', '/foo/{bar}']
+        );
+
+        $target->bindUri();
     }
 }
