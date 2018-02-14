@@ -34,3 +34,11 @@ cache:
   # See https://blog.wyrihaximus.net/2015/07/composer-cache-on-travis/
   - $HOME/.composer/cache/files
   - vendor
+
+notifications:
+  email: false
+  slack:
+    on_success: change
+    on_failure: always
+    rooms:
+    - secure: OJdAvnyr7WJCxowlKjP6KN0pBORLO6YQ4kFUa+HoM4HcBLt9JA0vWD19IKXOkXKPVe6dfvGzTcsZYq+c16UNGblPtjqGKZxCMIZ0+mAh8MzMU1gCR1NVm9JGZV17yMTL7XYTa0CEwEI5XWSEpgr9i9x1cXK6wEBWGDv5SYpZUgfuWAkbUTJyqFhrTxl1JeqPt2ezXTldWPfOETyv7OG3QqYj+rcckN+lydjDWBNustGVt5+2Ahwje5vyjkyaFhGiQFuO81wAMQgd+vlwLg37wPIJqdLTzBp44wOEtrEHNQoIHC2+LrSdFRkC3CTWVcDi7+jB5RKNmUbT7C1aIIzjiTlc/wCxiPOnv4YZpuAu1hKNpXOnsZVwlkcILxRr6rJKSvYKr3oGvHrj3gCAV50FwV/i5GsXDlidx1+NhIV8xYApuwSbd9w0yKHIiq0en575MDNrK0qP9gaEbnxxzwYIi1n3BQlRmgO2UgYRXSUsw/cMsLqg/tnsjwcOCoi3Exx5HEd45T2Q4rHBEN0QAv2pIdSoOn7rswmeFTwbO5VkhZTBB9Eg/05UQ/GXFCEWoT6Kd+3MhRLZFoPWwvx01NjsxkpkqG+/Ru6bVoQNrVSEbDy4Fy7+OgTR91J1DODYZ4Zh/q2QIwkfuipXH3klYVKxUNH4FxYlyj1xTxOw+ARXStY=
