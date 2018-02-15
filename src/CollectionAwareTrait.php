@@ -3,8 +3,6 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Exceptions;
-use Corp104\Rester\Collection;
-use Corp104\Rester\ResterClient;
 
 /**
  * Api Collection Aware Trait
@@ -27,10 +25,10 @@ trait CollectionAwareTrait
 
     /**
      * @param string $name
-     * @return ResterClient
+     * @return ResterClientInterface
      * @throws Exceptions\CollectionNotFoundException
      */
-    public function getCollection(string $name): ResterClient
+    public function getCollection(string $name): ResterClientInterface
     {
         return $this->collection->get($name);
     }
