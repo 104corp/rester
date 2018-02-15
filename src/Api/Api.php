@@ -3,12 +3,16 @@
 namespace Corp104\Rester\Api;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
+use Corp104\Rester\SynchronousAwareInterface;
+use Corp104\Rester\SynchronousNullTrait;
 
 /**
  * Api abstract Class
  */
-abstract class Api implements ApiInterface
+abstract class Api implements ApiInterface, SynchronousAwareInterface
 {
+    use SynchronousNullTrait;
+
     /**
      * @var array
      * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods

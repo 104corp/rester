@@ -7,8 +7,10 @@ use Corp104\Rester\Exceptions\CollectionNotFoundException;
 /**
  * API collection
  */
-class Collection
+class Collection implements SynchronousAwareInterface
 {
+    use SynchronousNullTrait;
+
     /**
      * @var ResterClientInterface[]
      */

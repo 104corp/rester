@@ -8,9 +8,10 @@ use Corp104\Rester\Exceptions\ApiNotFoundException;
 /**
  * REST API mapping collection
  */
-class Mapping implements BaseUrlAwareInterface
+class Mapping implements BaseUrlAwareInterface, SynchronousAwareInterface
 {
     use BaseUrlAwareTrait;
+    use SynchronousNullTrait;
 
     /**
      * @var Api[]
