@@ -8,9 +8,9 @@ use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\ResterClientInterface;
 
 /**
- * Api Collection magic method Trait
+ * Collection Trait which implement magic method
  */
-trait CollectionMagicTrait
+trait CollectionTrait
 {
     use CollectionAwareTrait;
 
