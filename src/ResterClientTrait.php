@@ -3,9 +3,11 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
+use Corp104\Rester\Plugins\SynchronousTrait;
 use Corp104\Support\HttpClientAwareTrait;
 use Exception;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -17,6 +19,7 @@ trait ResterClientTrait
     use BaseUrlAwareTrait;
     use HttpClientAwareTrait;
     use MappingAwareTrait;
+    use SynchronousTrait;
 
     /**
      * @param string $method
@@ -49,7 +52,11 @@ trait ResterClientTrait
             throw new InvalidArgumentException('$params must be an array');
         }
 
-        return $this->call($method, $binding, $queryParams, $parsedBody);
+        if ($this->synchronous) {
+            return $this->call($method, $binding, $queryParams, $parsedBody);
+        }
+
+        return $this->callAsync($method, $binding, $queryParams, $parsedBody);
     }
 
     /**
@@ -62,9 +69,7 @@ trait ResterClientTrait
      */
     public function call($name, array $binding = [], array $queryParams = [], array $parsedBody = [])
     {
-        $api = $this->restMapping->get($name);
-
-        $request = $api->createRequest($binding, $queryParams, $parsedBody);
+        $request = $this->createRequest($name, $binding, $queryParams, $parsedBody);
 
         $this->beforeSendRequest($request, $name);
 
@@ -77,6 +82,27 @@ trait ResterClientTrait
         $this->afterSendRequest($response, $request, $name);
 
         return $this->transformResponse($response, $name);
+    }
+
+    /**
+     * @param string $name
+     * @param array $binding
+     * @param array $queryParams
+     * @param array $parsedBody
+     * @return mixed
+     * @throws Exception
+     */
+    public function callAsync($name, array $binding = [], array $queryParams = [], array $parsedBody = [])
+    {
+        $request = $this->createRequest($name, $binding, $queryParams, $parsedBody);
+
+        $this->beforeSendRequest($request, $name);
+
+        $promise = $this->httpClient->sendAsync($request, $this->httpOptions);
+
+        $this->afterSendRequestAsync($promise, $request, $name);
+
+        return $this->transformPromise($promise, $name);
     }
 
     /**
@@ -107,6 +133,17 @@ trait ResterClientTrait
     }
 
     /**
+     * Send request async hook when after
+     *
+     * @param PromiseInterface $promise
+     * @param RequestInterface $request
+     * @param string $name
+     */
+    protected function afterSendRequestAsync(PromiseInterface $promise, RequestInterface $request, string $name)
+    {
+    }
+
+    /**
      * Send request hook when before
      *
      * @param RequestInterface $request
@@ -114,6 +151,20 @@ trait ResterClientTrait
      */
     protected function beforeSendRequest(RequestInterface $request, string $name)
     {
+    }
+
+    /**
+     * @param string $name
+     * @param array $binding
+     * @param array $queryParams
+     * @param array $parsedBody
+     * @return RequestInterface
+     */
+    protected function createRequest($name, $binding, $queryParams, $parsedBody): RequestInterface
+    {
+        $api = $this->restMapping->get($name);
+
+        return $api->createRequest($binding, $queryParams, $parsedBody);
     }
 
     /**
@@ -126,6 +177,18 @@ trait ResterClientTrait
     protected function handleException(RequestException $exception, string $name): Exception
     {
         return $exception;
+    }
+
+    /**
+     * Transform promise hook
+     *
+     * @param PromiseInterface $promise
+     * @param string $name
+     * @return mixed
+     */
+    protected function transformPromise(PromiseInterface $promise, string $name)
+    {
+        return $promise;
     }
 
     /**
