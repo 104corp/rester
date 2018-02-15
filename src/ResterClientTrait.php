@@ -3,6 +3,7 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
+use Corp104\Rester\Plugins\MappingTrait;
 use Corp104\Rester\Plugins\SynchronousTrait;
 use Corp104\Support\HttpClientAwareTrait;
 use Exception;
@@ -18,7 +19,7 @@ trait ResterClientTrait
 {
     use BaseUrlAwareTrait;
     use HttpClientAwareTrait;
-    use MappingAwareTrait;
+    use MappingTrait;
     use SynchronousTrait;
 
     /**
@@ -162,20 +163,6 @@ trait ResterClientTrait
      */
     protected function beforeSendRequest(RequestInterface $request, string $name)
     {
-    }
-
-    /**
-     * @param string $name
-     * @param array $binding
-     * @param array $queryParams
-     * @param array $parsedBody
-     * @return RequestInterface
-     */
-    protected function createRequest($name, $binding, $queryParams, $parsedBody): RequestInterface
-    {
-        $api = $this->restMapping->get($name);
-
-        return $api->createRequest($binding, $queryParams, $parsedBody);
     }
 
     /**
