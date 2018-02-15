@@ -223,4 +223,24 @@ class ResterClientBasicTest extends TestCase
 
         $this->assertTrue($this->target->hasApi('newOne'));
     }
+
+    /**
+     * @test
+     */
+    public function shouldCallAsyncWhenApiIsAsync()
+    {
+        $history = new ArrayObject();
+
+        $httpClient = $this->createHttpClient(new Response(), $history);
+        $this->target->setHttpClient($httpClient);
+
+        $api = new Path('POST', '/bar');
+        $api->asynchronous();
+
+        $this->target->getMapping()->set('postFoo', $api);
+
+        $actual = $this->target->postFoo();
+
+        $this->assertInstanceOf(PromiseInterface::class, $actual);
+    }
 }

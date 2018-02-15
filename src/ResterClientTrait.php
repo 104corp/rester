@@ -2,6 +2,7 @@
 
 namespace Corp104\Rester;
 
+use Corp104\Rester\Api\ApiInterface;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Plugins\MappingTrait;
 use Corp104\Rester\Plugins\AsynchronousTrait;
@@ -65,7 +66,7 @@ trait ResterClientTrait
      */
     public function call($name, array $binding = [], array $queryParams = [], array $parsedBody = [])
     {
-        $request = $this->createRequest($name, $binding, $queryParams, $parsedBody);
+        $request = $this->resolveRequest($name, $binding, $queryParams, $parsedBody);
 
         $this->beforeSendRequest($request, $name);
 
@@ -90,7 +91,7 @@ trait ResterClientTrait
      */
     public function callAsync($name, array $binding = [], array $queryParams = [], array $parsedBody = [])
     {
-        $request = $this->createRequest($name, $binding, $queryParams, $parsedBody);
+        $request = $this->resolveRequest($name, $binding, $queryParams, $parsedBody);
 
         $this->beforeSendRequest($request, $name);
 
@@ -125,7 +126,9 @@ trait ResterClientTrait
      */
     public function callBySynchronousStatus($name, $binding, $queryParams, $parsedBody)
     {
-        if (method_exists($this, 'isAsynchronous') && $this->isAsynchronous()) {
+        $api = $this->mapping->get($name);
+
+        if ($this->isAsynchronousCall($api)) {
             return $this->callAsync($name, $binding, $queryParams, $parsedBody);
         }
 
@@ -198,5 +201,26 @@ trait ResterClientTrait
     protected function transformResponse(ResponseInterface $response, string $name)
     {
         return $response;
+    }
+
+    /**
+     * True is Asynchronous, False is Synchronous.
+     *
+     * @param ApiInterface $api
+     * @return bool
+     */
+    private function isAsynchronousCall(ApiInterface $api):bool
+    {
+        // If 'API' is asynchronous, return true
+        if (method_exists($api, 'isAsynchronous') && true === $api->isAsynchronous()) {
+            return true;
+        }
+
+        // If 'ResterClient' is asynchronous, return true
+        if (method_exists($this, 'isAsynchronous') && true === $this->isAsynchronous()) {
+            return true;
+        }
+
+        return false;
     }
 }

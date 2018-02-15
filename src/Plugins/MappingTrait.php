@@ -21,7 +21,7 @@ trait MappingTrait
      * @return RequestInterface
      * @throws ApiNotFoundException
      */
-    protected function createRequest($name, $binding, $queryParams, $parsedBody): RequestInterface
+    protected function resolveRequest($name, $binding, $queryParams, $parsedBody): RequestInterface
     {
         $api = $this->mapping->get($name);
 
