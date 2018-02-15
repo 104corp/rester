@@ -111,7 +111,7 @@ abstract class Api implements ApiInterface
             $uri = str_replace("{{$key}}", $value, $uri);
         }
 
-        if (preg_match('/\{.+\}/', $uri)) {
+        if (preg_match('/{.+}/', $uri)) {
             throw new InvalidArgumentException('Binding not complete');
         }
 
