@@ -146,14 +146,14 @@ class ResterClientBasicTest extends TestCase
     {
         $exceptedEndpoint = 'http://some-endpoint/some';
 
-        $mapping = $this->target->getRestMapping();
+        $mapping = $this->target->getMapping();
         $mapping->set('someEndpoint', new Endpoint('GET', $exceptedEndpoint));
 
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
 
         $target = new ResterClient('http://some-endpoint/');
-        $target->setRestMapping($mapping);
+        $target->setMapping($mapping);
         $target->setHttpClient($httpClient);
 
         $target->someEndpoint();
@@ -173,14 +173,14 @@ class ResterClientBasicTest extends TestCase
         $binding = ['foo' => 'some'];
         $exceptedEndpoint = 'http://some-endpoint/some';
 
-        $mapping = $this->target->getRestMapping();
+        $mapping = $this->target->getMapping();
         $mapping->set('someEndpoint', new Endpoint('GET', $endpoint));
 
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
 
         $target = new ResterClient('http://some-endpoint/');
-        $target->setRestMapping($mapping);
+        $target->setMapping($mapping);
         $target->setHttpClient($httpClient);
 
         $target->someEndpoint(ResterRequest::create($binding));
@@ -201,7 +201,7 @@ class ResterClientBasicTest extends TestCase
         $httpClient = $this->createHttpClient(new Response(), $history);
         $this->target->setHttpClient($httpClient);
 
-        $this->target->getRestMapping()->set('postFoo', new Path('POST', '/bar'));
+        $this->target->getMapping()->set('postFoo', new Path('POST', '/bar'));
 
         $this->target->postFoo();
 
@@ -219,7 +219,7 @@ class ResterClientBasicTest extends TestCase
     {
         $this->assertFalse($this->target->hasApi('newOne'));
 
-        $this->target->getRestMapping()->set('newOne', new Path('GET', '/foo'));
+        $this->target->getMapping()->set('newOne', new Path('GET', '/foo'));
 
         $this->assertTrue($this->target->hasApi('newOne'));
     }

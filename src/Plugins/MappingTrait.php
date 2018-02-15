@@ -23,7 +23,7 @@ trait MappingTrait
      */
     protected function createRequest($name, $binding, $queryParams, $parsedBody): RequestInterface
     {
-        $api = $this->restMapping->get($name);
+        $api = $this->mapping->get($name);
 
         return $api->createRequest($binding, $queryParams, $parsedBody);
     }

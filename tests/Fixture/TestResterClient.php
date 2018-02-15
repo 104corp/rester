@@ -24,7 +24,7 @@ class TestResterClient extends ResterClient
     {
         parent::__construct('http://127.0.0.1');
 
-        $this->provisionRestMapping([
+        $this->provisionMapping([
             'getFoo' => new Path('GET', '/foo'),
             'postFoo' => new Path('POST', '/foo'),
             'putFoo' => new Path('PUT', '/foo'),

@@ -10,28 +10,28 @@ trait MappingAwareTrait
     /**
      * @var Mapping
      */
-    protected $restMapping;
+    protected $mapping;
 
     public function hasApi($name): bool
     {
-        return $this->restMapping->has($name);
+        return $this->mapping->has($name);
     }
 
     /**
      * @return Mapping
      */
-    public function getRestMapping(): Mapping
+    public function getMapping(): Mapping
     {
-        return $this->restMapping;
+        return $this->mapping;
     }
 
     /**
      * @param array $mapping
      * @param null|string $baseUrl
      */
-    public function provisionRestMapping(array $mapping, $baseUrl = null)
+    public function provisionMapping(array $mapping, $baseUrl = null)
     {
-        $this->setRestMapping(
+        $this->setMapping(
             new Mapping($mapping),
             $baseUrl
         );
@@ -43,7 +43,7 @@ trait MappingAwareTrait
      * @param Mapping $restMapping
      * @param null $baseUrl
      */
-    public function setRestMapping(Mapping $restMapping, $baseUrl = null)
+    public function setMapping(Mapping $restMapping, $baseUrl = null)
     {
         if (null !== $baseUrl) {
             $restMapping->setBaseUrl($baseUrl);
@@ -51,6 +51,6 @@ trait MappingAwareTrait
             $restMapping->setBaseUrl($this->getBaseUrl());
         }
 
-        $this->restMapping = $restMapping;
+        $this->mapping = $restMapping;
     }
 }

@@ -12,5 +12,5 @@ interface MappingAwareInterface
      *
      * @param Mapping $mapping
      */
-    public function setRestMapping(Mapping $mapping);
+    public function setMapping(Mapping $mapping);
 }
