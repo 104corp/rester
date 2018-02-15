@@ -5,11 +5,11 @@ namespace Corp104\Rester\Plugins;
 use Corp104\Rester\SynchronousAwareTrait;
 
 /**
- * AsynchronousTrait
+ * SynchronousTrait
  */
-trait AsynchronousTrait
+trait SynchronousTrait
 {
     use SynchronousAwareTrait;
 
-    protected $synchronous = false;
+    protected $synchronous = true;
 }
