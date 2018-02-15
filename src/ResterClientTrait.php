@@ -52,11 +52,7 @@ trait ResterClientTrait
             throw new InvalidArgumentException('$params must be an array');
         }
 
-        if ($this->synchronous) {
-            return $this->call($method, $binding, $queryParams, $parsedBody);
-        }
-
-        return $this->callAsync($method, $binding, $queryParams, $parsedBody);
+        return $this->callBySynchronousStatus($method, $binding, $queryParams, $parsedBody);
     }
 
     /**
@@ -113,12 +109,27 @@ trait ResterClientTrait
      */
     public function callByResterRequest(string $name, ResterRequest $resterRequest)
     {
-        return $this->call(
-            $name,
-            $resterRequest->getBinding(),
-            $resterRequest->getQueryParams(),
-            $resterRequest->getParsedBody()
-        );
+        $binding = $resterRequest->getBinding();
+        $queryParams = $resterRequest->getQueryParams();
+        $parsedBody = $resterRequest->getParsedBody();
+
+        return $this->callBySynchronousStatus($name, $binding, $queryParams, $parsedBody);
+    }
+
+    /**
+     * @param string $name
+     * @param array $binding
+     * @param array $queryParams
+     * @param array $parsedBody
+     * @return mixed
+     */
+    public function callBySynchronousStatus($name, $binding, $queryParams, $parsedBody)
+    {
+        if ($this->synchronous) {
+            return $this->call($name, $binding, $queryParams, $parsedBody);
+        }
+
+        return $this->callAsync($name, $binding, $queryParams, $parsedBody);
     }
 
     /**
