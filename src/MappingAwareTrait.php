@@ -40,17 +40,17 @@ trait MappingAwareTrait
     /**
      * Sets the REST API Mapping.
      *
-     * @param Mapping $restMapping
+     * @param Mapping $mapping
      * @param null $baseUrl
      */
-    public function setMapping(Mapping $restMapping, $baseUrl = null)
+    public function setMapping(Mapping $mapping, $baseUrl = null)
     {
         if (null !== $baseUrl) {
-            $restMapping->setBaseUrl($baseUrl);
+            $mapping->setBaseUrl($baseUrl);
         } elseif (method_exists($this, 'getBaseUrl')) {
-            $restMapping->setBaseUrl($this->getBaseUrl());
+            $mapping->setBaseUrl($this->getBaseUrl());
         }
 
-        $this->mapping = $restMapping;
+        $this->mapping = $mapping;
     }
 }
