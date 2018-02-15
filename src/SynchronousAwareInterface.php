@@ -8,7 +8,7 @@ namespace Corp104\Rester;
 interface SynchronousAwareInterface
 {
     /**
-     * @param bool $synchronous
+     * @param bool|null $synchronous
      */
-    public function setSynchronous(bool $synchronous);
+    public function setSynchronous($synchronous);
 }

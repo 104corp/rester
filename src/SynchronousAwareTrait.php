@@ -8,18 +8,26 @@ namespace Corp104\Rester;
 trait SynchronousAwareTrait
 {
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isAsynchronous(): bool
+    public function isAsynchronous()
     {
+        if (null === $this->synchronous) {
+            return null;
+        }
+
         return !$this->synchronous;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isSynchronous(): bool
+    public function isSynchronous()
     {
+        if (null === $this->synchronous) {
+            return null;
+        }
+
         return $this->synchronous;
     }
 
@@ -32,10 +40,10 @@ trait SynchronousAwareTrait
     }
 
     /**
-     * @param bool $synchronous
+     * @param bool|null $synchronous
      * @return static
      */
-    public function setSynchronous(bool $synchronous)
+    public function setSynchronous($synchronous)
     {
         $this->synchronous = $synchronous;
         return $this;
