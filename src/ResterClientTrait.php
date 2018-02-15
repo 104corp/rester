@@ -103,39 +103,6 @@ trait ResterClientTrait
     }
 
     /**
-     * @param string $name
-     * @param ResterRequest $resterRequest
-     * @return mixed
-     * @throws Exception
-     */
-    public function callByResterRequest(string $name, ResterRequest $resterRequest)
-    {
-        $binding = $resterRequest->getBinding();
-        $queryParams = $resterRequest->getQueryParams();
-        $parsedBody = $resterRequest->getParsedBody();
-
-        return $this->callBySynchronousStatus($name, $binding, $queryParams, $parsedBody);
-    }
-
-    /**
-     * @param string $name
-     * @param array $binding
-     * @param array $queryParams
-     * @param array $parsedBody
-     * @return mixed
-     */
-    public function callBySynchronousStatus($name, $binding, $queryParams, $parsedBody)
-    {
-        $api = $this->mapping->get($name);
-
-        if ($this->isAsynchronousCall($api)) {
-            return $this->callAsync($name, $binding, $queryParams, $parsedBody);
-        }
-
-        return $this->call($name, $binding, $queryParams, $parsedBody);
-    }
-
-    /**
      * Send request hook when after
      *
      * @param ResponseInterface $response
@@ -222,5 +189,38 @@ trait ResterClientTrait
         }
 
         return false;
+    }
+
+    /**
+     * @param string $name
+     * @param ResterRequest $resterRequest
+     * @return mixed
+     * @throws Exception
+     */
+    private function callByResterRequest(string $name, ResterRequest $resterRequest)
+    {
+        $binding = $resterRequest->getBinding();
+        $queryParams = $resterRequest->getQueryParams();
+        $parsedBody = $resterRequest->getParsedBody();
+
+        return $this->callBySynchronousStatus($name, $binding, $queryParams, $parsedBody);
+    }
+
+    /**
+     * @param string $name
+     * @param array $binding
+     * @param array $queryParams
+     * @param array $parsedBody
+     * @return mixed
+     */
+    private function callBySynchronousStatus($name, $binding, $queryParams, $parsedBody)
+    {
+        $api = $this->mapping->get($name);
+
+        if ($this->isAsynchronousCall($api)) {
+            return $this->callAsync($name, $binding, $queryParams, $parsedBody);
+        }
+
+        return $this->call($name, $binding, $queryParams, $parsedBody);
     }
 }
