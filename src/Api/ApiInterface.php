@@ -5,7 +5,7 @@ namespace Corp104\Rester\Api;
 use Psr\Http\Message\RequestInterface;
 
 /**
- * Api Class
+ * Api interface
  */
 interface ApiInterface
 {
@@ -20,9 +20,4 @@ interface ApiInterface
         array $queryParams = [],
         array $parsedBody = []
     ): RequestInterface;
-
-    /**
-     * @return string
-     */
-    public function getMethod(): string;
 }
