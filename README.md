@@ -8,7 +8,7 @@ A library for calling REST API.
 
 ## Document
 
-* [zh-TW](/docs/zh_TW/README.md)
+* [繁體中文](/docs/zh_TW/README.md)
 
 # Contributing
 
