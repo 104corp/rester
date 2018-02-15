@@ -64,6 +64,17 @@ abstract class Api implements ApiInterface, SynchronousAwareInterface
     }
 
     /**
+     * @param string $method
+     * @param string $uri
+     * @return static
+     * @throws InvalidArgumentException
+     */
+    public static function create(string $method, string $uri)
+    {
+        return new static($method, $uri);
+    }
+
+    /**
      * @param array $binding
      * @return bool
      */

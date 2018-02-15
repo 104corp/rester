@@ -234,10 +234,7 @@ class ResterClientBasicTest extends TestCase
         $httpClient = $this->createHttpClient(new Response(), $history);
         $this->target->setHttpClient($httpClient);
 
-        $api = new Path('POST', '/bar');
-        $api->asynchronous();
-
-        $this->target->getMapping()->set('postFoo', $api);
+        $this->target->getMapping()->set('postFoo', Path::create('POST', '/bar')->asynchronous());
 
         $actual = $this->target->postFoo();
 
