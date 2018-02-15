@@ -2,10 +2,7 @@
 
 namespace Tests\Rester;
 
-use ArrayObject;
 use Corp104\Rester\ResterRequest;
-use GuzzleHttp\Psr7\Response;
-use Tests\Fixture\TestResterClient;
 use Tests\TestCase;
 
 /**

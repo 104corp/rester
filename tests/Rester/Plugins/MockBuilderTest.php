@@ -3,7 +3,6 @@
 namespace Tests\Rester\Plugins;
 
 use Corp104\Rester\ResterClient;
-use GuzzleHttp\Client;
 use Tests\Fixture\TestResterClientWithMockBuilder;
 use Tests\TestCase;
 

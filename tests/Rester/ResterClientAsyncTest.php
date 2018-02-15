@@ -3,18 +3,10 @@
 namespace Tests\Rester;
 
 use ArrayObject;
-use Corp104\Rester\Api\Endpoint;
-use Corp104\Rester\Api\Path;
-use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\ResterClient;
-use Corp104\Rester\ResterRequest;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Tests\Fixture\TestResterClient;
 use Tests\Fixture\TestResterClientAsync;
 use Tests\TestCase;
 

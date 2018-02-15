@@ -13,7 +13,6 @@ use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Tests\Fixture\TestResterClient;
 use Tests\TestCase;
 

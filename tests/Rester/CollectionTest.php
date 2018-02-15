@@ -2,15 +2,10 @@
 
 namespace Tests\Rester;
 
-use Corp104\Rester\Api\Path;
-use Corp104\Rester\Exceptions\ApiNotFoundException;
-use Corp104\Rester\Exceptions\OperationDeniedException;
 use Corp104\Rester\Exceptions\CollectionNotFoundException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\Mapping;
-use Corp104\Rester\ResterClient;
+use Corp104\Rester\Exceptions\OperationDeniedException;
 use Corp104\Rester\ResterClientInterface;
-use Tests\Fixture\TestResterClient;
 use Tests\Fixture\TestResterCollection;
 use Tests\TestCase;
 
