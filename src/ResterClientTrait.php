@@ -4,7 +4,7 @@ namespace Corp104\Rester;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Plugins\MappingTrait;
-use Corp104\Rester\Plugins\SynchronousTrait;
+use Corp104\Rester\Plugins\AsynchronousTrait;
 use Corp104\Support\HttpClientAwareTrait;
 use Exception;
 use GuzzleHttp\Exception\RequestException;
@@ -20,7 +20,6 @@ trait ResterClientTrait
     use BaseUrlAwareTrait;
     use HttpClientAwareTrait;
     use MappingTrait;
-    use SynchronousTrait;
 
     /**
      * @param string $method
@@ -126,11 +125,11 @@ trait ResterClientTrait
      */
     public function callBySynchronousStatus($name, $binding, $queryParams, $parsedBody)
     {
-        if ($this->synchronous) {
-            return $this->call($name, $binding, $queryParams, $parsedBody);
+        if (method_exists($this, 'isAsynchronous') && $this->isAsynchronous()) {
+            return $this->callAsync($name, $binding, $queryParams, $parsedBody);
         }
 
-        return $this->callAsync($name, $binding, $queryParams, $parsedBody);
+        return $this->call($name, $binding, $queryParams, $parsedBody);
     }
 
     /**

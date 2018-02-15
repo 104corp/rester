@@ -8,18 +8,21 @@ use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\ResterClientInterface;
 
 /**
- * SynchronousTrait
+ * AsynchronousTrait
  */
-trait SynchronousTrait
+trait AsynchronousTrait
 {
-    protected $synchronous = true;
+    /**
+     * @var bool
+     */
+    protected $asynchronous = true;
 
     /**
      * @return bool
      */
     public function isAsynchronous(): bool
     {
-        return !$this->isSynchronous();
+        return $this->asynchronous;
     }
 
     /**
@@ -27,7 +30,7 @@ trait SynchronousTrait
      */
     public function isSynchronous(): bool
     {
-        return $this->synchronous;
+        return !$this->isAsynchronous();
     }
 
     /**
@@ -35,16 +38,16 @@ trait SynchronousTrait
      */
     public function asynchronous()
     {
-        return $this->setSynchronous(false);
+        return $this->setAsynchronous(true);
     }
 
     /**
      * @param bool $synchronous
      * @return static
      */
-    public function setSynchronous(bool $synchronous)
+    public function setAsynchronous(bool $synchronous)
     {
-        $this->synchronous = $synchronous;
+        $this->asynchronous = $synchronous;
         return $this;
     }
 
@@ -53,6 +56,6 @@ trait SynchronousTrait
      */
     public function synchronous()
     {
-        return $this->setSynchronous(true);
+        return $this->setAsynchronous(false);
     }
 }
