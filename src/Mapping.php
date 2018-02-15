@@ -3,6 +3,7 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Api\Api;
+use Corp104\Rester\Api\ApiInterface;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 
 /**
@@ -14,12 +15,12 @@ class Mapping implements BaseUrlAwareInterface, SynchronousAwareInterface
     use SynchronousNullTrait;
 
     /**
-     * @var Api[]
+     * @var ApiInterface[]
      */
     protected $list = [];
 
     /**
-     * @param Api[] $mapping
+     * @param ApiInterface[] $mapping
      */
     public function __construct(array $mapping = [])
     {
@@ -27,7 +28,7 @@ class Mapping implements BaseUrlAwareInterface, SynchronousAwareInterface
     }
 
     /**
-     * @return Api[]
+     * @return ApiInterface[]
      */
     public function all(): array
     {
@@ -45,10 +46,10 @@ class Mapping implements BaseUrlAwareInterface, SynchronousAwareInterface
 
     /**
      * @param string $name
-     * @return Api
+     * @return ApiInterface
      * @throws ApiNotFoundException
      */
-    public function get($name): Api
+    public function get($name): ApiInterface
     {
         $api = $this->resolve($name);
 
@@ -62,7 +63,7 @@ class Mapping implements BaseUrlAwareInterface, SynchronousAwareInterface
     /**
      * Initial mapping object
      *
-     * @param Api[] $mapping
+     * @param ApiInterface[] $mapping
      */
     public function init(array $mapping)
     {
@@ -73,19 +74,19 @@ class Mapping implements BaseUrlAwareInterface, SynchronousAwareInterface
 
     /**
      * @param string $name
-     * @param Api $api
+     * @param ApiInterface $api
      */
-    public function set($name, Api $api)
+    public function set($name, ApiInterface $api)
     {
         $this->list[$name] = $api;
     }
 
     /**
      * @param string $name
-     * @return Api
+     * @return ApiInterface
      * @throws ApiNotFoundException
      */
-    protected function resolve($name): Api
+    protected function resolve($name): ApiInterface
     {
         if (!isset($this->list[$name])) {
             throw new ApiNotFoundException("Invalid API: {$name}");
