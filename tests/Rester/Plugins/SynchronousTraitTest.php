@@ -2,16 +2,16 @@
 
 namespace Tests\Rester\Plugins;
 
-use Corp104\Rester\Plugins\AsynchronousTrait;
+use Corp104\Rester\Plugins\SynchronousTrait;
 use Tests\TestCase;
 
 /**
- * AsynchronousTrait test
+ * SynchronousTrait test
  */
-class AsynchronousTraitTest extends TestCase
+class SynchronousTraitTest extends TestCase
 {
     /**
-     * @var AsynchronousTrait
+     * @var SynchronousTrait
      */
     protected $target;
 
@@ -19,7 +19,7 @@ class AsynchronousTraitTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = $this->getMockForTrait(AsynchronousTrait::class);
+        $this->target = $this->getMockForTrait(SynchronousTrait::class);
     }
 
     protected function tearDown()
@@ -34,8 +34,8 @@ class AsynchronousTraitTest extends TestCase
      */
     public function shouldAsyncWhenDefault()
     {
-        $this->assertTrue($this->target->isAsynchronous());
-        $this->assertFalse($this->target->isSynchronous());
+        $this->assertFalse($this->target->isAsynchronous());
+        $this->assertTrue($this->target->isSynchronous());
     }
 
     /**
@@ -43,14 +43,14 @@ class AsynchronousTraitTest extends TestCase
      */
     public function shouldSyncWhenSetToSync()
     {
-        $this->target->synchronous();
-
-        $this->assertTrue($this->target->isSynchronous());
-        $this->assertFalse($this->target->isAsynchronous());
-
         $this->target->asynchronous();
 
         $this->assertFalse($this->target->isSynchronous());
         $this->assertTrue($this->target->isAsynchronous());
+
+        $this->target->synchronous();
+
+        $this->assertTrue($this->target->isSynchronous());
+        $this->assertFalse($this->target->isAsynchronous());
     }
 }
