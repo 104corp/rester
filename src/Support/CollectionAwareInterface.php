@@ -1,6 +1,8 @@
 <?php
 
-namespace Corp104\Rester;
+namespace Corp104\Rester\Support;
+
+use Corp104\Rester\Collection;
 
 /**
  * Collection Aware Interface

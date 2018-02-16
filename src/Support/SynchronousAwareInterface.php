@@ -1,6 +1,6 @@
 <?php
 
-namespace Corp104\Rester;
+namespace Corp104\Rester\Support;
 
 /**
  * Synchronous aware interface

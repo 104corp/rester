@@ -2,7 +2,7 @@
 
 namespace Corp104\Rester\Plugins;
 
-use Corp104\Rester\SynchronousAwareTrait;
+use Corp104\Rester\Support\SynchronousAwareTrait;
 
 /**
  * SynchronousTrait

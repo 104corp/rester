@@ -2,7 +2,7 @@
 
 namespace Tests\Rester;
 
-use Corp104\Rester\SynchronousNullTrait;
+use Corp104\Rester\Support\SynchronousNullTrait;
 use Tests\TestCase;
 
 /**
@@ -19,7 +19,7 @@ class SynchronousNullTraitTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = $this->getMockForTrait(SynchronousNullTrait::class);
+        $this->target = $this->getMockForTrait(\Corp104\Rester\Support\SynchronousNullTrait::class);
     }
 
     protected function tearDown()

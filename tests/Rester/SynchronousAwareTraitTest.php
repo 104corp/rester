@@ -2,8 +2,7 @@
 
 namespace Tests\Rester;
 
-use Corp104\Rester\SynchronousAwareTrait;
-use Corp104\Rester\SynchronousNullTrait;
+use Corp104\Rester\Support\SynchronousAwareTrait;
 use Tests\Fixture\TestResterClientWithoutSynchronousAwareInterface;
 use Tests\Fixture\TestResterClientWithSynchronousAwareInterface;
 use Tests\TestCase;
@@ -27,7 +26,7 @@ class SynchronousAwareTraitTest extends TestCase
     {
         parent::setUp();
 
-        $this->target = $this->getMockForTrait(SynchronousNullTrait::class);
+        $this->target = $this->getMockForTrait(\Corp104\Rester\Support\SynchronousNullTrait::class);
     }
 
     protected function tearDown()

@@ -2,8 +2,8 @@
 
 namespace Corp104\Rester\Api;
 
-use Corp104\Rester\BaseUrlAwareInterface;
-use Corp104\Rester\BaseUrlAwareTrait;
+use Corp104\Rester\Support\BaseUrlAwareInterface;
+use Corp104\Rester\Support\BaseUrlAwareTrait;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;

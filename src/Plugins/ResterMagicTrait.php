@@ -3,7 +3,7 @@
 namespace Corp104\Rester\Plugins;
 
 use Corp104\Rester\Api\ApiInterface;
-use Corp104\Rester\BaseUrlAwareTrait;
+use Corp104\Rester\Support\BaseUrlAwareTrait;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\ResterRequest;
 use Corp104\Support\HttpClientAwareTrait;

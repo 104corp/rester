@@ -2,7 +2,7 @@
 
 namespace Corp104\Rester\Plugins;
 
-use Corp104\Rester\CollectionAwareTrait;
+use Corp104\Rester\Support\CollectionAwareTrait;
 use Corp104\Rester\Exceptions\OperationDeniedException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\ResterClientInterface;

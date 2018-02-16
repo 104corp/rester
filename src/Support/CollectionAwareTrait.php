@@ -1,8 +1,10 @@
 <?php
 
-namespace Corp104\Rester;
+namespace Corp104\Rester\Support;
 
+use Corp104\Rester\Collection;
 use Corp104\Rester\Exceptions;
+use Corp104\Rester\ResterClientInterface;
 
 /**
  * Api Collection Aware Trait

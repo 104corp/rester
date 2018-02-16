@@ -1,6 +1,8 @@
 <?php
 
-namespace Corp104\Rester;
+namespace Corp104\Rester\Support;
+
+use Corp104\Rester\Mapping;
 
 /**
  * Mapping Aware Interface

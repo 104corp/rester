@@ -3,7 +3,7 @@
 namespace Corp104\Rester\Plugins;
 
 use Corp104\Rester\Exceptions\ApiNotFoundException;
-use Corp104\Rester\MappingAwareTrait;
+use Corp104\Rester\Support\MappingAwareTrait;
 use Psr\Http\Message\RequestInterface;
 
 /**

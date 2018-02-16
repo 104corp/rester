@@ -2,8 +2,8 @@
 
 namespace Tests\Fixture;
 
-use Corp104\Rester\SynchronousAwareInterface;
-use Corp104\Rester\SynchronousNullTrait;
+use Corp104\Rester\Support\SynchronousAwareInterface;
+use Corp104\Rester\Support\SynchronousNullTrait;
 
 /**
  * Client without SynchronousAwareInterface

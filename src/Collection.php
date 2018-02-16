@@ -3,6 +3,8 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Exceptions\CollectionNotFoundException;
+use Corp104\Rester\Support\SynchronousAwareInterface;
+use Corp104\Rester\Support\SynchronousNullTrait;
 
 /**
  * API collection

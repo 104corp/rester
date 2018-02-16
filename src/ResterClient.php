@@ -4,6 +4,8 @@ namespace Corp104\Rester;
 
 use Corp104\Rester\Plugins\ResterClientTrait;
 use Corp104\Rester\Plugins\ResterMagicTrait;
+use Corp104\Rester\Support\BaseUrlAwareInterface;
+use Corp104\Rester\Support\MappingAwareInterface;
 use Corp104\Support\HttpClientAwareInterface;
 use GuzzleHttp\RequestOptions;
 
