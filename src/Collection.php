@@ -61,32 +61,9 @@ class Collection implements SynchronousAwareInterface
      */
     public function set(string $name, ResterClientInterface $client)
     {
-        $this->putSynchronousToClient($client);
+        $this->transferSynchronousStatusTo($client);
 
         $this->mapping[$name] = $client;
-    }
-
-    /**
-     * @param ResterClientInterface $client
-     */
-    protected function putSynchronousToClient(ResterClientInterface $client)
-    {
-        // Do nothing when $client not implement SynchronousAwareInterface
-        if (!$client instanceof SynchronousAwareInterface) {
-            return;
-        }
-
-        // Do nothing when Collection has no synchronous setting
-        if (null === $this->synchronous) {
-            return;
-        }
-
-        // Do nothing when $client has synchronous setting
-        if (null !== $client->getSynchronous()) {
-            return;
-        }
-
-        $client->setSynchronous($this->synchronous);
     }
 
     /**

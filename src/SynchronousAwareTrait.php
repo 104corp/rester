@@ -64,4 +64,27 @@ trait SynchronousAwareTrait
     {
         return $this->setSynchronous(true);
     }
+
+    /**
+     * @param mixed $instance
+     */
+    public function transferSynchronousStatusTo($instance)
+    {
+        // Do nothing when $instance not implement SynchronousAwareInterface
+        if (!$instance instanceof SynchronousAwareInterface) {
+            return;
+        }
+
+        // Do nothing when Collection has no synchronous setting
+        if (null === $this->synchronous) {
+            return;
+        }
+
+        // Do nothing when $instance has synchronous setting
+        if (null !== $instance->getSynchronous()) {
+            return;
+        }
+
+        $instance->setSynchronous($this->synchronous);
+    }
 }

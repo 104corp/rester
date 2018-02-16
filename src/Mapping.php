@@ -78,6 +78,8 @@ class Mapping implements BaseUrlAwareInterface, SynchronousAwareInterface
      */
     public function set($name, ApiInterface $api)
     {
+        $this->transferSynchronousStatusTo($api);
+
         $this->list[$name] = $api;
     }
 
