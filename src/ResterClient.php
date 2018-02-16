@@ -3,6 +3,7 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Plugins\ResterClientTrait;
+use Corp104\Rester\Plugins\ResterMagicTrait;
 use Corp104\Support\HttpClientAwareInterface;
 use GuzzleHttp\RequestOptions;
 
@@ -16,6 +17,7 @@ class ResterClient implements
     MappingAwareInterface
 {
     use ResterClientTrait;
+    use ResterMagicTrait;
 
     /**
      * @var array
