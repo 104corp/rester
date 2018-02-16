@@ -130,6 +130,27 @@ trait ResterClientTrait
     }
 
     /**
+     * True is Asynchronous, False is Synchronous.
+     *
+     * @param ApiInterface $api
+     * @return bool
+     */
+    protected function isAsynchronousCall(ApiInterface $api):bool
+    {
+        // If 'API' is asynchronous, return true
+        if (method_exists($api, 'isAsynchronous') && true === $api->isAsynchronous()) {
+            return true;
+        }
+
+        // If 'ResterClient' is asynchronous, return true
+        if (method_exists($this, 'isAsynchronous') && true === $this->isAsynchronous()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Transform promise hook
      *
      * @param PromiseInterface $promise
@@ -151,26 +172,5 @@ trait ResterClientTrait
     protected function transformResponse(ResponseInterface $response, string $name)
     {
         return $response;
-    }
-
-    /**
-     * True is Asynchronous, False is Synchronous.
-     *
-     * @param ApiInterface $api
-     * @return bool
-     */
-    private function isAsynchronousCall(ApiInterface $api):bool
-    {
-        // If 'API' is asynchronous, return true
-        if (method_exists($api, 'isAsynchronous') && true === $api->isAsynchronous()) {
-            return true;
-        }
-
-        // If 'ResterClient' is asynchronous, return true
-        if (method_exists($this, 'isAsynchronous') && true === $this->isAsynchronous()) {
-            return true;
-        }
-
-        return false;
     }
 }
