@@ -49,7 +49,7 @@ trait ResterMagicTrait
             throw new InvalidArgumentException('$params must be an array');
         }
 
-        return $this->callBySynchronousStatus($method, $binding, $queryParams, $parsedBody);
+        return $this->call($method, $binding, $queryParams, $parsedBody);
     }
 
     /**
@@ -63,24 +63,6 @@ trait ResterMagicTrait
         $binding = $resterRequest->getBinding();
         $queryParams = $resterRequest->getQueryParams();
         $parsedBody = $resterRequest->getParsedBody();
-
-        return $this->callBySynchronousStatus($name, $binding, $queryParams, $parsedBody);
-    }
-
-    /**
-     * @param string $name
-     * @param array $binding
-     * @param array $queryParams
-     * @param array $parsedBody
-     * @return mixed
-     */
-    protected function callBySynchronousStatus($name, $binding, $queryParams, $parsedBody)
-    {
-        $api = $this->mapping->get($name);
-
-        if ($this->isAsynchronousCall($api)) {
-            return $this->callAsync($name, $binding, $queryParams, $parsedBody);
-        }
 
         return $this->call($name, $binding, $queryParams, $parsedBody);
     }

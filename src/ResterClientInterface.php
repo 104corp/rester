@@ -8,15 +8,8 @@ namespace Corp104\Rester;
 interface ResterClientInterface
 {
     /**
-     * @param string $name
-     * @param array $binding
-     * @param array $queryParams
-     * @param array $parsedBody
-     * @return mixed
-     */
-    public function call($name, array $binding = [], array $queryParams = [], array $parsedBody = []);
-
-    /**
+     * Call api asynchronous
+     *
      * @param string $name
      * @param array $binding
      * @param array $queryParams
@@ -24,4 +17,15 @@ interface ResterClientInterface
      * @return mixed
      */
     public function callAsync($name, array $binding = [], array $queryParams = [], array $parsedBody = []);
+
+    /**
+     * Call api synchronous
+     *
+     * @param string $name
+     * @param array $binding
+     * @param array $queryParams
+     * @param array $parsedBody
+     * @return mixed
+     */
+    public function callSync($name, array $binding = [], array $queryParams = [], array $parsedBody = []);
 }

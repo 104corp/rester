@@ -32,19 +32,13 @@ trait ResterClientTrait
      */
     public function call($name, array $binding = [], array $queryParams = [], array $parsedBody = [])
     {
-        $request = $this->resolveRequest($name, $binding, $queryParams, $parsedBody);
+        $api = $this->mapping->get($name);
 
-        $this->beforeSendRequest($request, $name);
-
-        try {
-            $response = $this->httpClient->send($request, $this->httpOptions);
-        } catch (RequestException $e) {
-            throw $this->handleException($e, $name);
+        if ($this->isAsynchronousCall($api)) {
+            return $this->callAsync($name, $binding, $queryParams, $parsedBody);
         }
 
-        $this->afterSendRequest($response, $request, $name);
-
-        return $this->transformResponse($response, $name);
+        return $this->callSync($name, $binding, $queryParams, $parsedBody);
     }
 
     /**
@@ -66,6 +60,31 @@ trait ResterClientTrait
         $this->afterSendRequestAsync($promise, $request, $name);
 
         return $this->transformPromise($promise, $name);
+    }
+
+    /**
+     * @param string $name
+     * @param array $binding
+     * @param array $queryParams
+     * @param array $parsedBody
+     * @return mixed
+     * @throws Exception
+     */
+    public function callSync($name, array $binding = [], array $queryParams = [], array $parsedBody = [])
+    {
+        $request = $this->resolveRequest($name, $binding, $queryParams, $parsedBody);
+
+        $this->beforeSendRequest($request, $name);
+
+        try {
+            $response = $this->httpClient->send($request, $this->httpOptions);
+        } catch (RequestException $e) {
+            throw $this->handleException($e, $name);
+        }
+
+        $this->afterSendRequest($response, $request, $name);
+
+        return $this->transformResponse($response, $name);
     }
 
     /**
