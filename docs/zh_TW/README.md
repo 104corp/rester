@@ -65,7 +65,7 @@ $resterClient->bar();
 * QueryString
 * ParsedBody
 
-這三種參數的預設值都是空 array `[]` 。不同的地方如下：
+這三種參數的預設值都是空 array 。
 
 ### Binding
 
@@ -105,7 +105,7 @@ $resterClient->foo([], ['some' => 'value']);
 
 ### ParsedBody
 
-ParsedBody 是 POST / PUT 方法需要帶的內容，如：
+ParsedBody 是 POST / PUT 等方法需要帶的內容，如：
 
 ```php
 $data = [
@@ -115,9 +115,11 @@ $data = [
 $resterClient->foo([], [], $data);
 ```
 
+> 目前包裝只使用 JSON ，未來會改成可調的。
+
 ## ResterCollection
 
-如果有很多不同組的 API 需要分類或是撞名時， `ResterCollection` 將能幫大忙。
+如果有很多不同組的 API 需要分類或是撞名時， `ResterCollection` 可以幫助解決問題。
 
 比方說有下列 API endpoint ：
 
