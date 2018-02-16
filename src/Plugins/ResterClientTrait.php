@@ -1,11 +1,11 @@
 <?php
 
-namespace Corp104\Rester;
+namespace Corp104\Rester\Plugins;
 
 use Corp104\Rester\Api\ApiInterface;
+use Corp104\Rester\BaseUrlAwareTrait;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\Plugins\MappingTrait;
-use Corp104\Rester\Plugins\AsynchronousTrait;
+use Corp104\Rester\ResterRequest;
 use Corp104\Support\HttpClientAwareTrait;
 use Exception;
 use GuzzleHttp\Exception\RequestException;
