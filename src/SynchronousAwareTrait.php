@@ -8,6 +8,22 @@ namespace Corp104\Rester;
 trait SynchronousAwareTrait
 {
     /**
+     * @return static
+     */
+    public function asynchronous()
+    {
+        return $this->setSynchronous(false);
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getSynchronous()
+    {
+        return $this->synchronous;
+    }
+
+    /**
      * @return bool|null
      */
     public function isAsynchronous()
@@ -29,14 +45,6 @@ trait SynchronousAwareTrait
         }
 
         return $this->synchronous;
-    }
-
-    /**
-     * @return static
-     */
-    public function asynchronous()
-    {
-        return $this->setSynchronous(false);
     }
 
     /**

@@ -2,25 +2,31 @@
 
 namespace Tests\Rester;
 
-use Corp104\Rester\Exceptions\CollectionNotFoundException;
-use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\Exceptions\OperationDeniedException;
-use Corp104\Rester\ResterClientInterface;
-use Tests\Fixture\TestResterCollection;
+use Corp104\Rester\Collection;
+use Tests\Fixture\TestResterClientWithoutSynchronousAwareInterface;
+use Tests\Fixture\TestResterClientWithSynchronousAwareInterface;
 use Tests\TestCase;
 
 class CollectionTest extends TestCase
 {
     /**
-     * @var TestResterCollection
+     * @var Collection
      */
     protected $target;
+
+    public function trueAndFalse()
+    {
+        return [
+            [true],
+            [false],
+        ];
+    }
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->target = new TestResterCollection();
+        $this->target = new Collection();
     }
 
     protected function tearDown()
@@ -33,81 +39,82 @@ class CollectionTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTestClientWhenCallGetCollection()
+    public function shouldReturnNullWhenGetSyncDefault()
     {
-        $this->assertTrue($this->target->hasCollection('tester'));
-        $this->assertInstanceOf(ResterClientInterface::class, $this->target->getCollection('tester'));
+        $this->assertNull($this->target->getSynchronous());
+    }
+
+    /**
+     * @test
+     * @dataProvider trueAndFalse
+     */
+    public function shouldPutSyncDoNothingWhenClientIsNotImplementSyncInterface($trueAndFalse)
+    {
+        $clientMock = $this->getMockBuilder(TestResterClientWithoutSynchronousAwareInterface::class)
+            ->getMock();
+
+        $clientMock->expects($this->never())
+            ->method('setSynchronous');
+
+        $clientMock->method('getSynchronous')
+            ->willReturn(null);
+
+        $this->target->setSynchronous($trueAndFalse);
+        $this->target->set('whatever', $clientMock);
     }
 
     /**
      * @test
      */
-    public function shouldGetTestClientWhenUsingMagicMethodToGetCollection()
+    public function shouldPutSyncDoNothingWhenCollectionSyncIsNull()
     {
-        $this->assertTrue(isset($this->target->tester));
-        $this->assertInstanceOf(ResterClientInterface::class, $this->target->tester);
+        $clientMock = $this->getMockBuilder(TestResterClientWithSynchronousAwareInterface::class)
+            ->getMock();
+
+        $clientMock->expects($this->never())
+            ->method('setSynchronous');
+
+        $this->target->set('whatever', $clientMock);
     }
 
     /**
      * @test
+     * @dataProvider trueAndFalse
      */
-    public function shouldReturnFalseWhenUsingMagicMethodToCheckCollectionIsExist()
+    public function shouldPutSyncDoNothingWhenCollectionSyncIsNotNullAndClientSyncIsSet($trueAndFalse)
     {
-        $this->assertFalse(isset($this->target->unknown));
+        $clientMock = $this->getMockBuilder(TestResterClientWithSynchronousAwareInterface::class)
+            ->getMock();
+
+        $clientMock->expects($this->never())
+            ->method('setSynchronous');
+
+        $clientMock->method('getSynchronous')
+            ->willReturn($trueAndFalse);
+
+        $this->target->synchronous();
+        $this->target->set('whatever', $clientMock);
+
+        $this->target->asynchronous();
+        $this->target->set('whatever', $clientMock);
     }
 
     /**
      * @test
+     * @dataProvider trueAndFalse
      */
-    public function shouldThrowExceptionWhenCallGetCollectionWithCollectionIsNotExist()
+    public function shouldPutSyncWhenCollectionSyncIsNotNullAndClientSyncIsNull($trueAndFalse)
     {
-        $this->expectException(CollectionNotFoundException::class);
+        $clientMock = $this->getMockBuilder(TestResterClientWithSynchronousAwareInterface::class)
+            ->getMock();
 
-        $this->target->getCollection('unknown');
-    }
+        $clientMock->expects($this->once())
+            ->method('setSynchronous');
 
-    /**
-     * @test
-     */
-    public function shouldThrowExceptionWhenUsingMagicMethodWithCollectionIsNotExist()
-    {
-        $this->expectException(CollectionNotFoundException::class);
+        $clientMock->method('getSynchronous')
+            ->willReturn(null);
 
-        $this->target->unknown;
-    }
-
-    /**
-     * @test
-     */
-    public function shouldBeOkayWhenSetResterClientProperty()
-    {
-        $resterClientMock = $this->createMock(ResterClientInterface::class);
-
-        $this->target->newOne = $resterClientMock;
-
-        $this->assertInstanceOf(ResterClientInterface::class, $this->target->newOne);
-        $this->assertSame($resterClientMock, $this->target->newOne);
-        $this->assertTrue($this->target->hasCollection('newOne'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowExceptionWhenSetNotResterClientProperty()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Given is ' . \stdClass::class);
-
-        $this->target->unknown = new \stdClass();
-    }
-
-    /**
-     * @test
-     */
-    public function shouldThrowExceptionWhenUnsetCollectionProperty()
-    {
-        $this->expectException(OperationDeniedException::class);
-
-        unset($this->target->tester);
+        $this->target->setSynchronous($trueAndFalse);
+        $this->target->set('whatever', $clientMock);
     }
 }
