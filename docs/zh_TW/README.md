@@ -69,10 +69,10 @@ $resterClient->bar();
 
 ### Binding
 
-這個是指 path 中的變數，假如有個 API 是長這樣 `GET /users/{userId}` ，而 `Binding` 主要任務就是把 userId 替換成開發者想要的字串或內容。實際上，只要跟 ResterClient 說要把它換成想要的字即可。範例程式碼如下：
+這個是指 path 中的變數，假如有個 API 是長這樣 `GET /users/{id}` ，而 `Binding` 的目的是把 `id` 替換成開發者想要的字串或內容。實際的範例程式碼如下：
 
 ```php
-// API 定義為 /foo/{bar}/{baz}
+// API 定義為 GET http://127.0.0.1/foo/{bar}/{baz}
 $resterClient = new ResterClient('http://127.0.0.1');
 $resterClient->provisionMapping([
     'foo' => new Path('GET', '/foo/{bar}/{baz}'),
@@ -89,13 +89,17 @@ $resterClient->foo([
     'str3',
     'str4',
 ]);
+
+// 如果沒有取代完全會丟 InvalidArgumentException
+// $resterClient->foo();
 ```
 
 ### QueryString
 
-QueryString 要帶第二個參數，如：
+QueryString 在第二個參數帶入，如：
 
 ```php
+// GET http://127.0.0.1/?some=value
 $resterClient->foo([], ['some' => 'value']);
 ```
 
@@ -118,15 +122,15 @@ $resterClient->foo([], [], $data);
 比方說有下列 API endpoint ：
 
 ```
-GET http://127.0.0.1/users/{userId}
+GET http://127.0.0.1/users/{id}
 POST http://127.0.0.1/users
-PUT http://127.0.0.1/users/{userId}
-DELETE http://127.0.0.1/users/{userId}
+PUT http://127.0.0.1/users/{id}
+DELETE http://127.0.0.1/users/{id}
 
-GET http://api.some-url.com/groups/{groupId}
+GET http://api.some-url.com/groups/{id}
 POST http://api.some-url.com/groups
-PUT http://api.some-url.com/groups/{groupId}
-DELETE http://api.some-url.com/groups/{groupId}
+PUT http://api.some-url.com/groups/{id}
+DELETE http://api.some-url.com/groups/{id}
 ```
 
 我們可以把 `users` 與 `groups` 分成兩組，實際初始化的程式碼如下：
@@ -134,18 +138,18 @@ DELETE http://api.some-url.com/groups/{groupId}
 ```php
 $usersClient = new ResterClient('http://127.0.0.1');
 $usersClient->provisionMapping([
-    'get' => new Path('GET', '/users/{userId}'),
+    'get' => new Path('GET', '/users/{id}'),
     'create' => new Path('POST', '/users'),
-    'update' => new Path('PUT', '/users/{userId}'),
-    'delete' => new Path('DELETE', '/users/{userId}'),
+    'update' => new Path('PUT', '/users/{id}'),
+    'delete' => new Path('DELETE', '/users/{id}'),
 ]);
 
 $groupsClient = new ResterClient('http://api.some-url.com');
 $groupsClient->provisionMapping([
-    'get' => new Path('GET', '/groups/{userId}'),
+    'get' => new Path('GET', '/groups/{id}'),
     'create' => new Path('POST', '/groups'),
-    'update' => new Path('PUT', '/groups/{userId}'),
-    'delete' => new Path('DELETE', '/groups/{userId}'),
+    'update' => new Path('PUT', '/groups/{id}'),
+    'delete' => new Path('DELETE', '/groups/{id}'),
 ]);
 
 $resterCollection = new ResterCollection();
