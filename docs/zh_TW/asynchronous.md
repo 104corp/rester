@@ -28,11 +28,10 @@ RESTer 是如何決定呼叫行為？
 
 ### Default trait
 
-RESTer 的世界裡，有四種預設物件會掛 `SynchronousNullTrait` ：
+RESTer 的世界裡，有四個預設物件會掛 `SynchronousNullTrait` ：
 
 * Api - `SynchronousNullTrait`
 * Collection - `SynchronousNullTrait`
-* Mapping - `SynchronousNullTrait`
 * ResterClient - `SynchronousNullTrait`
 
 這幾個物件都可以由開發者自行設定；如果都沒設定的話，將會採同步呼叫。
@@ -116,23 +115,24 @@ $resterClient->foo();
 
 ## 群組設定
 
-在 RESTer 的世界裡，有兩個類別具有群組的特性： Client 群組的 `Collection` 與 Api 群組的 `Mapping` 。
-
 簡單來說，全域設定與單點設定會在執行階段**判斷**要採用什麼行為呼叫 API ，而群組設定則會在執行階段**設定** Client 物件（全域設定）或 Api 物件（單點設定）。此邏輯寫在 `\Corp104\Rester\Support\SynchronousAwareTrait` 的 `transferSynchronousStatusTo()` 裡。會經過以下多個判斷，才會進行設定：
 
 1. 被設定的物件需繼承 `SynchronousAwareInterface`
 2. 群組物件必須設定過才行（`asynchronous()` 或 `synchronous()`）
 3. Client 物件或 Api 物件必須是 `null` （執行階段決定）
 
-舉一個 Mapping 範例：
+這個行為只有在 Collection 的 `set()` 實作。實際使用範例如下：
 
 ```php
-$mapping = new Mapping();
-$mapping->asynchronous();
+$collection = new Collection();
+$collection->asynchronous();
 
-// 這個 Api 將會是非同步呼叫（三個條件皆達成）
-$mapping->set('fooAsync', new Api('GET', '/fooAsync'));
+// 這個 Client 將會是非同步呼叫（三個條件皆達成）
+$collection->set('foo', new ResterClient());
 
-// 這個 Api 將會是同步呼叫（第三個條件未達成）
-$mapping->set('fooSync', Api::create('GET', '/fooSync')->synchronous());
+$bar = new ResterClient();
+$bar->synchronous();
+
+// 這個 Client 將會是同步呼叫（第三個條件未達成）
+$collection->set('bar', $bar);
 ```

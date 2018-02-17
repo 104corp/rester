@@ -2,6 +2,7 @@
 
 namespace Corp104\Rester;
 
+use Corp104\Rester\Api\Api;
 use Corp104\Rester\Api\ApiInterface;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 use Corp104\Rester\Support\BaseUrlAwareInterface;
@@ -12,10 +13,9 @@ use Corp104\Rester\Support\SynchronousNullTrait;
 /**
  * REST API mapping collection
  */
-class Mapping implements BaseUrlAwareInterface, SynchronousAwareInterface
+class Mapping implements BaseUrlAwareInterface
 {
     use BaseUrlAwareTrait;
-    use SynchronousNullTrait;
 
     /**
      * @var ApiInterface[]
@@ -81,8 +81,6 @@ class Mapping implements BaseUrlAwareInterface, SynchronousAwareInterface
      */
     public function set($name, ApiInterface $api)
     {
-        $this->transferSynchronousStatusTo($api);
-
         $this->list[$name] = $api;
     }
 
