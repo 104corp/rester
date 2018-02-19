@@ -19,12 +19,12 @@ class Mapping implements BaseUrlAwareInterface
     use BaseUrlAwareTrait;
 
     /**
-     * @var ApiInterface[]
+     * @var array
      */
     protected $list = [];
 
     /**
-     * @param ApiInterface[] $mapping
+     * @param array $mapping
      */
     public function __construct(array $mapping = [])
     {
@@ -32,7 +32,7 @@ class Mapping implements BaseUrlAwareInterface
     }
 
     /**
-     * @return ApiInterface[]
+     * @return array
      */
     public function all(): array
     {

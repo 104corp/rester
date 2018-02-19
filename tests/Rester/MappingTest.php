@@ -49,8 +49,13 @@ class MappingTest extends TestCase
             [['array-count-less-then-2']],
             [['array', 'count', 'more', 'then', '2']],
             [['not-a-callable', 'whatever']],
-            [[function () {
-            }, 'not-array']],
+            [
+                [
+                    function () {
+                    },
+                    'not-array'
+                ]
+            ],
             ['string'],
             [new \stdClass()],
         ];
@@ -87,6 +92,25 @@ class MappingTest extends TestCase
 
         $this->assertArrayHasKey($exceptedApiName, $actualApiList);
         $this->assertCount($exceptedCount, $actualApiList);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotCreateApiInstanceWhenSetSetting()
+    {
+        $apiSetting = [
+            [Path::class, 'create'],    // Callable
+            ['GET', '/foo'],            // Parameter
+        ];
+
+        $this->target->set('whatever', $apiSetting);
+
+        $actual = $this->target->all();
+
+        foreach ($actual as $item) {
+            $this->assertNotInstanceOf(ApiInterface::class, $item);
+        }
     }
 
     /**
