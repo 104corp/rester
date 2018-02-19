@@ -4,7 +4,10 @@ namespace Tests\Rester;
 
 use Corp104\Rester\Api\Api;
 use Corp104\Rester\Api\ApiInterface;
+use Corp104\Rester\Api\Endpoint;
+use Corp104\Rester\Api\EndpointResolver;
 use Corp104\Rester\Api\Path;
+use Corp104\Rester\Api\PathResolver;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Mapping;
@@ -89,7 +92,7 @@ class MappingTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetApiInstanceWhenSetCorrectSetting()
+    public function shouldReturnPathInstanceWhenSetCorrectSetting()
     {
         $apiSetting = [
             [Path::class, 'create'],    // Callable
@@ -100,6 +103,38 @@ class MappingTest extends TestCase
         $actual = $this->target->get('whatever');
 
         $this->assertInstanceOf(ApiInterface::class, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnPathInstanceWhenSetCorrectSettingUsingResolver()
+    {
+        $apiSetting = [
+            new PathResolver(),         // Resolver
+            ['GET', '/foo'],            // Parameter
+        ];
+
+        $this->target->set('whatever', $apiSetting);
+        $actual = $this->target->get('whatever');
+
+        $this->assertInstanceOf(Path::class, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnEndpointInstanceWhenSetCorrectSettingUsingResolver()
+    {
+        $apiSetting = [
+            new EndpointResolver(),     // Resolver
+            ['GET', '/foo'],            // Parameter
+        ];
+
+        $this->target->set('whatever', $apiSetting);
+        $actual = $this->target->get('whatever');
+
+        $this->assertInstanceOf(Endpoint::class, $actual);
     }
 
     /**
