@@ -11,6 +11,7 @@ use Corp104\Rester\ResterRequest;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Tests\Fixture\TestResterClient;
@@ -238,5 +239,59 @@ class ResterClientBasicTest extends TestCase
         $actual = $this->target->postFoo();
 
         $this->assertInstanceOf(PromiseInterface::class, $actual);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldWithHeaderWhenCallApiWithCustomHeader()
+    {
+        $history = new ArrayObject();
+
+        $httpClient = $this->createHttpClient(new Response(), $history);
+        $this->target->setHttpClient($httpClient);
+
+        $api = Path::create('POST', '/bar');
+        $api->setHeader('test_string', 'string');
+        $api->setHeader('test_array', ['arr1', 'arr2']);
+
+        $this->target->getMapping()->set('postFoo', $api);
+
+        $this->target->postFoo();
+
+        /** @var Request $request */
+        $request = $history[0]['request'];
+
+        $this->assertSame(['string'], $request->getHeader('test_string'));
+        $this->assertSame('string', $request->getHeaderLine('test_string'));
+        $this->assertSame(['arr1', 'arr2'], $request->getHeader('test_array'));
+        $this->assertSame('arr1, arr2', $request->getHeaderLine('test_array'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSendClientHeaderWhenClientAndApiSetTheSameHeader()
+    {
+        $history = new ArrayObject();
+
+        $httpClient = $this->createHttpClient(new Response(), $history);
+        $this->target->setHttpClient($httpClient);
+
+        $api = Path::create('POST', '/bar');
+        $api->setHeader('test', 'from_api');
+
+        $this->target->getMapping()->set('postFoo', $api);
+
+        $options = $this->target->getHttpOptions();
+        $options['headers']['test'] = 'from_options';
+        $this->target->setHttpOptions($options);
+
+        $this->target->postFoo();
+
+        /** @var Request $request */
+        $request = $history[0]['request'];
+
+        $this->assertSame('from_options', $request->getHeaderLine('test'));
     }
 }

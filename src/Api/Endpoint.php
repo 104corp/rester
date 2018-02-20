@@ -18,7 +18,7 @@ class Endpoint extends Api
         array $parsedBody = []
     ): RequestInterface {
         $method = $this->getMethod();
-        $headers = [];
+        $headers = $this->getHeaders();
         $body = null;
 
         $uri = $this->bindUri($binding);

@@ -38,7 +38,7 @@ class Path extends Api implements BaseUrlAwareInterface
         array $parsedBody = []
     ): RequestInterface {
         $method = $this->getMethod();
-        $headers = [];
+        $headers = $this->getHeaders();
         $body = null;
 
         $uri = $this->baseUrl . $this->bindUri($binding);

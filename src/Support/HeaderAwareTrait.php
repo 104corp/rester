@@ -8,14 +8,14 @@ namespace Corp104\Rester\Support;
 trait HeaderAwareTrait
 {
     /**
-     * @var null|array
+     * @var array
      */
     protected $headers = [];
 
     /**
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
