@@ -3,6 +3,7 @@
 namespace Corp104\Rester\Api;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
+use Corp104\Rester\Support\HeaderAwareTrait;
 use Corp104\Rester\Support\SynchronousAwareInterface;
 use Corp104\Rester\Support\SynchronousNullTrait;
 
@@ -12,6 +13,7 @@ use Corp104\Rester\Support\SynchronousNullTrait;
 abstract class Api implements ApiInterface, SynchronousAwareInterface
 {
     use SynchronousNullTrait;
+    use HeaderAwareTrait;
 
     /**
      * @var array
