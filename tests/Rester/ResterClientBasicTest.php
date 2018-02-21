@@ -227,23 +227,6 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldCallAsyncWhenApiIsAsync()
-    {
-        $history = new ArrayObject();
-
-        $httpClient = $this->createHttpClient(new Response(), $history);
-        $this->target->setHttpClient($httpClient);
-
-        $this->target->getMapping()->set('postFoo', Path::create('POST', '/bar')->asynchronous());
-
-        $actual = $this->target->postFoo();
-
-        $this->assertInstanceOf(PromiseInterface::class, $actual);
-    }
-
-    /**
-     * @test
-     */
     public function shouldWithHeaderWhenCallApiWithCustomHeader()
     {
         $history = new ArrayObject();

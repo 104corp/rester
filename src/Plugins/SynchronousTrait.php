@@ -2,14 +2,24 @@
 
 namespace Corp104\Rester\Plugins;
 
-use Corp104\Rester\Support\SynchronousAwareTrait;
-
 /**
  * SynchronousTrait
  */
 trait SynchronousTrait
 {
-    use SynchronousAwareTrait;
+    /**
+     * @return bool
+     */
+    public function isAsynchronous()
+    {
+        return false;
+    }
 
-    protected $synchronous = true;
+    /**
+     * @return bool
+     */
+    public function isSynchronous()
+    {
+        return true;
+    }
 }
