@@ -137,17 +137,8 @@ trait ResterClientTrait
      */
     protected function isAsynchronousCall(ApiInterface $api):bool
     {
-        // If 'API' is asynchronous, return true
-        if (method_exists($api, 'isAsynchronous') && true === $api->isAsynchronous()) {
-            return true;
-        }
-
         // If 'ResterClient' is asynchronous, return true
-        if (method_exists($this, 'isAsynchronous') && true === $this->isAsynchronous()) {
-            return true;
-        }
-
-        return false;
+        return method_exists($this, 'isAsynchronous') && true === $this->isAsynchronous();
     }
 
     /**

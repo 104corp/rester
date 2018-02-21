@@ -10,10 +10,10 @@ interface SynchronousAwareInterface
     /**
      * @return bool|null
      */
-    public function getSynchronous();
+    public function isAsynchronous();
 
     /**
-     * @param bool|null $synchronous
+     * @return bool|null
      */
-    public function setSynchronous($synchronous);
+    public function isSynchronous();
 }

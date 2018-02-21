@@ -2,15 +2,12 @@
 
 namespace Tests\Fixture;
 
+use Corp104\Rester\Plugins\AsynchronousTrait;
+
 /**
  * Async client
  */
 class TestResterClientAsync extends TestResterClient
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->asynchronous();
-    }
+    use AsynchronousTrait;
 }

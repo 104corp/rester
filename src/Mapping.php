@@ -2,14 +2,11 @@
 
 namespace Corp104\Rester;
 
-use Corp104\Rester\Api\Api;
 use Corp104\Rester\Api\ApiInterface;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Support\BaseUrlAwareInterface;
 use Corp104\Rester\Support\BaseUrlAwareTrait;
-use Corp104\Rester\Support\SynchronousAwareInterface;
-use Corp104\Rester\Support\SynchronousNullTrait;
 
 /**
  * REST API mapping collection

@@ -4,15 +4,12 @@ namespace Corp104\Rester\Api;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Support\HeaderAwareTrait;
-use Corp104\Rester\Support\SynchronousAwareInterface;
-use Corp104\Rester\Support\SynchronousNullTrait;
 
 /**
  * Api abstract Class
  */
-abstract class Api implements ApiInterface, SynchronousAwareInterface
+abstract class Api implements ApiInterface
 {
-    use SynchronousNullTrait;
     use HeaderAwareTrait;
 
     /**

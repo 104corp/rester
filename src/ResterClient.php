@@ -6,7 +6,6 @@ use Corp104\Rester\Plugins\ResterClientTrait;
 use Corp104\Rester\Plugins\ResterMagicTrait;
 use Corp104\Rester\Support\BaseUrlAwareInterface;
 use Corp104\Rester\Support\MappingAwareInterface;
-use Corp104\Rester\Support\SynchronousNullTrait;
 use Corp104\Support\HttpClientAwareInterface;
 use GuzzleHttp\RequestOptions;
 
@@ -21,7 +20,6 @@ class ResterClient implements
 {
     use ResterClientTrait;
     use ResterMagicTrait;
-    use SynchronousNullTrait;
 
     /**
      * @var array

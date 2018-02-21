@@ -37,20 +37,4 @@ class AsynchronousTraitTest extends TestCase
         $this->assertTrue($this->target->isAsynchronous());
         $this->assertFalse($this->target->isSynchronous());
     }
-
-    /**
-     * @test
-     */
-    public function shouldSyncWhenSetToSync()
-    {
-        $this->target->synchronous();
-
-        $this->assertTrue($this->target->isSynchronous());
-        $this->assertFalse($this->target->isAsynchronous());
-
-        $this->target->asynchronous();
-
-        $this->assertFalse($this->target->isSynchronous());
-        $this->assertTrue($this->target->isAsynchronous());
-    }
 }

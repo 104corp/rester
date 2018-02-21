@@ -3,16 +3,12 @@
 namespace Corp104\Rester;
 
 use Corp104\Rester\Exceptions\CollectionNotFoundException;
-use Corp104\Rester\Support\SynchronousAwareInterface;
-use Corp104\Rester\Support\SynchronousNullTrait;
 
 /**
  * API collection
  */
-class Collection implements SynchronousAwareInterface
+class Collection
 {
-    use SynchronousNullTrait;
-
     /**
      * @var ResterClientInterface[]
      */
@@ -63,8 +59,6 @@ class Collection implements SynchronousAwareInterface
      */
     public function set(string $name, ResterClientInterface $client)
     {
-        $this->transferSynchronousStatusTo($client);
-
         $this->mapping[$name] = $client;
     }
 
