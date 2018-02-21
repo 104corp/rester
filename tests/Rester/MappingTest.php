@@ -4,12 +4,12 @@ namespace Tests\Rester;
 
 use Corp104\Rester\Api\ApiInterface;
 use Corp104\Rester\Api\Endpoint;
-use Corp104\Rester\Api\EndpointResolver;
 use Corp104\Rester\Api\Path;
-use Corp104\Rester\Api\PathResolver;
 use Corp104\Rester\Exceptions\ApiNotFoundException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Mapping;
+use Corp104\Rester\Resolvers\EndpointResolver;
+use Corp104\Rester\Resolvers\PathResolver;
 use Tests\TestCase;
 
 class MappingTest extends TestCase

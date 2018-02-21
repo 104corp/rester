@@ -1,7 +1,8 @@
 <?php
 
-namespace Corp104\Rester\Api;
+namespace Corp104\Rester\Resolvers;
 
+use Corp104\Rester\Api\Endpoint;
 use Corp104\Rester\Resolver;
 
 /**
