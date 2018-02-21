@@ -37,6 +37,7 @@ echo (string)$response->getBody();
 
 * [ResterClient](rester-client.md)
 * [ResterCollection](rester-collection.md)
+* [Api](api.md)
 * [Plugins](plugins.md)
 * [Hooks](hooks.md)
 * [Asynchronous](asynchronous.md)

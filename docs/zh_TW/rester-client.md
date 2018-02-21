@@ -83,3 +83,26 @@ $resterClient->foo();
 // POST https://www.some-url.com/bar
 $resterClient->bar();
 ```
+
+## Lazy Loading
+
+Mapping 實作了延遲載入。實際範例如下：
+
+```php
+$pathResolver = new PathResolver();
+$endpointResolver = new EndpointResolver();
+
+$resterClient = new ResterClient('http://127.0.0.1');
+$resterClient->provisionMapping([
+    'getFoo' => [$pathResolver, ['GET', '/foo']],
+    'postFoo' => [$pathResolver, ['POST', '/foo']],
+    'putFoo' => [$pathResolver, ['PUT', '/foo']],
+    'deleteFoo' => [$pathResolver, ['DELETE', '/foo']],
+    'getBar' => [$endpointResolver, ['GET', 'https://www.some-url.com/bar'],
+    'postBar' => [$endpointResolver, ['POST', 'https://www.some-url.com/bar'],
+    'putBar' => [$endpointResolver, ['PUT', 'https://www.some-url.com/bar'],
+    'deleteBar' => [$endpointResolver, ['DELETE', 'https://www.some-url.com/bar'],
+]);
+```
+
+延遲載入的細節可以參考 [Api](api.md) 文件。
