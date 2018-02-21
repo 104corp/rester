@@ -14,16 +14,15 @@ class PathTest extends TestCase
     public function shouldSendCorrectRequestWhenUsingPathRequest($method)
     {
         $baseUrl = 'http://127.0.0.1';
-        $exceptedUrl = $baseUrl . '/foo';
+        $binding = ['bar' => 'some'];
 
-        $target = new Path($method, '/foo');
+        $target = new Path($method, '/foo/{bar}');
         $target->setBaseUrl($baseUrl);
 
-        $actual = $target->createRequest([], ['q' => 'some']);
+        $actual = $target->createRequest($binding, ['q' => 'some']);
 
-        $this->assertEquals($method, $actual->getMethod());
-        $this->assertContains($exceptedUrl, (string)$actual->getUri());
-        $this->assertContains('q=some', (string)$actual->getUri());
+        $this->assertSame($method, $actual->getMethod());
+        $this->assertSame('http://127.0.0.1/foo/some?q=some', (string)$actual->getUri());
     }
 
     public function availableMethod(): array
