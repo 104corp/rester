@@ -13,4 +13,9 @@
     <!-- Paths and file to check -->
     <file>src</file>
     <file>tests</file>
+
+    <!-- Ignore files -->
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <exclude-pattern>tests/Fixture/Server/public/index.php</exclude-pattern>
+    </rule>
 </ruleset>

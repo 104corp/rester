@@ -6,7 +6,9 @@ use Corp104\Rester\Api\Endpoint;
 use Corp104\Rester\Api\Path;
 use Corp104\Rester\ResterClient;
 use Corp104\Rester\ResterRequest;
+use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use Tests\Fixture\Server\Server;
 
 /**
  * @method Response getFoo(array|ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
@@ -22,7 +24,7 @@ class TestResterClient extends ResterClient
 {
     public function __construct()
     {
-        parent::__construct('http://127.0.0.1');
+        parent::__construct(Server::$baseUrl);
 
         $this->provisionMapping([
             'getFoo' => new Path('GET', '/foo'),
@@ -33,6 +35,8 @@ class TestResterClient extends ResterClient
             'postEndpoint' => new Endpoint('POST', '/foo'),
             'putEndpoint' => new Endpoint('PUT', '/foo'),
             'deleteEndpoint' => new Endpoint('DELETE', '/foo'),
-        ], 'http://127.0.0.1');
+        ], Server::$baseUrl);
+
+        $this->setHttpClient(new Client($this->httpOptions));
     }
 }
