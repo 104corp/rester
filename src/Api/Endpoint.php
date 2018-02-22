@@ -17,26 +17,27 @@ class Endpoint extends Api
         array $queryParams = [],
         array $parsedBody = []
     ): RequestInterface {
-        $method = $this->getMethod();
         $headers = $this->getHeaders();
         $body = null;
 
         $uri = $this->bindUri($binding);
 
-        if (!empty($queryParams)) {
-            $uri = $uri . '?' . static::buildQueryString($queryParams);
-        }
-
         $uri = new Uri($uri);
+        $uri = $uri->withQuery(static::buildQueryString($queryParams));
 
         if (!empty($parsedBody)) {
             // TODO: JSON only now, but it is not good
-            $body = \GuzzleHttp\json_encode($parsedBody);
-
             $headers['Content-type'] = 'application/json; charset=UTF-8';
             $headers['Expect'] = '100-continue';
+
+            $body = \GuzzleHttp\json_encode($parsedBody);
         }
 
-        return new Request($method, $uri, $headers, $body);
+        return new Request(
+            $this->getMethod(),
+            $uri,
+            $headers,
+            $body
+        );
     }
 }
