@@ -14,7 +14,7 @@
 
 ### Binding
 
-這個是指 path 中的變數，假如有個 API 是長這樣 `GET /users/{id}` ，而 `Binding` 的目的是把 `id` 替換成開發者想要的字串或內容。實際的範例程式碼如下：
+這個是指 path 中的變數，假如有個 API 是長這樣 `GET http://127.0.0.1/foo/{bar}/{baz}` ，而 `Binding` 可以把 `{bar}` 和 `{baz}` 替換成開發者想要的字串或內容。實際的範例程式碼如下：
 
 ```php
 // API 定義為 GET http://127.0.0.1/foo/{bar}/{baz}
@@ -35,7 +35,7 @@ $resterClient->foo([
     'str4',
 ]);
 
-// 如果沒有取代完全會丟 InvalidArgumentException
+// 如果沒有全部綁定的話，會丟 InvalidArgumentException
 // $resterClient->foo();
 ```
 

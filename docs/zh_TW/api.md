@@ -22,7 +22,7 @@ public function createRequest(
 * `QueryParams` 、 `Header` 等有固定傳入值，如 `QueryParams` 想加入自定義的呼叫來源： `CallBy=MyClient`
 * 自定義的包裝格式，如 XML / YAML / 自定義的 JSON 包裝等
 
-如果自定義的 Api 需要使用延遲載入的話，則需要實作 Resolver 。
+如果自定義的 Api 需要使用延遲載入的話，則需要實作 Resolver 或使用 Closure 。
 
 ## Concept of Resolver 
 
@@ -36,4 +36,4 @@ $parameters = $api[1];
 $apiInstance = call_user_func_array($callable, $parameters);
 ```
 
-也因此 Resolve 不會把 `resolve` 定義成抽象，因為 Api 可以自定義， parameter 就有可能不是固定的，並且它還可以透過 PHP 7 的型別檢查來確保傳入值是正確的。
+也因此 Resolve 不會把 `resolve` 定義成抽象，因為 Api 可以自定義， parameter 就有可能不是固定的，並且它可透過 PHP 7 的型別檢查來確保傳入值是正確的。
