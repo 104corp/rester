@@ -106,3 +106,17 @@ $resterClient->provisionMapping([
 ```
 
 延遲載入的細節可以參考 [Api](api.md) 文件。
+
+## Options
+
+`ResterClient` 在建構的時候可以帶入 Guzzle options ，如果有需要加 Header ，可以在建構的時候傳入。比方說，帶入 OAuth2 Token ：
+
+```php
+$options = [
+    RequestOptions::HEADERS => [
+        'Authorization' => $token,
+    ],
+];
+
+$resterClient = new ResterClient('http://127.0.0.1', $options);
+```

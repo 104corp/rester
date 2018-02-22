@@ -7,6 +7,7 @@ use Corp104\Rester\Plugins\ResterMagicTrait;
 use Corp104\Rester\Support\BaseUrlAwareInterface;
 use Corp104\Rester\Support\MappingAwareInterface;
 use Corp104\Support\HttpClientAwareInterface;
+use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 
 /**
@@ -37,7 +38,8 @@ class ResterClient implements
     public function __construct($baseUrl = null, array $httpOptions = [])
     {
         $this->setBaseUrl($baseUrl);
-
         $this->httpOptions = array_merge(static::DEFAULT_HTTP_OPTIONS, $httpOptions);
+
+        $this->setHttpClient(new Client($this->httpOptions));
     }
 }
