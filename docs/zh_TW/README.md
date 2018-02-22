@@ -40,4 +40,5 @@ echo (string)$response->getBody();
 * [Api](api.md)
 * [Plugins](plugins.md)
 * [Hooks](hooks.md)
+* [Error Handler](error-handler.md)
 * [Asynchronous](asynchronous.md)
