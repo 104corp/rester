@@ -2,7 +2,6 @@
 
 namespace Corp104\Rester\Api;
 
-use Corp104\Rester\Exceptions\InvalidArgumentException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;

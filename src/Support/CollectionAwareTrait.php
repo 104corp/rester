@@ -4,7 +4,6 @@ namespace Corp104\Rester\Support;
 
 use Corp104\Rester\Collection;
 use Corp104\Rester\Exceptions;
-use Corp104\Rester\ResterClientInterface;
 use Corp104\Rester\ResterInterface;
 
 /**

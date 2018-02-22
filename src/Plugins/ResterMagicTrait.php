@@ -2,16 +2,9 @@
 
 namespace Corp104\Rester\Plugins;
 
-use Corp104\Rester\Api\ApiInterface;
-use Corp104\Rester\Support\BaseUrlAwareTrait;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\ResterRequest;
-use Corp104\Support\HttpClientAwareTrait;
 use Exception;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Promise\PromiseInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * The Trait implement magic function __call()
