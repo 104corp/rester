@@ -8,6 +8,7 @@ use Corp104\Rester\Exceptions\OperationDeniedException;
 use Corp104\Rester\ResterClient;
 use Corp104\Rester\ResterClientInterface;
 use Corp104\Rester\ResterCollection;
+use Corp104\Rester\ResterMix;
 use Tests\Fixture\TestResterCollection;
 use Tests\TestCase;
 
@@ -118,7 +119,7 @@ class ResterCollectionTest extends TestCase
      */
     public function shouldBeOkayWhenSetNestResterCollection()
     {
-        $excepted = new ResterCollection();
+        $excepted = new ResterMix();
         $excepted2 = new ResterCollection();
 
         $this->target->nestCollection = $excepted;

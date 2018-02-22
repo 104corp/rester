@@ -32,7 +32,7 @@ class ResterClient implements
     ];
 
     /**
-     * @param string $baseUrl
+     * @param string|null $baseUrl
      * @param array $httpOptions
      */
     public function __construct($baseUrl = null, array $httpOptions = [])
