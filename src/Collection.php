@@ -10,12 +10,12 @@ use Corp104\Rester\Exceptions\CollectionNotFoundException;
 class Collection
 {
     /**
-     * @var ResterClientInterface[]
+     * @var ResterInterface[]
      */
     protected $mapping = [];
 
     /**
-     * @param ResterClientInterface[] $mapping
+     * @param ResterInterface[] $mapping
      */
     public function __construct(array $mapping = [])
     {
@@ -33,10 +33,10 @@ class Collection
 
     /**
      * @param string $name
-     * @return ResterClientInterface
+     * @return ResterInterface
      * @throws CollectionNotFoundException
      */
-    public function get(string $name): ResterClientInterface
+    public function get(string $name): ResterInterface
     {
         return $this->resolve($name);
     }
@@ -44,7 +44,7 @@ class Collection
     /**
      * Initial collection object
      *
-     * @param ResterClientInterface[] $mapping
+     * @param ResterInterface[] $mapping
      */
     public function init(array $mapping)
     {
@@ -55,19 +55,19 @@ class Collection
 
     /**
      * @param string $name
-     * @param ResterClientInterface $client
+     * @param ResterInterface $client
      */
-    public function set(string $name, ResterClientInterface $client)
+    public function set(string $name, ResterInterface $client)
     {
         $this->mapping[$name] = $client;
     }
 
     /**
      * @param string $name
-     * @return ResterClientInterface
+     * @return ResterInterface
      * @throws CollectionNotFoundException
      */
-    protected function resolve(string $name): ResterClientInterface
+    protected function resolve(string $name): ResterInterface
     {
         if (!isset($this->mapping[$name])) {
             throw new CollectionNotFoundException("Collection '{$name}' is not found");

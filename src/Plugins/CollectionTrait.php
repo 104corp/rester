@@ -2,10 +2,10 @@
 
 namespace Corp104\Rester\Plugins;
 
-use Corp104\Rester\Support\CollectionAwareTrait;
-use Corp104\Rester\Exceptions\OperationDeniedException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\ResterClientInterface;
+use Corp104\Rester\Exceptions\OperationDeniedException;
+use Corp104\Rester\ResterInterface;
+use Corp104\Rester\Support\CollectionAwareTrait;
 
 /**
  * Collection Trait which implement magic method
@@ -21,7 +21,7 @@ trait CollectionTrait
 
     public function __set($name, $value)
     {
-        if (!$value instanceof ResterClientInterface) {
+        if (!$value instanceof ResterInterface) {
             $type = \gettype($value);
 
             if ('object' === $type) {

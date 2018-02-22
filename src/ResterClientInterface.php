@@ -5,7 +5,7 @@ namespace Corp104\Rester;
 /**
  * ResterClient base Interface
  */
-interface ResterClientInterface
+interface ResterClientInterface extends ResterInterface
 {
     /**
      * Call api asynchronous

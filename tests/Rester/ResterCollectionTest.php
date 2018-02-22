@@ -5,7 +5,9 @@ namespace Tests\Rester;
 use Corp104\Rester\Exceptions\CollectionNotFoundException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Exceptions\OperationDeniedException;
+use Corp104\Rester\ResterClient;
 use Corp104\Rester\ResterClientInterface;
+use Corp104\Rester\ResterCollection;
 use Tests\Fixture\TestResterCollection;
 use Tests\TestCase;
 
@@ -109,5 +111,20 @@ class ResterCollectionTest extends TestCase
         $this->expectException(OperationDeniedException::class);
 
         unset($this->target->tester);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeOkayWhenSetNestResterCollection()
+    {
+        $excepted = new ResterCollection();
+        $excepted2 = new ResterCollection();
+
+        $this->target->nestCollection = $excepted;
+        $this->target->nestCollection->nestCollection2 = $excepted2;
+
+        $this->assertSame($excepted, $this->target->nestCollection);
+        $this->assertSame($excepted2, $this->target->nestCollection->nestCollection2);
     }
 }

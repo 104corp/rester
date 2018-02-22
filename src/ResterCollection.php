@@ -9,7 +9,15 @@ use Corp104\Rester\Support\CollectionAwareInterface;
 /**
  * Collection base Class
  */
-class ResterCollection implements CollectionAwareInterface
+class ResterCollection implements CollectionAwareInterface, ResterInterface
 {
     use CollectionTrait;
+
+    /**
+     * @param array $provisionCollection
+     */
+    public function __construct(array $provisionCollection = [])
+    {
+        $this->collection = new Collection($provisionCollection);
+    }
 }
