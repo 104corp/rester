@@ -36,4 +36,4 @@ $parameters = $api[1];
 $apiInstance = call_user_func_array($callable, $parameters);
 ```
 
-也因此 Resolve 不會把 `resolve` 定義成抽象，因為 Api 可以自定義， parameter 就有可能不是固定的，並且它可透過 PHP 7 的型別檢查來確保傳入值是正確的。
+也因此 Resolve 不會把 `resolve` 定義成抽象，因為 Api 可以自定義， parameter 可能不是固定的，它還能透過 PHP 7 的型別檢查來確保傳入值是正確的。

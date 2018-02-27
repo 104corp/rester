@@ -10,11 +10,11 @@
 * QueryString
 * ParsedBody
 
-這三種參數的預設值都是空 array 。
+這三個參數的預設值都是空陣列。
 
 ### Binding
 
-這個是指 path 中的變數，假如有個 API 是長這樣 `GET http://127.0.0.1/foo/{bar}/{baz}` ，而 `Binding` 可以把 `{bar}` 和 `{baz}` 替換成開發者想要的字串或內容。實際的範例程式碼如下：
+假如有個 API 是長這樣 `GET http://127.0.0.1/foo/{bar}/{baz}` ， `Binding` 可以把 `{bar}` 和 `{baz}` 替換成開發者想要的字串或內容。實際的範例程式碼如下：
 
 ```php
 // API 定義為 GET http://127.0.0.1/foo/{bar}/{baz}
@@ -41,7 +41,7 @@ $resterClient->foo([
 
 ### QueryString
 
-QueryString 在第二個參數帶入，如：
+QueryString 是第二個參數，如：
 
 ```php
 // GET http://127.0.0.1/?some=value
@@ -60,7 +60,7 @@ $data = [
 $resterClient->foo([], [], $data);
 ```
 
-> 目前包裝只使用 JSON ，未來會改成可調的。
+> 目前包裝只使用 JSON ，未來會改成可調整的。
 
 ## Mapping
 

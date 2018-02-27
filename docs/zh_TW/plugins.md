@@ -1,6 +1,6 @@
 # Plugins
 
-RESTer 提供數種 trait ，可提供給開發者方便自定義 client 。
+RESTer 提供數種 trait ，提供給開發者方便自定義 client 。
 
 ## Traits
 
@@ -72,7 +72,7 @@ class MyClient implements
 
 ### 自定義 __call()
 
-假設我們想自定義 Magic Method 要如何呼叫 `__call()` ，呼叫的方法如下：
+假設我們想自定義 Magic Method `__call()` ，規則如下：
 
 * 原本的 `__call()` 可以傳入三個參數，但我們想改成傳一個
 * 當 API 方法是 GET / DELETE 時，參數會傳到 `$binding`
@@ -123,10 +123,9 @@ class MyClient implements
 }
 ```
 
-
 ### Client + Collection 組合技之二
 
-如果 Collection 呼叫的 Magic Method 方法想要自定義的話，可以這樣寫：
+如果 Collection 不想掛 Magic Method 的話，可以這樣寫：
 
 ```
 class MyClient implements
