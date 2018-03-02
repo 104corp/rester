@@ -8,6 +8,10 @@
 
 A library for calling REST API.
 
+## Requirements
+
+* PHP version >= 5.5
+
 ## Document
 
 * [繁體中文](/docs/zh_TW/README.md)
