@@ -4,7 +4,6 @@ namespace Corp104\Rester\Api;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\RequestInterface;
 
 /**
  * Endpoint Class

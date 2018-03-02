@@ -5,7 +5,6 @@ namespace Tests\Rester;
 use Corp104\Rester\Exceptions\CollectionNotFoundException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Exceptions\OperationDeniedException;
-use Corp104\Rester\ResterClient;
 use Corp104\Rester\ResterClientInterface;
 use Corp104\Rester\ResterCollection;
 use Corp104\Rester\ResterMix;

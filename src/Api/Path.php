@@ -7,7 +7,6 @@ use Corp104\Rester\Support\BaseUrlAwareInterface;
 use Corp104\Rester\Support\BaseUrlAwareTrait;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\RequestInterface;
 
 /**
  * Api Class
