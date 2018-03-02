@@ -20,7 +20,7 @@ trait CollectionAwareTrait
      * @param string $name
      * @return bool
      */
-    public function hasCollection(string $name): bool
+    public function hasCollection($name)
     {
         return $this->collection->has($name);
     }
@@ -30,7 +30,7 @@ trait CollectionAwareTrait
      * @return ResterInterface
      * @throws Exceptions\CollectionNotFoundException
      */
-    public function getCollection(string $name): ResterInterface
+    public function getCollection($name)
     {
         return $this->collection->get($name);
     }

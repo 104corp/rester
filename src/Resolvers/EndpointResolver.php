@@ -10,7 +10,7 @@ use Corp104\Rester\Resolver;
  */
 class EndpointResolver extends Resolver
 {
-    public function resolve(string $method, string $uri)
+    public function resolve($method, $uri)
     {
         return new Endpoint($method, $uri);
     }

@@ -11,11 +11,8 @@ use Psr\Http\Message\RequestInterface;
  */
 class Endpoint extends Api
 {
-    public function createRequest(
-        array $binding = [],
-        array $queryParams = [],
-        array $parsedBody = []
-    ): RequestInterface {
+    public function createRequest(array $binding = [], array $queryParams = [], array $parsedBody = [])
+    {
         $headers = $this->getHeaders();
         $body = null;
 

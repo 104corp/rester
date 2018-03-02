@@ -32,11 +32,8 @@ class Path extends Api implements BaseUrlAwareInterface
         parent::__construct($method, $path);
     }
 
-    public function createRequest(
-        array $binding = [],
-        array $queryParams = [],
-        array $parsedBody = []
-    ): RequestInterface {
+    public function createRequest(array $binding = [], array $queryParams = [], array $parsedBody = [])
+    {
         $headers = $this->getHeaders();
         $body = null;
 

@@ -92,7 +92,7 @@ trait ResterClientTrait
      * @param RequestInterface $request
      * @param string $name
      */
-    protected function afterSendRequest(ResponseInterface $response, RequestInterface $request, string $name)
+    protected function afterSendRequest(ResponseInterface $response, RequestInterface $request, $name)
     {
     }
 
@@ -103,7 +103,7 @@ trait ResterClientTrait
      * @param RequestInterface $request
      * @param string $name
      */
-    protected function afterSendRequestAsync(PromiseInterface $promise, RequestInterface $request, string $name)
+    protected function afterSendRequestAsync(PromiseInterface $promise, RequestInterface $request, $name)
     {
     }
 
@@ -113,7 +113,7 @@ trait ResterClientTrait
      * @param RequestInterface $request
      * @param string $name
      */
-    protected function beforeSendRequest(RequestInterface $request, string $name)
+    protected function beforeSendRequest(RequestInterface $request, $name)
     {
     }
 
@@ -124,7 +124,7 @@ trait ResterClientTrait
      * @param string $name
      * @return null|Exception
      */
-    protected function handleException(RequestException $exception, string $name): Exception
+    protected function handleException(RequestException $exception, $name)
     {
         return $exception;
     }
@@ -135,7 +135,7 @@ trait ResterClientTrait
      * @param ApiInterface $api
      * @return bool
      */
-    protected function isAsynchronousCall(ApiInterface $api):bool
+    protected function isAsynchronousCall(ApiInterface $api)
     {
         // If 'ResterClient' is asynchronous, return true
         return method_exists($this, 'isAsynchronous') && true === $this->isAsynchronous();
@@ -148,7 +148,7 @@ trait ResterClientTrait
      * @param string $name
      * @return mixed
      */
-    protected function transformPromise(PromiseInterface $promise, string $name)
+    protected function transformPromise(PromiseInterface $promise, $name)
     {
         return $promise;
     }
@@ -160,7 +160,7 @@ trait ResterClientTrait
      * @param string $name
      * @return mixed
      */
-    protected function transformResponse(ResponseInterface $response, string $name)
+    protected function transformResponse(ResponseInterface $response, $name)
     {
         return $response;
     }

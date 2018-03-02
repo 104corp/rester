@@ -14,7 +14,7 @@ trait MappingAwareTrait
      */
     protected $mapping;
 
-    public function hasApi($name): bool
+    public function hasApi($name)
     {
         return $this->mapping->has($name);
     }
@@ -22,7 +22,7 @@ trait MappingAwareTrait
     /**
      * @return Mapping
      */
-    public function getMapping(): Mapping
+    public function getMapping()
     {
         return $this->mapping;
     }

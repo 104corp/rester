@@ -13,7 +13,7 @@ class ApiTest extends TestCase
      */
     public function shouldThrowInvalidArgumentExceptionWhenPassUnknownHttpMethod()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         $this->getMockForAbstractClass(
             Api::class,
@@ -117,7 +117,7 @@ class ApiTest extends TestCase
      */
     public function shouldThrowExceptionWhenSequenceArrayAndBindingCountIsNotMatch()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
@@ -133,7 +133,7 @@ class ApiTest extends TestCase
      */
     public function shouldThrowExceptionWhenBindingNotComplete()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
@@ -149,7 +149,7 @@ class ApiTest extends TestCase
      */
     public function shouldThrowExceptionWhenBindingNotCompleteWithEmptyBinding()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(

@@ -25,7 +25,7 @@ class PathTest extends TestCase
         $this->assertSame('http://127.0.0.1/foo/some?q=some', (string)$actual->getUri());
     }
 
-    public function availableMethod(): array
+    public function availableMethod()
     {
         return [
             ['GET'],

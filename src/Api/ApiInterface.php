@@ -15,9 +15,5 @@ interface ApiInterface
      * @param array $parsedBody
      * @return RequestInterface
      */
-    public function createRequest(
-        array $binding = [],
-        array $queryParams = [],
-        array $parsedBody = []
-    ): RequestInterface;
+    public function createRequest(array $binding = [], array $queryParams = [], array $parsedBody = []);
 }

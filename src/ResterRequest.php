@@ -28,7 +28,7 @@ class ResterRequest
      * @param array $parsedBody
      * @return ResterRequest
      */
-    public static function create(array $binding = [], array $queryParams = [], array $parsedBody = []): ResterRequest
+    public static function create(array $binding = [], array $queryParams = [], array $parsedBody = [])
     {
         return new static($binding, $queryParams, $parsedBody);
     }
@@ -37,7 +37,7 @@ class ResterRequest
      * @param array $binding
      * @return ResterRequest
      */
-    public static function createFromBinding(array $binding): ResterRequest
+    public static function createFromBinding(array $binding)
     {
         return new static($binding, [], []);
     }
@@ -46,7 +46,7 @@ class ResterRequest
      * @param array $parsedBody
      * @return ResterRequest
      */
-    public static function createFromParsedBody(array $parsedBody): ResterRequest
+    public static function createFromParsedBody(array $parsedBody)
     {
         return new static([], [], $parsedBody);
     }
@@ -55,7 +55,7 @@ class ResterRequest
      * @param array $queryParams
      * @return ResterRequest
      */
-    public static function createFromQueryParams(array $queryParams): ResterRequest
+    public static function createFromQueryParams(array $queryParams)
     {
         return new static([], $queryParams, []);
     }
@@ -75,7 +75,7 @@ class ResterRequest
     /**
      * @return array
      */
-    public function getBinding(): array
+    public function getBinding()
     {
         return $this->binding;
     }
@@ -83,7 +83,7 @@ class ResterRequest
     /**
      * @return array
      */
-    public function getParsedBody(): array
+    public function getParsedBody()
     {
         return $this->parsedBody;
     }
@@ -91,7 +91,7 @@ class ResterRequest
     /**
      * @return array
      */
-    public function getQueryParams(): array
+    public function getQueryParams()
     {
         return $this->queryParams;
     }

@@ -23,22 +23,17 @@ class ResterClient implements
     use ResterMagicTrait;
 
     /**
-     * @var array
-     */
-    const DEFAULT_HTTP_OPTIONS = [
-        RequestOptions::CONNECT_TIMEOUT => 3,
-        RequestOptions::HEADERS => [],
-        RequestOptions::TIMEOUT => 5,
-    ];
-
-    /**
      * @param string|null $baseUrl
      * @param array $httpOptions
      */
     public function __construct($baseUrl = null, array $httpOptions = [])
     {
         $this->setBaseUrl($baseUrl);
-        $this->httpOptions = array_merge(static::DEFAULT_HTTP_OPTIONS, $httpOptions);
+        $this->httpOptions = array_merge([
+            RequestOptions::CONNECT_TIMEOUT => 3,
+            RequestOptions::HEADERS => [],
+            RequestOptions::TIMEOUT => 5,
+        ], $httpOptions);
 
         $this->setHttpClient(new Client($this->httpOptions));
     }

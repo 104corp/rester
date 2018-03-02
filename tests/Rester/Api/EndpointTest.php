@@ -13,7 +13,7 @@ class EndpointTest extends TestCase
      */
     public function shouldThrowInvalidArgumentExceptionWhenPassUnknownHttpMethod()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         new Endpoint('Unknown', 'http://localhost/some-url');
     }
@@ -61,7 +61,7 @@ class EndpointTest extends TestCase
         $this->assertSame('http://127.0.0.1/foo/some?q=some', (string)$actual->getUri());
     }
 
-    public function availableMethod(): array
+    public function availableMethod()
     {
         return [
             ['GET'],

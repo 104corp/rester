@@ -10,7 +10,6 @@ use Corp104\Rester\ResterClient;
 use Corp104\Rester\ResterRequest;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
-use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
@@ -46,7 +45,7 @@ class ResterClientBasicTest extends TestCase
      */
     public function shouldThrowInvalidArgumentExceptionWhenFirstParamsIsNotArray()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         $this->target->getFoo('NotArray');
     }
@@ -56,7 +55,7 @@ class ResterClientBasicTest extends TestCase
      */
     public function shouldThrowInvalidArgumentExceptionWhenSecondParamsIsNotArray()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         $this->target->getFoo([], 'NotArray');
     }
@@ -66,7 +65,7 @@ class ResterClientBasicTest extends TestCase
      */
     public function shouldThrowInvalidArgumentExceptionWhenThirdParamsIsNotArray()
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         $this->target->getFoo([], [], 'NotArray');
     }
@@ -80,7 +79,7 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(401), $history);
         $this->target->setHttpClient($httpClient);
-        $this->expectException(ClientException::class);
+        $this->setExpectedException(ClientException::class);
 
         $this->target->getFoo();
     }
@@ -94,7 +93,7 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(404), $history);
         $this->target->setHttpClient($httpClient);
-        $this->expectException(ClientException::class);
+        $this->setExpectedException(ClientException::class);
 
         $this->target->getFoo();
     }
@@ -108,7 +107,7 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(405), $history);
         $this->target->setHttpClient($httpClient);
-        $this->expectException(ClientException::class);
+        $this->setExpectedException(ClientException::class);
 
         $this->target->postFoo();
     }
@@ -122,7 +121,7 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(500), $history);
         $this->target->setHttpClient($httpClient);
-        $this->expectException(ServerException::class);
+        $this->setExpectedException(ServerException::class);
 
         $this->target->getFoo();
     }

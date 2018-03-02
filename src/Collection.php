@@ -26,7 +26,7 @@ class Collection
      * @param string $name
      * @return bool
      */
-    public function has(string $name): bool
+    public function has($name)
     {
         return array_key_exists($name, $this->mapping);
     }
@@ -36,7 +36,7 @@ class Collection
      * @return ResterInterface
      * @throws CollectionNotFoundException
      */
-    public function get(string $name): ResterInterface
+    public function get($name)
     {
         return $this->resolve($name);
     }
@@ -57,7 +57,7 @@ class Collection
      * @param string $name
      * @param ResterInterface $client
      */
-    public function set(string $name, ResterInterface $client)
+    public function set($name, ResterInterface $client)
     {
         $this->mapping[$name] = $client;
     }
@@ -67,7 +67,7 @@ class Collection
      * @return ResterInterface
      * @throws CollectionNotFoundException
      */
-    protected function resolve(string $name): ResterInterface
+    protected function resolve($name)
     {
         if (!isset($this->mapping[$name])) {
             throw new CollectionNotFoundException("Collection '{$name}' is not found");
