@@ -64,7 +64,7 @@ class MappingTest extends TestCase
      */
     public function shouldThrowInvalidApiExceptionWhenApiNotFound()
     {
-        $this->expectException(ApiNotFoundException::class);
+        $this->setExpectedException(ApiNotFoundException::class);
 
         $this->target->get('UnknownApi');
     }
@@ -165,7 +165,7 @@ class MappingTest extends TestCase
      */
     public function shouldThrowExceptionWhenSetInvalidSetting($invalidSetting)
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->setExpectedException(InvalidArgumentException::class);
 
         $this->target->set('whatever', $invalidSetting);
     }

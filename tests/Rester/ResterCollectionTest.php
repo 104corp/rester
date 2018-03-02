@@ -5,7 +5,6 @@ namespace Tests\Rester;
 use Corp104\Rester\Exceptions\CollectionNotFoundException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Exceptions\OperationDeniedException;
-use Corp104\Rester\ResterClient;
 use Corp104\Rester\ResterClientInterface;
 use Corp104\Rester\ResterCollection;
 use Corp104\Rester\ResterMix;
@@ -64,7 +63,7 @@ class ResterCollectionTest extends TestCase
      */
     public function shouldThrowExceptionWhenCallGetCollectionWithCollectionIsNotExist()
     {
-        $this->expectException(CollectionNotFoundException::class);
+        $this->setExpectedException(CollectionNotFoundException::class);
 
         $this->target->getCollection('unknown');
     }
@@ -74,7 +73,7 @@ class ResterCollectionTest extends TestCase
      */
     public function shouldThrowExceptionWhenUsingMagicMethodWithCollectionIsNotExist()
     {
-        $this->expectException(CollectionNotFoundException::class);
+        $this->setExpectedException(CollectionNotFoundException::class);
 
         $this->target->unknown;
     }
@@ -84,7 +83,8 @@ class ResterCollectionTest extends TestCase
      */
     public function shouldBeOkayWhenSetResterClientProperty()
     {
-        $resterClientMock = $this->createMock(ResterClientInterface::class);
+        $resterClientMock = $this->getMockBuilder(ResterClientInterface::class)
+            ->getMock();
 
         $this->target->newOne = $resterClientMock;
 
@@ -98,8 +98,10 @@ class ResterCollectionTest extends TestCase
      */
     public function shouldThrowExceptionWhenSetNotResterClientProperty()
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Given is ' . \stdClass::class);
+        $this->setExpectedException(
+            InvalidArgumentException::class,
+            'Given is ' . \stdClass::class
+        );
 
         $this->target->unknown = new \stdClass();
     }
@@ -109,7 +111,7 @@ class ResterCollectionTest extends TestCase
      */
     public function shouldThrowExceptionWhenUnsetCollectionProperty()
     {
-        $this->expectException(OperationDeniedException::class);
+        $this->setExpectedException(OperationDeniedException::class);
 
         unset($this->target->tester);
     }

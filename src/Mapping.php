@@ -31,7 +31,7 @@ class Mapping implements BaseUrlAwareInterface
     /**
      * @return array
      */
-    public function all(): array
+    public function all()
     {
         return $this->list;
     }
@@ -40,7 +40,7 @@ class Mapping implements BaseUrlAwareInterface
      * @param string $name
      * @return bool
      */
-    public function has(string $name): bool
+    public function has($name)
     {
         return array_key_exists($name, $this->list);
     }
@@ -50,7 +50,7 @@ class Mapping implements BaseUrlAwareInterface
      * @return ApiInterface
      * @throws ApiNotFoundException
      */
-    public function get($name): ApiInterface
+    public function get($name)
     {
         $api = $this->resolve($name);
 
@@ -140,7 +140,7 @@ class Mapping implements BaseUrlAwareInterface
      * @return ApiInterface
      * @throws ApiNotFoundException
      */
-    protected function resolve($name): ApiInterface
+    protected function resolve($name)
     {
         if (!isset($this->list[$name])) {
             throw new ApiNotFoundException("Invalid API: {$name}");
@@ -158,7 +158,7 @@ class Mapping implements BaseUrlAwareInterface
      * @return ApiInterface
      * @throws ApiNotFoundException
      */
-    protected function resolveBySetting($name): ApiInterface
+    protected function resolveBySetting($name)
     {
         $setting = $this->list[$name];
         $callable = $setting[0];

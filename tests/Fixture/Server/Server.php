@@ -14,7 +14,7 @@ class Server
 
     public static function start()
     {
-        $port = env('TEST_SERVER_PORT', 8888);
+        $port = getenv('TEST_SERVER_PORT') ?: 8888;
 
         static::$baseUrl = "http://localhost:{$port}";
 

@@ -15,7 +15,7 @@ trait HeaderAwareTrait
     /**
      * @return array
      */
-    public function getHeaders(): array
+    public function getHeaders()
     {
         return $this->headers;
     }

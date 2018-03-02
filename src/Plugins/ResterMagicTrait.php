@@ -19,7 +19,7 @@ trait ResterMagicTrait
      */
     public function __call($method, $args)
     {
-        $binding = $args[0] ?? [];
+        $binding = isset($args[0]) ? $args[0] : [];
 
         // Call directly when first parameter is instance of ResterRequest
         if ($binding instanceof ResterRequest) {
@@ -30,13 +30,13 @@ trait ResterMagicTrait
             throw new InvalidArgumentException('$binding must be an array');
         }
 
-        $queryParams = $args[1] ?? [];
+        $queryParams = isset($args[1]) ? $args[1] : [];
 
         if (!\is_array($queryParams)) {
             throw new InvalidArgumentException('$query must be an array');
         }
 
-        $parsedBody = $args[2] ?? [];
+        $parsedBody = isset($args[2]) ? $args[2] : [];
 
         if (!\is_array($parsedBody)) {
             throw new InvalidArgumentException('$params must be an array');
@@ -51,7 +51,7 @@ trait ResterMagicTrait
      * @return mixed
      * @throws Exception
      */
-    protected function callByResterRequest(string $name, ResterRequest $resterRequest)
+    protected function callByResterRequest($name, ResterRequest $resterRequest)
     {
         $binding = $resterRequest->getBinding();
         $queryParams = $resterRequest->getQueryParams();

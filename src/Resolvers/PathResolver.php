@@ -10,7 +10,7 @@ use Corp104\Rester\Resolver;
  */
 class PathResolver extends Resolver
 {
-    public function resolve(string $method, string $path)
+    public function resolve($method, $path)
     {
         return new Path($method, $path);
     }

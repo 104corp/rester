@@ -16,7 +16,7 @@ abstract class Api implements ApiInterface
      * @var array
      * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
      */
-    const VALID_METHOD = [
+    protected static $VALID_METHOD = [
         'GET',
         'HEAD',
         'POST',
@@ -44,7 +44,7 @@ abstract class Api implements ApiInterface
      * @return array
      * @throws InvalidArgumentException
      */
-    public static function buildBindingBySequence(array $bindingKeys, array $bindingValue): array
+    public static function buildBindingBySequence(array $bindingKeys, array $bindingValue)
     {
         if (count($bindingKeys) !== count($bindingValue)) {
             throw new InvalidArgumentException('Binding and key count is not same');
@@ -57,7 +57,7 @@ abstract class Api implements ApiInterface
      * @param array $queryParams
      * @return string
      */
-    public static function buildQueryString(array $queryParams): string
+    public static function buildQueryString(array $queryParams)
     {
         return http_build_query($queryParams, null, '&', PHP_QUERY_RFC3986);
     }
@@ -68,7 +68,7 @@ abstract class Api implements ApiInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public static function create(string $method, string $uri)
+    public static function create($method, $uri)
     {
         return new static($method, $uri);
     }
@@ -77,7 +77,7 @@ abstract class Api implements ApiInterface
      * @param array $binding
      * @return bool
      */
-    protected static function guessArrayIsSequence(array $binding): bool
+    protected static function guessArrayIsSequence(array $binding)
     {
         if (empty($binding)) {
             return false;
@@ -93,11 +93,11 @@ abstract class Api implements ApiInterface
      * @param string $uri
      * @throws InvalidArgumentException
      */
-    public function __construct(string $method, string $uri)
+    public function __construct($method, $uri)
     {
         $method = strtoupper($method);
 
-        if (!\in_array($method, static::VALID_METHOD, true)) {
+        if (!\in_array($method, static::$VALID_METHOD, true)) {
             throw new InvalidArgumentException('Invalid HTTP method: ' . $method);
         }
 
@@ -110,7 +110,7 @@ abstract class Api implements ApiInterface
      * @return string
      * @throws InvalidArgumentException
      */
-    public function bindUri(array $binding = []): string
+    public function bindUri(array $binding = [])
     {
         $uri = $this->getUri();
 
@@ -135,7 +135,7 @@ abstract class Api implements ApiInterface
     /**
      * @return string
      */
-    public function getMethod(): string
+    public function getMethod()
     {
         return $this->method;
     }
@@ -144,7 +144,7 @@ abstract class Api implements ApiInterface
      * @param bool $withBinding
      * @return string
      */
-    public function getUri($withBinding = true): string
+    public function getUri($withBinding = true)
     {
         if ($withBinding) {
             return $this->uri;
@@ -156,7 +156,7 @@ abstract class Api implements ApiInterface
     /**
      * @return array
      */
-    public function getUriBindingKeys(): array
+    public function getUriBindingKeys()
     {
         $binding = [];
 
@@ -168,7 +168,7 @@ abstract class Api implements ApiInterface
     /**
      * @return string
      */
-    public function getUriWithoutBinding(): string
+    public function getUriWithoutBinding()
     {
         return $this->getUri(false);
     }

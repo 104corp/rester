@@ -11,14 +11,14 @@ use GuzzleHttp\Psr7\Response;
 use Tests\Fixture\Server\Server;
 
 /**
- * @method Response getFoo(array|ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
- * @method Response postFoo(array|ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
- * @method Response putFoo(array|ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
- * @method Response deleteFoo(array|ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
- * @method Response getEndpoint(array|ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
- * @method Response postEndpoint(array|ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
- * @method Response putEndpoint(array|ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
- * @method Response deleteEndpoint(array|ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response getFoo(array | ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response postFoo(array | ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response putFoo(array | ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response deleteFoo(array | ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response getEndpoint(array | ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response postEndpoint(array | ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response putEndpoint(array | ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
+ * @method Response deleteEndpoint(array | ResterRequest $binding = [], array $queryParams = [], array $parsedBody = [])
  */
 class TestResterClient extends ResterClient
 {

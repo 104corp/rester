@@ -1,41 +1,42 @@
 <?php
 
-use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 require_once __DIR__ . '/../../../../vendor/autoload.php';
 
-$app = new Laravel\Lumen\Application(
-    realpath(__DIR__ . '/../')
-);
-
-config(['app.debug' => true]);
-
-function build_response(ServerRequestInterface $request)
+function build_response(Request $request)
 {
-    return response()->json([
+    return (new Response())->withJson([
         'headers' => $request->getHeaders(),
         'query' => $request->getQueryParams(),
         'json' => $request->getParsedBody(),
     ]);
 }
 
-$app->router->get('/foo', function (ServerRequestInterface $request) {
+$app = new Slim\App([
+    'settings' => [
+        'displayErrorDetails' => true,
+    ],
+]);
+
+$app->get('/foo', function (Request $request) {
     return build_response($request);
 });
 
-$app->router->post('/foo', function (ServerRequestInterface $request) {
+$app->post('/foo', function (Request $request) {
     return build_response($request);
 });
 
-$app->router->put('/foo', function (ServerRequestInterface $request) {
+$app->put('/foo', function (Request $request) {
     return build_response($request);
 });
 
-$app->router->patch('/foo', function (ServerRequestInterface $request) {
+$app->patch('/foo', function (Request $request) {
     return build_response($request);
 });
 
-$app->router->delete('/foo', function (ServerRequestInterface $request) {
+$app->delete('/foo', function (Request $request) {
     return build_response($request);
 });
 

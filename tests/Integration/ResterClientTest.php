@@ -2,13 +2,7 @@
 
 namespace Tests\Integration;
 
-use ArrayObject;
-use Corp104\Rester\ResterClient;
-use Corp104\Rester\ResterRequest;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
-use Tests\Fixture\Server\Server;
 use Tests\Fixture\TestResterClient;
 use Tests\TestCase;
 

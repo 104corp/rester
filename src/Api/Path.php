@@ -7,7 +7,6 @@ use Corp104\Rester\Support\BaseUrlAwareInterface;
 use Corp104\Rester\Support\BaseUrlAwareTrait;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\RequestInterface;
 
 /**
  * Api Class
@@ -32,11 +31,8 @@ class Path extends Api implements BaseUrlAwareInterface
         parent::__construct($method, $path);
     }
 
-    public function createRequest(
-        array $binding = [],
-        array $queryParams = [],
-        array $parsedBody = []
-    ): RequestInterface {
+    public function createRequest(array $binding = [], array $queryParams = [], array $parsedBody = [])
+    {
         $headers = $this->getHeaders();
         $body = null;
 

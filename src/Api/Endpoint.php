@@ -4,18 +4,14 @@ namespace Corp104\Rester\Api;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\RequestInterface;
 
 /**
  * Endpoint Class
  */
 class Endpoint extends Api
 {
-    public function createRequest(
-        array $binding = [],
-        array $queryParams = [],
-        array $parsedBody = []
-    ): RequestInterface {
+    public function createRequest(array $binding = [], array $queryParams = [], array $parsedBody = [])
+    {
         $headers = $this->getHeaders();
         $body = null;
 
