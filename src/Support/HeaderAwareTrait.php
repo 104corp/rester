@@ -26,6 +26,28 @@ trait HeaderAwareTrait
      */
     public function setHeader($key, $value)
     {
+        $this->beforeSetHeader($key, $value);
         $this->headers[$key] = $value;
+        $this->afterSetHeader($key, $value);
+    }
+
+    /**
+     * The hook for set header
+     *
+     * @param string $key
+     * @param string $value
+     */
+    protected function afterSetHeader($key, $value)
+    {
+    }
+
+    /**
+     * The hook for set header
+     *
+     * @param string $key
+     * @param string $value
+     */
+    protected function beforeSetHeader($key, $value)
+    {
     }
 }
