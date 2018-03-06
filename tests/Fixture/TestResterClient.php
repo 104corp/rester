@@ -35,7 +35,7 @@ class TestResterClient extends ResterClient
             'postEndpoint' => new Endpoint('POST', '/foo'),
             'putEndpoint' => new Endpoint('PUT', '/foo'),
             'deleteEndpoint' => new Endpoint('DELETE', '/foo'),
-        ], Server::$baseUrl);
+        ]);
 
         $this->setHttpClient(new Client($this->httpOptions));
     }
