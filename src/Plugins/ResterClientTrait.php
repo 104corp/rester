@@ -86,6 +86,18 @@ trait ResterClientTrait
     }
 
     /**
+     * Set mapping base url
+     *
+     * @param $baseUrl
+     */
+    protected function afterSetBaseUrl($baseUrl)
+    {
+        if (null !== $this->mapping) {
+            $this->mapping->setBaseUrl($baseUrl);
+        }
+    }
+
+    /**
      * Send request hook when after
      *
      * @param ResponseInterface $response

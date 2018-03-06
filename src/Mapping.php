@@ -52,13 +52,7 @@ class Mapping implements BaseUrlAwareInterface
      */
     public function get($name)
     {
-        $api = $this->resolve($name);
-
-        if ($api instanceof BaseUrlAwareInterface) {
-            $api->setBaseUrl($this->baseUrl);
-        }
-
-        return $api;
+        return $this->resolve($name);
     }
 
     /**
@@ -136,6 +130,18 @@ class Mapping implements BaseUrlAwareInterface
     }
 
     /**
+     * Set all API base url
+     *
+     * @param $baseUrl
+     */
+    protected function afterSetBaseUrl($baseUrl)
+    {
+        foreach ($this->list as $api) {
+            $this->transferBaseUrlTo($api, $baseUrl);
+        }
+    }
+
+    /**
      * @param string $name
      * @return ApiInterface
      * @throws ApiNotFoundException
@@ -163,8 +169,25 @@ class Mapping implements BaseUrlAwareInterface
         $setting = $this->list[$name];
         $callable = $setting[0];
 
-        $this->list[$name] = \call_user_func_array($callable, $setting[1]);
+        /** @var ApiInterface $api */
+        $api = \call_user_func_array($callable, $setting[1]);
+
+        $this->list[$name] = $this->transferBaseUrlTo($api, $this->baseUrl);
 
         return $this->list[$name];
+    }
+
+    /**
+     * @param mixed $api
+     * @param string $baseUrl
+     * @return mixed
+     */
+    protected function transferBaseUrlTo($api, $baseUrl)
+    {
+        if ($api instanceof BaseUrlAwareInterface) {
+            $api->setBaseUrl($baseUrl);
+        }
+
+        return $api;
     }
 }

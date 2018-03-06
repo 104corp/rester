@@ -276,4 +276,28 @@ class ResterClientBasicTest extends TestCase
 
         $this->assertSame('from_options', $request->getHeaderLine('test'));
     }
+
+    /**
+     * @test
+     */
+    public function shouldUsingNewBaseUrlWhenSetNewBaseUrl()
+    {
+        $excepted = 'new-base-url';
+
+        $history = new ArrayObject();
+
+        $httpClient = $this->createHttpClient(new Response(), $history);
+        $this->target->setHttpClient($httpClient);
+
+        $this->target->setBaseUrl($excepted);
+
+        $this->assertSame($excepted, $this->target->getMapping()->getBaseUrl());
+
+        $this->target->postFoo();
+
+        /** @var Request $request */
+        $request = $history[0]['request'];
+
+        $this->assertContains($excepted, (string)$request->getUri());
+    }
 }

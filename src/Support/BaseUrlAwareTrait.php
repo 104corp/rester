@@ -29,6 +29,26 @@ trait BaseUrlAwareTrait
             $baseUrl = substr($baseUrl, 0, -1);
         }
 
+        $this->beforeSetBaseUrl($baseUrl);
         $this->baseUrl = $baseUrl;
+        $this->afterSetBaseUrl($baseUrl);
+    }
+
+    /**
+     * The hook for set base url
+     *
+     * @param string $baseUrl
+     */
+    protected function afterSetBaseUrl($baseUrl)
+    {
+    }
+
+    /**
+     * The hook for set base url
+     *
+     * @param string $baseUrl
+     */
+    protected function beforeSetBaseUrl($baseUrl)
+    {
     }
 }

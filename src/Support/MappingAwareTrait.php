@@ -29,27 +29,20 @@ trait MappingAwareTrait
 
     /**
      * @param array $mapping
-     * @param null|string $baseUrl
      */
-    public function provisionMapping(array $mapping, $baseUrl = null)
+    public function provisionMapping(array $mapping)
     {
-        $this->setMapping(
-            new Mapping($mapping),
-            $baseUrl
-        );
+        $this->setMapping(new Mapping($mapping));
     }
 
     /**
      * Sets the REST API Mapping.
      *
      * @param Mapping $mapping
-     * @param null $baseUrl
      */
-    public function setMapping(Mapping $mapping, $baseUrl = null)
+    public function setMapping(Mapping $mapping)
     {
-        if (null !== $baseUrl) {
-            $mapping->setBaseUrl($baseUrl);
-        } elseif (method_exists($this, 'getBaseUrl')) {
+        if (method_exists($this, 'getBaseUrl')) {
             $mapping->setBaseUrl($this->getBaseUrl());
         }
 
