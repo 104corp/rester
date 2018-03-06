@@ -13,6 +13,16 @@ trait BaseUrlAwareTrait
     protected $baseUrl;
 
     /**
+     * @param mixed $instance
+     */
+    public function duplicateBaseUrlTo($instance)
+    {
+        if ($instance instanceof BaseUrlAwareInterface) {
+            $instance->setBaseUrl($this->baseUrl);
+        }
+    }
+
+    /**
      * @return null|string
      */
     public function getBaseUrl()
@@ -29,26 +39,14 @@ trait BaseUrlAwareTrait
             $baseUrl = substr($baseUrl, 0, -1);
         }
 
-        $this->beforeSetBaseUrl($baseUrl);
         $this->baseUrl = $baseUrl;
         $this->afterSetBaseUrl($baseUrl);
     }
 
     /**
      * The hook for set base url
-     *
-     * @param string $baseUrl
      */
-    protected function afterSetBaseUrl($baseUrl)
-    {
-    }
-
-    /**
-     * The hook for set base url
-     *
-     * @param string $baseUrl
-     */
-    protected function beforeSetBaseUrl($baseUrl)
+    protected function afterSetBaseUrl()
     {
     }
 }

@@ -52,7 +52,15 @@ class Mapping implements BaseUrlAwareInterface
      */
     public function get($name)
     {
-        return $this->resolve($name);
+        if (!isset($this->list[$name])) {
+            throw new ApiNotFoundException("Invalid API: {$name}");
+        }
+
+        if (!($this->list[$name] instanceof ApiInterface)) {
+            $this->list[$name] = $this->resolve($this->list[$name]);
+        }
+
+        return $this->list[$name];
     }
 
     /**
@@ -84,13 +92,7 @@ class Mapping implements BaseUrlAwareInterface
             return;
         }
 
-        $type = \gettype($api);
-
-        if ('object' === $type) {
-            $type = \get_class($api);
-        }
-
-        throw new InvalidArgumentException("Parameter api must be ApiInterface|array. Given is {$type}");
+        throw new InvalidArgumentException('Parameter api must be ApiInterface|array');
     }
 
     /**
@@ -104,7 +106,7 @@ class Mapping implements BaseUrlAwareInterface
     }
 
     /**
-     * Array structure is [parameter(array), resolver(callable)]
+     * Array structure is [resolver(callable), parameter(array)]
      *
      * @param string $name
      * @param array $api
@@ -131,62 +133,27 @@ class Mapping implements BaseUrlAwareInterface
 
     /**
      * Set all API base url
-     *
-     * @param $baseUrl
      */
-    protected function afterSetBaseUrl($baseUrl)
+    protected function afterSetBaseUrl()
     {
         foreach ($this->list as $api) {
-            $this->transferBaseUrlTo($api, $baseUrl);
+            $this->duplicateBaseUrlTo($api);
         }
     }
 
     /**
-     * @param string $name
+     * @param array $setting
      * @return ApiInterface
      * @throws ApiNotFoundException
      */
-    protected function resolve($name)
+    protected function resolve(array $setting)
     {
-        if (!isset($this->list[$name])) {
-            throw new ApiNotFoundException("Invalid API: {$name}");
-        }
-
-        if ($this->list[$name] instanceof ApiInterface) {
-            return $this->list[$name];
-        }
-
-        return $this->resolveBySetting($name);
-    }
-
-    /**
-     * @param string $name
-     * @return ApiInterface
-     * @throws ApiNotFoundException
-     */
-    protected function resolveBySetting($name)
-    {
-        $setting = $this->list[$name];
         $callable = $setting[0];
 
         /** @var ApiInterface $api */
         $api = \call_user_func_array($callable, $setting[1]);
 
-        $this->list[$name] = $this->transferBaseUrlTo($api, $this->baseUrl);
-
-        return $this->list[$name];
-    }
-
-    /**
-     * @param mixed $api
-     * @param string $baseUrl
-     * @return mixed
-     */
-    protected function transferBaseUrlTo($api, $baseUrl)
-    {
-        if ($api instanceof BaseUrlAwareInterface) {
-            $api->setBaseUrl($baseUrl);
-        }
+        $this->duplicateBaseUrlTo($api);
 
         return $api;
     }
