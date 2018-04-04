@@ -14,10 +14,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * Creates HTTP client.
      *
      * @param Response|Response[] $responses
-     * @param array $history
+     * @param array|\ArrayAccess $history
      * @return HandlerStack
      */
-    public function createHandlerStack($responses, $history = [])
+    public function createHandlerStack($responses, &$history = [])
     {
         if (!\is_array($responses)) {
             $responses = [$responses];
@@ -33,10 +33,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * Creates HTTP client.
      *
      * @param Response|Response[] $responses
-     * @param array $history
+     * @param array|\ArrayAccess $history
      * @return HttpClient
      */
-    public function createHttpClient($responses, $history = [])
+    public function createHttpClient($responses, &$history = [])
     {
         $handler = $this->createHandlerStack($responses, $history);
 
