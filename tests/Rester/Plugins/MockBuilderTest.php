@@ -19,13 +19,27 @@ class MockBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnCorrectDataWhenSettingMock()
+    public function shouldReturnCorrectDataWhenSettingMockWithMakePartial()
     {
         $excepted = 'something';
 
         $clientMock = TestResterClientWithMockBuilder::createMock([
             'getFoo' => $excepted,
         ]);
+
+        $this->assertSame($excepted, $clientMock->getFoo());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnCorrectDataWhenSettingMock()
+    {
+        $excepted = 'something';
+
+        $clientMock = TestResterClientWithMockBuilder::createMock([
+            'getFoo' => $excepted,
+        ], false);
 
         $this->assertSame($excepted, $clientMock->getFoo());
     }
