@@ -37,12 +37,17 @@ class Mapping implements BaseUrlAwareInterface
     }
 
     /**
-     * @param string $name
-     * @return bool
+     * @param array|string $keys
      */
-    public function has($name)
+    public function forget($keys)
     {
-        return array_key_exists($name, $this->list);
+        if (!is_array($keys)) {
+            $keys = func_get_args();
+        }
+
+        foreach ($keys as $key) {
+            unset($this->list[$key]);
+        }
     }
 
     /**
@@ -64,6 +69,15 @@ class Mapping implements BaseUrlAwareInterface
     }
 
     /**
+     * @param string $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        return array_key_exists($name, $this->list);
+    }
+
+    /**
      * Initial mapping object
      *
      * @param ApiInterface[] $mapping
@@ -73,6 +87,18 @@ class Mapping implements BaseUrlAwareInterface
         foreach ($mapping as $name => $api) {
             $this->set($name, $api);
         }
+    }
+
+    /**
+     * @param array|string $keys
+     */
+    public function only($keys)
+    {
+        if (!is_array($keys)) {
+            $keys = func_get_args();
+        }
+
+        $this->list = array_intersect_key($this->list, array_flip((array)$keys));
     }
 
     /**

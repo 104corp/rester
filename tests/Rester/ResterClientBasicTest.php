@@ -226,6 +226,32 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturnFalseWhenCallHasApiAfterRemoveApi()
+    {
+        $this->assertTrue($this->target->hasApi('getFoo'));
+
+        $this->target->getMapping()->forget('getFoo');
+
+        $this->assertFalse($this->target->hasApi('getFoo'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeOkayWhenCallHasApiAfterCallOnly()
+    {
+        $this->assertTrue($this->target->hasApi('getFoo'));
+        $this->assertTrue($this->target->hasApi('postFoo'));
+
+        $this->target->getMapping()->only('getFoo');
+
+        $this->assertTrue($this->target->hasApi('getFoo'));
+        $this->assertFalse($this->target->hasApi('postFoo'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldWithHeaderWhenCallApiWithCustomHeader()
     {
         $history = new ArrayObject();
