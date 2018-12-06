@@ -1,10 +1,10 @@
-.PHONY: all tests
+.PHONY: all test
 
-all: tests
+all: test
 
-tests:
+test:
 	php vendor/bin/phpcs
-	php vendor/bin/phpunit
+	phpdbg -qrr vendor/bin/phpunit
 
-coverage:
-	php vendor/bin/phpunit --coverage-html build
+coverage: test
+	@if [ "`uname`" = "Darwin" ]; then open build/coverage/index.html; fi
