@@ -2,9 +2,7 @@
 
 此文件說明該如何一起協作，讓此函式庫更強大！
 
-## 基本規範
-
-### 開發流程
+## 開發流程
 
 Git 流程採用 TBD ( Trunk Based Development ， [參考網頁](http://paulhammant.com/2013/04/05/what-is-trunk-based-development/) ) 。 Mainline 名稱固定為 `master` ，原始碼的所有測試會在 `master` 上。
 
@@ -14,7 +12,7 @@ Git Commit 的內容沒有特別規範，但請先參考[這份文件](https://b
 
 最後， Assignees 目前定義會是發 PR 的人，因為理論上發 PR 的人應該會最了解所有狀況。
 
-### 目錄結構
+## 目錄結構
 
 ```yaml
 # 所有原始碼
@@ -26,12 +24,7 @@ Git Commit 的內容沒有特別規範，但請先參考[這份文件](https://b
 
 ## 環境建置
 
-開發需要的工具如下：
-
-* [Composer][]
-* [Makefile][]  (Optional)
-
-安裝 Composer 套件：
+安裝 [Composer][] 套件：
 
     $ composer install
 
@@ -52,6 +45,22 @@ Git Commit 的內容沒有特別規範，但請先參考[這份文件](https://b
 
 PHP Document 建議參考 [104 Guideline][] 上的說明。
 
+## Testing
+
+測試使用 [PHPUnit][] 套件，執行測試指令如下
+
+    $ php vendor/bin/phpunit
+
+## 版號定義
+
+使用最常見的 [`major.minor.build`](http://www.ithome.com.tw/voice/85505) 的定義。舉例如下
+
+* 當整體架構調整時，比方說未來使用 git subtree 切分各子專案，會增加 `major` 。
+* 當任一元件增加新功能，或是改變行為時，會增加 `minor` 。
+* 修正 bug ，會增加 `build` 。
+
+只要修改有需要立即使用時，都可以更新版號。
+
 ### 版本標識
 
 某些方法或屬性可能未來不使用了，而用新方法來取代，這時需要加上棄用註解。
@@ -66,27 +75,6 @@ public function getData()
 
 如果使用棄用註解，必須說明什麼時候會被刪除，與該換用哪些方法來取代。
 
-## Testing
-
-測試使用 [PHPUnit][] 套件，執行測試指令如下
-
-    $ php vendor/bin/phpunit
-
-或是使用 `make` 指令，預設將只測 PHP 7.0 版 
-
-    $ make tests
-
-## 版號定義
-
-使用最常見的 [`major.minor.build`](http://www.ithome.com.tw/voice/85505) 的定義。舉例如下
-
-* 當整體架構調整時，比方說未來使用 git subtree 切分各子專案，會增加 `major` 。
-* 當任一元件增加新功能，或是改變行為時，會增加 `minor` 。
-* 修正 bug ，會增加 `build` 。
-
-只要修改有需要立即使用時，都可以更新版號。
-
 [PHPUnit]: https://phpunit.de/
 [Composer]: https://getcomposer.org/
-[Makefile]: https://www.gnu.org/software/make/manual/make.html
 [104 Guideline]: https://github.com/104corp/guideline-draft/blob/master/language/php/phpdoc.md

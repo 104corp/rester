@@ -2,9 +2,6 @@
 
 namespace Tests\Rester;
 
-use Corp104\Rester\Exceptions\CollectionNotFoundException;
-use Corp104\Rester\Exceptions\InvalidArgumentException;
-use Corp104\Rester\Exceptions\OperationDeniedException;
 use Corp104\Rester\ResterClientInterface;
 use Corp104\Rester\ResterCollection;
 use Corp104\Rester\ResterMix;
@@ -60,21 +57,19 @@ class ResterCollectionTest extends TestCase
 
     /**
      * @test
+     * @expectedException \Corp104\Rester\Exceptions\CollectionNotFoundException
      */
     public function shouldThrowExceptionWhenCallGetCollectionWithCollectionIsNotExist()
     {
-        $this->setExpectedException(CollectionNotFoundException::class);
-
         $this->target->getCollection('unknown');
     }
 
     /**
      * @test
+     * @expectedException \Corp104\Rester\Exceptions\CollectionNotFoundException
      */
     public function shouldThrowExceptionWhenUsingMagicMethodWithCollectionIsNotExist()
     {
-        $this->setExpectedException(CollectionNotFoundException::class);
-
         $this->target->unknown;
     }
 
@@ -95,24 +90,19 @@ class ResterCollectionTest extends TestCase
 
     /**
      * @test
+     * @expectedException \Corp104\Rester\Exceptions\InvalidArgumentException
      */
     public function shouldThrowExceptionWhenSetNotResterClientProperty()
     {
-        $this->setExpectedException(
-            InvalidArgumentException::class,
-            'Given is ' . \stdClass::class
-        );
-
         $this->target->unknown = new \stdClass();
     }
 
     /**
      * @test
+     * @expectedException \Corp104\Rester\Exceptions\OperationDeniedException
      */
     public function shouldThrowExceptionWhenUnsetCollectionProperty()
     {
-        $this->setExpectedException(OperationDeniedException::class);
-
         unset($this->target->tester);
     }
 

@@ -15,9 +15,9 @@
     "require-dev": {
         "fzaninotto/faker": "^1.7",
         "mockery/mockery": "^0.9",
-        "phpunit/phpunit": ">=4.8 <6",
+        "phpunit/phpunit": "^4 | ^5 | ^6",
         "slim/slim": "^3.9",
-        "squizlabs/php_codesniffer": "^3.2",
+        "squizlabs/php_codesniffer": "^3.5",
         "zendframework/zend-diactoros": "<1.5"
     },
     "autoload": {

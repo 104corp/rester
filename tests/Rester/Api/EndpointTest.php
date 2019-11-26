@@ -3,18 +3,16 @@
 namespace Tests\Rester\Api;
 
 use Corp104\Rester\Api\Endpoint;
-use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Tests\TestCase;
 
 class EndpointTest extends TestCase
 {
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function shouldThrowInvalidArgumentExceptionWhenPassUnknownHttpMethod()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-
         new Endpoint('Unknown', 'http://localhost/some-url');
     }
 

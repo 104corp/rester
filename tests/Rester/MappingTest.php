@@ -5,7 +5,6 @@ namespace Tests\Rester;
 use Corp104\Rester\Api\ApiInterface;
 use Corp104\Rester\Api\Endpoint;
 use Corp104\Rester\Api\Path;
-use Corp104\Rester\Exceptions\ApiNotFoundException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Mapping;
 use Corp104\Rester\Resolvers\EndpointResolver;
@@ -51,8 +50,8 @@ class MappingTest extends TestCase
                 [
                     function () {
                     },
-                    'not-array'
-                ]
+                    'not-array',
+                ],
             ],
             ['string'],
             [new \stdClass()],
@@ -61,11 +60,10 @@ class MappingTest extends TestCase
 
     /**
      * @test
+     * @expectedException \Corp104\Rester\Exceptions\ApiNotFoundException
      */
     public function shouldThrowInvalidApiExceptionWhenApiNotFound()
     {
-        $this->setExpectedException(ApiNotFoundException::class);
-
         $this->target->get('UnknownApi');
     }
 
@@ -161,12 +159,11 @@ class MappingTest extends TestCase
 
     /**
      * @test
+     * @expectedException InvalidArgumentException
      * @dataProvider invalidSetting
      */
     public function shouldThrowExceptionWhenSetInvalidSetting($invalidSetting)
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-
         $this->target->set('whatever', $invalidSetting);
     }
 }

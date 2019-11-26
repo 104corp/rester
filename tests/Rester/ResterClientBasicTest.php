@@ -5,11 +5,8 @@ namespace Tests\Rester;
 use ArrayObject;
 use Corp104\Rester\Api\Endpoint;
 use Corp104\Rester\Api\Path;
-use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\ResterClient;
 use Corp104\Rester\ResterRequest;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
@@ -42,36 +39,34 @@ class ResterClientBasicTest extends TestCase
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function shouldThrowInvalidArgumentExceptionWhenFirstParamsIsNotArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-
         $this->target->getFoo('NotArray');
     }
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function shouldThrowInvalidArgumentExceptionWhenSecondParamsIsNotArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-
         $this->target->getFoo([], 'NotArray');
     }
 
     /**
      * @test
+     * @expectedException \InvalidArgumentException
      */
     public function shouldThrowInvalidArgumentExceptionWhenThirdParamsIsNotArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-
         $this->target->getFoo([], [], 'NotArray');
     }
 
     /**
      * @test
+     * @expectedException \GuzzleHttp\Exception\ClientException
      */
     public function shouldThrowClientExceptionWhenServerReturn401()
     {
@@ -79,13 +74,13 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(401), $history);
         $this->target->setHttpClient($httpClient);
-        $this->setExpectedException(ClientException::class);
 
         $this->target->getFoo();
     }
 
     /**
      * @test
+     * @expectedException \GuzzleHttp\Exception\ClientException
      */
     public function shouldThrowApiNotFoundExceptionWhenServerReturn404()
     {
@@ -93,13 +88,13 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(404), $history);
         $this->target->setHttpClient($httpClient);
-        $this->setExpectedException(ClientException::class);
 
         $this->target->getFoo();
     }
 
     /**
      * @test
+     * @expectedException \GuzzleHttp\Exception\ClientException
      */
     public function shouldThrowApiNotFoundExceptionWhenServerReturn405()
     {
@@ -107,13 +102,13 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(405), $history);
         $this->target->setHttpClient($httpClient);
-        $this->setExpectedException(ClientException::class);
 
         $this->target->postFoo();
     }
 
     /**
      * @test
+     * @expectedException \GuzzleHttp\Exception\ServerException
      */
     public function shouldThrowServerExceptionWhenServerReturn500()
     {
@@ -121,7 +116,6 @@ class ResterClientBasicTest extends TestCase
 
         $httpClient = $this->createHttpClient(new Response(500), $history);
         $this->target->setHttpClient($httpClient);
-        $this->setExpectedException(ServerException::class);
 
         $this->target->getFoo();
     }
