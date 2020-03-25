@@ -7,8 +7,11 @@ use Corp104\Rester\Api\Endpoint;
 use Corp104\Rester\Api\Path;
 use Corp104\Rester\ResterClient;
 use Corp104\Rester\ResterRequest;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Tests\Fixture\TestResterClient;
 use Tests\TestCase;
@@ -23,14 +26,14 @@ class ResterClientBasicTest extends TestCase
      */
     protected $target;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->target = new TestResterClient();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->target = null;
 
@@ -39,37 +42,41 @@ class ResterClientBasicTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowInvalidArgumentExceptionWhenFirstParamsIsNotArray()
+    public function shouldThrowInvalidArgumentExceptionWhenFirstParamsIsNotArray(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->target->getFoo('NotArray');
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowInvalidArgumentExceptionWhenSecondParamsIsNotArray()
+    public function shouldThrowInvalidArgumentExceptionWhenSecondParamsIsNotArray(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->target->getFoo([], 'NotArray');
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowInvalidArgumentExceptionWhenThirdParamsIsNotArray()
+    public function shouldThrowInvalidArgumentExceptionWhenThirdParamsIsNotArray(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->target->getFoo([], [], 'NotArray');
     }
 
     /**
      * @test
-     * @expectedException \GuzzleHttp\Exception\ClientException
      */
-    public function shouldThrowClientExceptionWhenServerReturn401()
+    public function shouldThrowClientExceptionWhenServerReturn401(): void
     {
+        $this->expectException(ClientException::class);
+
         $history = new ArrayObject();
 
         $httpClient = $this->createHttpClient(new Response(401), $history);
@@ -80,10 +87,11 @@ class ResterClientBasicTest extends TestCase
 
     /**
      * @test
-     * @expectedException \GuzzleHttp\Exception\ClientException
      */
-    public function shouldThrowApiNotFoundExceptionWhenServerReturn404()
+    public function shouldThrowApiNotFoundExceptionWhenServerReturn404(): void
     {
+        $this->expectException(ClientException::class);
+
         $history = new ArrayObject();
 
         $httpClient = $this->createHttpClient(new Response(404), $history);
@@ -94,10 +102,11 @@ class ResterClientBasicTest extends TestCase
 
     /**
      * @test
-     * @expectedException \GuzzleHttp\Exception\ClientException
      */
-    public function shouldThrowApiNotFoundExceptionWhenServerReturn405()
+    public function shouldThrowApiNotFoundExceptionWhenServerReturn405(): void
     {
+        $this->expectException(ClientException::class);
+
         $history = new ArrayObject();
 
         $httpClient = $this->createHttpClient(new Response(405), $history);
@@ -108,10 +117,11 @@ class ResterClientBasicTest extends TestCase
 
     /**
      * @test
-     * @expectedException \GuzzleHttp\Exception\ServerException
      */
-    public function shouldThrowServerExceptionWhenServerReturn500()
+    public function shouldThrowServerExceptionWhenServerReturn500(): void
     {
+        $this->expectException(ServerException::class);
+
         $history = new ArrayObject();
 
         $httpClient = $this->createHttpClient(new Response(500), $history);
@@ -123,7 +133,7 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveSlashWhenBaseUrlHasSlashAtTail()
+    public function shouldRemoveSlashWhenBaseUrlHasSlashAtTail(): void
     {
         $target = new ResterClient('http://some-endpoint/');
         $this->assertSame('http://some-endpoint', $target->getBaseUrl());
@@ -135,7 +145,7 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotEffectToEndpointApiWhenBaseUrlIsDifferent()
+    public function shouldNotEffectToEndpointApiWhenBaseUrlIsDifferent(): void
     {
         $exceptedEndpoint = 'http://some-endpoint/some';
 
@@ -160,7 +170,7 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallEndpointWithResterRequest()
+    public function shouldBeOkayWhenCallEndpointWithResterRequest(): void
     {
         $endpoint = 'http://some-endpoint/{foo}';
         $binding = ['foo' => 'some'];
@@ -187,7 +197,7 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldCallAnotherApiWhenApiUrlIsSetAnother()
+    public function shouldCallAnotherApiWhenApiUrlIsSetAnother(): void
     {
         $history = new ArrayObject();
 
@@ -201,14 +211,14 @@ class ResterClientBasicTest extends TestCase
         /** @var RequestInterface $request */
         $request = $history[0]['request'];
 
-        $this->assertContains('/bar', (string)$request->getUri());
-        $this->assertNotContains('/foo', (string)$request->getUri());
+        $this->assertStringContainsString('/bar', (string)$request->getUri());
+        $this->assertStringNotContainsString('/foo', (string)$request->getUri());
     }
 
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallHasApi()
+    public function shouldBeOkayWhenCallHasApi(): void
     {
         $this->assertFalse($this->target->hasApi('newOne'));
 
@@ -220,7 +230,7 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnFalseWhenCallHasApiAfterRemoveApi()
+    public function shouldReturnFalseWhenCallHasApiAfterRemoveApi(): void
     {
         $this->assertTrue($this->target->hasApi('getFoo'));
 
@@ -232,7 +242,7 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallHasApiAfterCallOnly()
+    public function shouldBeOkayWhenCallHasApiAfterCallOnly(): void
     {
         $this->assertTrue($this->target->hasApi('getFoo'));
         $this->assertTrue($this->target->hasApi('postFoo'));
@@ -246,7 +256,7 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldWithHeaderWhenCallApiWithCustomHeader()
+    public function shouldWithHeaderWhenCallApiWithCustomHeader(): void
     {
         $history = new ArrayObject();
 
@@ -273,7 +283,7 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldSendClientHeaderWhenClientAndApiSetTheSameHeader()
+    public function shouldSendClientHeaderWhenClientAndApiSetTheSameHeader(): void
     {
         $history = new ArrayObject();
 
@@ -300,7 +310,7 @@ class ResterClientBasicTest extends TestCase
     /**
      * @test
      */
-    public function shouldUsingNewBaseUrlWhenSetNewBaseUrl()
+    public function shouldUsingNewBaseUrlWhenSetNewBaseUrl(): void
     {
         $excepted = 'new-base-url';
 
@@ -318,6 +328,6 @@ class ResterClientBasicTest extends TestCase
         /** @var Request $request */
         $request = $history[0]['request'];
 
-        $this->assertContains($excepted, (string)$request->getUri());
+        $this->assertStringContainsString($excepted, (string)$request->getUri());
     }
 }

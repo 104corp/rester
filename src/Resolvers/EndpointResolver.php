@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Rester\Resolvers;
 
 use Corp104\Rester\Api\Endpoint;

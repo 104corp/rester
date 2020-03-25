@@ -11,7 +11,7 @@ class PathTest extends TestCase
      * @test
      * @dataProvider availableMethod
      */
-    public function shouldSendCorrectRequestWhenUsingPathRequest($method)
+    public function shouldSendCorrectRequestWhenUsingPathRequest($method): void
     {
         $baseUrl = 'http://127.0.0.1';
         $binding = ['bar' => 'some'];
@@ -25,13 +25,11 @@ class PathTest extends TestCase
         $this->assertSame('http://127.0.0.1/foo/some?q=some', (string)$actual->getUri());
     }
 
-    public function availableMethod()
+    public function availableMethod(): iterable
     {
-        return [
-            ['GET'],
-            ['POST'],
-            ['PUT'],
-            ['DELETE'],
-        ];
+        yield ['GET'];
+        yield ['POST'];
+        yield ['PUT'];
+        yield ['DELETE'];
     }
 }

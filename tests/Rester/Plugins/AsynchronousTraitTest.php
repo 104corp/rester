@@ -15,14 +15,14 @@ class AsynchronousTraitTest extends TestCase
      */
     protected $target;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->target = $this->getMockForTrait(AsynchronousTrait::class);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->target = null;
 
@@ -32,7 +32,7 @@ class AsynchronousTraitTest extends TestCase
     /**
      * @test
      */
-    public function shouldAsyncWhenDefault()
+    public function shouldAsyncWhenDefault(): void
     {
         $this->assertTrue($this->target->isAsynchronous());
         $this->assertFalse($this->target->isSynchronous());

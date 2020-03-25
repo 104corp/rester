@@ -3,16 +3,18 @@
 namespace Tests\Rester\Api;
 
 use Corp104\Rester\Api\Api;
+use InvalidArgumentException;
 use Tests\TestCase;
 
 class ApiTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowInvalidArgumentExceptionWhenPassUnknownHttpMethod()
+    public function shouldThrowInvalidArgumentExceptionWhenPassUnknownHttpMethod(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->getMockForAbstractClass(
             Api::class,
             ['Unknown', '/foo']
@@ -22,7 +24,7 @@ class ApiTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallGetMethod()
+    public function shouldBeOkayWhenCallGetMethod(): void
     {
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
@@ -36,7 +38,7 @@ class ApiTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallGetUriBindingKeys()
+    public function shouldBeOkayWhenCallGetUriBindingKeys(): void
     {
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
@@ -52,7 +54,7 @@ class ApiTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallGetUriWithAndWithoutBinding()
+    public function shouldBeOkayWhenCallGetUriWithAndWithoutBinding(): void
     {
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
@@ -67,7 +69,7 @@ class ApiTest extends TestCase
     /**
      * @test
      */
-    public function shouldBindPathOkWithoutBinding()
+    public function shouldBindPathOkWithoutBinding(): void
     {
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
@@ -81,7 +83,7 @@ class ApiTest extends TestCase
     /**
      * @test
      */
-    public function shouldBindPathOk()
+    public function shouldBindPathOk(): void
     {
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
@@ -97,7 +99,7 @@ class ApiTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuildOkayWhenUsingSequenceArray()
+    public function shouldBuildOkayWhenUsingSequenceArray(): void
     {
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
@@ -112,10 +114,11 @@ class ApiTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowExceptionWhenSequenceArrayAndBindingCountIsNotMatch()
+    public function shouldThrowExceptionWhenSequenceArrayAndBindingCountIsNotMatch(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
             Api::class,
@@ -127,10 +130,11 @@ class ApiTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowExceptionWhenBindingNotComplete()
+    public function shouldThrowExceptionWhenBindingNotComplete(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
             Api::class,
@@ -142,10 +146,11 @@ class ApiTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowExceptionWhenBindingNotCompleteWithEmptyBinding()
+    public function shouldThrowExceptionWhenBindingNotCompleteWithEmptyBinding(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         /** @var Api $target */
         $target = $this->getMockForAbstractClass(
             Api::class,

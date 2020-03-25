@@ -19,7 +19,7 @@ class MockBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnCorrectDataWhenSettingMockWithMakePartial()
+    public function shouldReturnCorrectDataWhenSettingMockWithMakePartial(): void
     {
         $excepted = 'something';
 
@@ -33,7 +33,7 @@ class MockBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnCorrectDataWhenSettingMock()
+    public function shouldReturnCorrectDataWhenSettingMock(): void
     {
         $excepted = 'something';
 
@@ -47,7 +47,7 @@ class MockBuilderTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWithoutSetting()
+    public function shouldBeOkayWithoutSetting(): void
     {
         $clientMock = TestResterClientWithMockBuilder::createMock();
 

@@ -4,6 +4,7 @@ namespace Tests\Rester;
 
 use ArrayObject;
 use Corp104\Rester\ResterRequest;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Tests\Fixture\TestResterClient;
 use Tests\TestCase;
@@ -18,14 +19,14 @@ class ResterClientTest extends TestCase
      */
     protected $target;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->target = new TestResterClient();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->target = null;
 
@@ -35,7 +36,7 @@ class ResterClientTest extends TestCase
     /**
      * @test
      */
-    public function shouldSendCorrectMethodAndUrlAndParamsWhenGetSomeThing()
+    public function shouldSendCorrectMethodAndUrlAndParamsWhenGetSomeThing(): void
     {
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
@@ -46,17 +47,17 @@ class ResterClientTest extends TestCase
 
         $this->target->getFoo();
 
-        /** @var \GuzzleHttp\Psr7\Request $request */
+        /** @var Request $request */
         $request = $history[0]['request'];
 
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertContains($exceptedUrl, (string)$request->getUri());
+        $this->assertSame('GET', $request->getMethod());
+        $this->assertStringContainsString($exceptedUrl, (string)$request->getUri());
     }
 
     /**
      * @test
      */
-    public function shouldSendCorrectMethodAndUrlAndParamsWhenPostSomething()
+    public function shouldSendCorrectMethodAndUrlAndParamsWhenPostSomething(): void
     {
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
@@ -70,19 +71,19 @@ class ResterClientTest extends TestCase
 
         $this->target->postFoo([], [], $parsedBody);
 
-        /** @var \GuzzleHttp\Psr7\Request $request */
+        /** @var Request $request */
         $request = $history[0]['request'];
 
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertContains($exceptedUrl, (string)$request->getUri());
+        $this->assertSame('POST', $request->getMethod());
+        $this->assertStringContainsString($exceptedUrl, (string)$request->getUri());
         $this->assertContains('application/json; charset=UTF-8', $request->getHeader('Content-type'));
-        $this->assertEquals('{"id":"' . $id . '"}', (string)$request->getBody());
+        $this->assertSame('{"id":"' . $id . '"}', (string)$request->getBody());
     }
 
     /**
      * @test
      */
-    public function shouldSendCorrectMethodAndUrlAndParamsWhenPostSomethingWithResterRequest()
+    public function shouldSendCorrectMethodAndUrlAndParamsWhenPostSomethingWithResterRequest(): void
     {
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
@@ -98,19 +99,19 @@ class ResterClientTest extends TestCase
             ResterRequest::create()->setParsedBody($parsedBody)
         );
 
-        /** @var \GuzzleHttp\Psr7\Request $request */
+        /** @var Request $request */
         $request = $history[0]['request'];
 
-        $this->assertEquals('POST', $request->getMethod());
-        $this->assertContains($exceptedUrl, (string)$request->getUri());
+        $this->assertSame('POST', $request->getMethod());
+        $this->assertStringContainsString($exceptedUrl, (string)$request->getUri());
         $this->assertContains('application/json; charset=UTF-8', $request->getHeader('Content-type'));
-        $this->assertEquals('{"id":"' . $id . '"}', (string)$request->getBody());
+        $this->assertSame('{"id":"' . $id . '"}', (string)$request->getBody());
     }
 
     /**
      * @test
      */
-    public function shouldSendCorrectMethodAndUrlAndParamsWhenPutSomething()
+    public function shouldSendCorrectMethodAndUrlAndParamsWhenPutSomething(): void
     {
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
@@ -124,19 +125,19 @@ class ResterClientTest extends TestCase
 
         $this->target->putFoo([], [], $parsedBody);
 
-        /** @var \GuzzleHttp\Psr7\Request $request */
+        /** @var Request $request */
         $request = $history[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertContains($exceptedUrl, (string)$request->getUri());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertStringContainsString($exceptedUrl, (string)$request->getUri());
         $this->assertContains('application/json; charset=UTF-8', $request->getHeader('Content-type'));
-        $this->assertEquals('{"id":"' . $id . '"}', (string)$request->getBody());
+        $this->assertSame('{"id":"' . $id . '"}', (string)$request->getBody());
     }
 
     /**
      * @test
      */
-    public function shouldSendCorrectMethodAndUrlAndParamsWhenPutSomethingWithResterRequest()
+    public function shouldSendCorrectMethodAndUrlAndParamsWhenPutSomethingWithResterRequest(): void
     {
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
@@ -152,19 +153,19 @@ class ResterClientTest extends TestCase
             ResterRequest::create()->setParsedBody($parsedBody)
         );
 
-        /** @var \GuzzleHttp\Psr7\Request $request */
+        /** @var Request $request */
         $request = $history[0]['request'];
 
-        $this->assertEquals('PUT', $request->getMethod());
-        $this->assertContains($exceptedUrl, (string)$request->getUri());
+        $this->assertSame('PUT', $request->getMethod());
+        $this->assertStringContainsString($exceptedUrl, (string)$request->getUri());
         $this->assertContains('application/json; charset=UTF-8', $request->getHeader('Content-type'));
-        $this->assertEquals('{"id":"' . $id . '"}', (string)$request->getBody());
+        $this->assertSame('{"id":"' . $id . '"}', (string)$request->getBody());
     }
 
     /**
      * @test
      */
-    public function shouldSendCorrectMethodAndUrlAndParamsWhenDeleteSomething()
+    public function shouldSendCorrectMethodAndUrlAndParamsWhenDeleteSomething(): void
     {
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
@@ -174,10 +175,10 @@ class ResterClientTest extends TestCase
         $this->target->setHttpClient($httpClient);
         $this->target->deleteFoo();
 
-        /** @var \GuzzleHttp\Psr7\Request $request */
+        /** @var Request $request */
         $request = $history[0]['request'];
 
         $this->assertEquals('DELETE', $request->getMethod());
-        $this->assertContains($exceptedUrl, (string)$request->getUri());
+        $this->assertStringContainsString($exceptedUrl, (string)$request->getUri());
     }
 }

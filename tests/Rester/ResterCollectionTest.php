@@ -2,6 +2,9 @@
 
 namespace Tests\Rester;
 
+use Corp104\Rester\Exceptions\CollectionNotFoundException;
+use Corp104\Rester\Exceptions\InvalidArgumentException;
+use Corp104\Rester\Exceptions\OperationDeniedException;
 use Corp104\Rester\ResterClientInterface;
 use Corp104\Rester\ResterCollection;
 use Corp104\Rester\ResterMix;
@@ -15,14 +18,14 @@ class ResterCollectionTest extends TestCase
      */
     protected $target;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->target = new TestResterCollection();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->target = null;
 
@@ -32,7 +35,7 @@ class ResterCollectionTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTestClientWhenCallGetCollection()
+    public function shouldGetTestClientWhenCallGetCollection(): void
     {
         $this->assertTrue($this->target->hasCollection('tester'));
         $this->assertInstanceOf(ResterClientInterface::class, $this->target->getCollection('tester'));
@@ -41,7 +44,7 @@ class ResterCollectionTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTestClientWhenUsingMagicMethodToGetCollection()
+    public function shouldGetTestClientWhenUsingMagicMethodToGetCollection(): void
     {
         $this->assertTrue(isset($this->target->tester));
         $this->assertInstanceOf(ResterClientInterface::class, $this->target->tester);
@@ -50,33 +53,35 @@ class ResterCollectionTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnFalseWhenUsingMagicMethodToCheckCollectionIsExist()
+    public function shouldReturnFalseWhenUsingMagicMethodToCheckCollectionIsExist(): void
     {
         $this->assertFalse(isset($this->target->unknown));
     }
 
     /**
      * @test
-     * @expectedException \Corp104\Rester\Exceptions\CollectionNotFoundException
      */
-    public function shouldThrowExceptionWhenCallGetCollectionWithCollectionIsNotExist()
+    public function shouldThrowExceptionWhenCallGetCollectionWithCollectionIsNotExist(): void
     {
+        $this->expectException(CollectionNotFoundException::class);
+
         $this->target->getCollection('unknown');
     }
 
     /**
      * @test
-     * @expectedException \Corp104\Rester\Exceptions\CollectionNotFoundException
      */
-    public function shouldThrowExceptionWhenUsingMagicMethodWithCollectionIsNotExist()
+    public function shouldThrowExceptionWhenUsingMagicMethodWithCollectionIsNotExist(): void
     {
+        $this->expectException(CollectionNotFoundException::class);
+
         $this->target->unknown;
     }
 
     /**
      * @test
      */
-    public function shouldBeOkayWhenSetResterClientProperty()
+    public function shouldBeOkayWhenSetResterClientProperty(): void
     {
         $resterClientMock = $this->getMockBuilder(ResterClientInterface::class)
             ->getMock();
@@ -90,26 +95,28 @@ class ResterCollectionTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Corp104\Rester\Exceptions\InvalidArgumentException
      */
-    public function shouldThrowExceptionWhenSetNotResterClientProperty()
+    public function shouldThrowExceptionWhenSetNotResterClientProperty(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->target->unknown = new \stdClass();
     }
 
     /**
      * @test
-     * @expectedException \Corp104\Rester\Exceptions\OperationDeniedException
      */
-    public function shouldThrowExceptionWhenUnsetCollectionProperty()
+    public function shouldThrowExceptionWhenUnsetCollectionProperty(): void
     {
+        $this->expectException(OperationDeniedException::class);
+
         unset($this->target->tester);
     }
 
     /**
      * @test
      */
-    public function shouldBeOkayWhenSetNestResterCollection()
+    public function shouldBeOkayWhenSetNestResterCollection(): void
     {
         $excepted = new ResterMix();
         $excepted2 = new ResterCollection();

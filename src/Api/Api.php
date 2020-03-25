@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Rester\Api;
 
 use Corp104\Rester\Exceptions\InvalidArgumentException;
@@ -59,7 +61,7 @@ abstract class Api implements ApiInterface
      */
     public static function buildQueryString(array $queryParams)
     {
-        return http_build_query($queryParams, null, '&', PHP_QUERY_RFC3986);
+        return http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
     }
 
     /**

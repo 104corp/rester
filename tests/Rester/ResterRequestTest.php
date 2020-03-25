@@ -13,7 +13,7 @@ class ResterRequestTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCreateFromBinding()
+    public function shouldBeOkayWhenCreateFromBinding(): void
     {
         $excepted = ['foo' => 'bar'];
 
@@ -27,7 +27,7 @@ class ResterRequestTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCreateFromParsedBody()
+    public function shouldBeOkayWhenCreateFromParsedBody(): void
     {
         $excepted = ['foo' => 'bar'];
 
@@ -41,7 +41,7 @@ class ResterRequestTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCreateFromQueryParams()
+    public function shouldBeOkayWhenCreateFromQueryParams(): void
     {
         $excepted = ['foo' => 'bar'];
 

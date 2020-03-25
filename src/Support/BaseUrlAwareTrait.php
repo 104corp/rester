@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Rester\Support;
 
 /**
@@ -35,6 +37,8 @@ trait BaseUrlAwareTrait
      */
     public function setBaseUrl($baseUrl)
     {
+        $baseUrl = (string)$baseUrl;
+
         if ('/' === substr($baseUrl, -1)) {
             $baseUrl = substr($baseUrl, 0, -1);
         }

@@ -7,15 +7,15 @@
         "issues": "https://github.com/104corp/php-rester/issues"
     },
     "require": {
-        "php": ">=5.5",
+        "php": "^7.1",
         "104corp/support": "^1.2",
         "guzzlehttp/guzzle": "^6.3",
         "psr/http-message": "^1.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "^1.7",
+        "fzaninotto/faker": "^1.9",
         "mockery/mockery": "^0.9",
-        "phpunit/phpunit": "^4 | ^5 | ^6",
+        "phpunit/phpunit": "^7 | ^8",
         "slim/slim": "^3.9",
         "squizlabs/php_codesniffer": "^3.5",
         "zendframework/zend-diactoros": "<1.5"

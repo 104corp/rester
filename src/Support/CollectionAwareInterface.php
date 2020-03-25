@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Corp104\Rester\Support;
 
 use Corp104\Rester\Collection;

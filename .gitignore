@@ -34,3 +34,4 @@ Desktop.ini
 
 # Build files
 /build
+.phpunit.result.cache

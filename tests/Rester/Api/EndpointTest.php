@@ -3,23 +3,25 @@
 namespace Tests\Rester\Api;
 
 use Corp104\Rester\Api\Endpoint;
+use InvalidArgumentException;
 use Tests\TestCase;
 
 class EndpointTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
-    public function shouldThrowInvalidArgumentExceptionWhenPassUnknownHttpMethod()
+    public function shouldThrowInvalidArgumentExceptionWhenPassUnknownHttpMethod(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         new Endpoint('Unknown', 'http://localhost/some-url');
     }
 
     /**
      * @test
      */
-    public function shouldGetNormalApiWhenCallBuildWithNormalApiAndNormalMode()
+    public function shouldGetNormalApiWhenCallBuildWithNormalApiAndNormalMode(): void
     {
         $target = new Endpoint('GET', 'http://localhost/foo');
 
@@ -29,7 +31,7 @@ class EndpointTest extends TestCase
     /**
      * @test
      */
-    public function shouldSendBodyWhenUsingPostRequest()
+    public function shouldSendBodyWhenUsingPostRequest(): void
     {
         $endpoint = 'http://127.0.0.1/foo';
 
@@ -46,7 +48,7 @@ class EndpointTest extends TestCase
      * @test
      * @dataProvider availableMethod
      */
-    public function shouldSendCorrectRequestWhenUsingEndpointRequest($method)
+    public function shouldSendCorrectRequestWhenUsingEndpointRequest($method): void
     {
         $endpoint = 'http://127.0.0.1/foo/{bar}';
         $binding = ['bar' => 'some'];
@@ -59,13 +61,11 @@ class EndpointTest extends TestCase
         $this->assertSame('http://127.0.0.1/foo/some?q=some', (string)$actual->getUri());
     }
 
-    public function availableMethod()
+    public function availableMethod(): iterable
     {
-        return [
-            ['GET'],
-            ['POST'],
-            ['PUT'],
-            ['DELETE'],
-        ];
+        yield ['GET'];
+        yield ['POST'];
+        yield ['PUT'];
+        yield ['DELETE'];
     }
 }

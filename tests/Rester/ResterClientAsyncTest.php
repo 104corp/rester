@@ -20,14 +20,14 @@ class ResterClientAsyncTest extends TestCase
      */
     protected $target;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->target = new TestResterClientAsync();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->target = null;
 
@@ -37,7 +37,7 @@ class ResterClientAsyncTest extends TestCase
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallAsyncAndWaitResponse()
+    public function shouldBeOkayWhenCallAsyncAndWaitResponse(): void
     {
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(), $history);
@@ -55,14 +55,14 @@ class ResterClientAsyncTest extends TestCase
         /** @var RequestInterface $request */
         $request = $history[0]['request'];
 
-        $this->assertContains('/foo', (string)$request->getUri());
+        $this->assertStringContainsString('/foo', (string)$request->getUri());
         $this->assertSame(200, $response->getStatusCode());
     }
 
     /**
      * @test
      */
-    public function shouldBeOkayWhenCallMagicMethodUsingAsync()
+    public function shouldBeOkayWhenCallMagicMethodUsingAsync(): void
     {
         $history = new ArrayObject();
         $httpClient = $this->createHttpClient(new Response(200), $history);

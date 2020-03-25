@@ -5,6 +5,7 @@ namespace Tests\Rester;
 use Corp104\Rester\Api\ApiInterface;
 use Corp104\Rester\Api\Endpoint;
 use Corp104\Rester\Api\Path;
+use Corp104\Rester\Exceptions\ApiNotFoundException;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Mapping;
 use Corp104\Rester\Resolvers\EndpointResolver;
@@ -18,67 +19,64 @@ class MappingTest extends TestCase
      */
     protected $target;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->target = new Mapping();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->target = null;
 
         parent::tearDown();
     }
 
-    public function trueAndFalse()
+    public function trueAndFalse(): iterable
     {
-        return [
-            [true],
-            [false],
-        ];
+        yield [true];
+        yield [false];
     }
 
-    public function invalidSetting()
+    public function invalidSetting(): iterable
     {
-        return [
-            [['array-count-less-then-2']],
-            [['array', 'count', 'more', 'then', '2']],
-            [['not-a-callable', 'whatever']],
+        yield 'array less then 2' => [['array-count-less-then-2']];
+        yield 'array more then 2' => [['array', 'count', 'more', 'then', '2']];
+        yield 'not a callable' => [['not-a-callable', 'whatever']];
+        yield 'Object' => [
             [
-                [
-                    function () {
-                    },
-                    'not-array',
-                ],
+                function () {
+                },
+                'not-array',
             ],
-            ['string'],
-            [new \stdClass()],
         ];
+        yield 'string' => ['string'];
+        yield 'object' => [new \stdClass()];
     }
 
     /**
      * @test
-     * @expectedException \Corp104\Rester\Exceptions\ApiNotFoundException
      */
-    public function shouldThrowInvalidApiExceptionWhenApiNotFound()
+    public function shouldThrowInvalidApiExceptionWhenApiNotFound(): void
     {
+        $this->expectException(ApiNotFoundException::class);
+
         $this->target->get('UnknownApi');
     }
 
     /**
      * @test
      */
-    public function shouldGetEmptyArrayWhenGetApiListFirst()
+    public function shouldGetEmptyArrayWhenGetApiListFirst(): void
     {
-        $this->assertEquals([], $this->target->all());
+        $this->assertSame([], $this->target->all());
     }
 
     /**
      * @test
      */
-    public function shouldGetOneApiListWhenAfterSetOneApiList()
+    public function shouldGetOneApiListWhenAfterSetOneApiList(): void
     {
         $exceptedApiName = 'some-api';
         $exceptedCount = 1;
@@ -93,7 +91,7 @@ class MappingTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotCreateApiInstanceWhenSetSetting()
+    public function shouldNotCreateApiInstanceWhenSetSetting(): void
     {
         $apiSetting = [
             [Path::class, 'create'],    // Callable
@@ -112,7 +110,7 @@ class MappingTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnPathInstanceWhenSetCorrectSetting()
+    public function shouldReturnPathInstanceWhenSetCorrectSetting(): void
     {
         $apiSetting = [
             [Path::class, 'create'],    // Callable
@@ -128,7 +126,7 @@ class MappingTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnPathInstanceWhenSetCorrectSettingUsingResolver()
+    public function shouldReturnPathInstanceWhenSetCorrectSettingUsingResolver(): void
     {
         $apiSetting = [
             new PathResolver(),         // Resolver
@@ -144,7 +142,7 @@ class MappingTest extends TestCase
     /**
      * @test
      */
-    public function shouldReturnEndpointInstanceWhenSetCorrectSettingUsingResolver()
+    public function shouldReturnEndpointInstanceWhenSetCorrectSettingUsingResolver(): void
     {
         $apiSetting = [
             new EndpointResolver(),     // Resolver
@@ -159,11 +157,12 @@ class MappingTest extends TestCase
 
     /**
      * @test
-     * @expectedException InvalidArgumentException
      * @dataProvider invalidSetting
      */
-    public function shouldThrowExceptionWhenSetInvalidSetting($invalidSetting)
+    public function shouldThrowExceptionWhenSetInvalidSetting($invalidSetting): void
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $this->target->set('whatever', $invalidSetting);
     }
 }

@@ -10,7 +10,7 @@ A library for calling REST API.
 
 ## Requirements
 
-* PHP version >= 5.5
+* PHP version ^7.1
 
 ## Document
 
