@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         backupGlobals="false"
          backupStaticAttributes="false"
          bootstrap="tests/bootstrap.php"
          colors="true"
@@ -7,21 +8,24 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false">
+         stopOnFailure="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./src</directory>
+        </include>
+        <report>
+            <clover outputFile="build/logs/clover.xml"/>
+            <html outputDirectory="build/coverage" lowUpperBound="30" highLowerBound="70"/>
+        </report>
+    </coverage>
     <testsuites>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
     <logging>
-        <log type="testdox-text" target="build/testdox/executed.txt"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-html" target="build/coverage" lowUpperBound="30" highLowerBound="70" />
-        <log type="junit" target="build/phpunit/phpunit.xml" />
+        <testdoxText outputFile="build/testdox/executed.txt"/>
+        <junit outputFile="build/phpunit/phpunit.xml"/>
     </logging>
 </phpunit>

@@ -18,7 +18,7 @@ interface ResterClientInterface extends ResterInterface
      * @param array $parsedBody
      * @return mixed
      */
-    public function callAsync($name, array $binding = [], array $queryParams = [], array $parsedBody = []);
+    public function callAsync(string $name, array $binding = [], array $queryParams = [], array $parsedBody = []);
 
     /**
      * Call api synchronous
@@ -29,5 +29,5 @@ interface ResterClientInterface extends ResterInterface
      * @param array $parsedBody
      * @return mixed
      */
-    public function callSync($name, array $binding = [], array $queryParams = [], array $parsedBody = []);
+    public function callSync(string $name, array $binding = [], array $queryParams = [], array $parsedBody = []);
 }

@@ -9,6 +9,9 @@ use Corp104\Rester\Exceptions\OperationDeniedException;
 use Corp104\Rester\ResterInterface;
 use Corp104\Rester\Support\CollectionAwareTrait;
 
+use function get_class;
+use function gettype;
+
 /**
  * Collection Trait which implement magic method
  */
@@ -24,10 +27,10 @@ trait CollectionTrait
     public function __set($name, $value)
     {
         if (!$value instanceof ResterInterface) {
-            $type = \gettype($value);
+            $type = gettype($value);
 
             if ('object' === $type) {
-                $type = \get_class($value);
+                $type = get_class($value);
             }
 
             throw new InvalidArgumentException("Property must be instance of ResterClientInterface. Given is {$type}");

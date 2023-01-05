@@ -7,6 +7,8 @@ namespace Corp104\Rester\Api;
 use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Support\HeaderAwareTrait;
 
+use function is_int;
+
 /**
  * Api abstract Class
  */
@@ -59,7 +61,7 @@ abstract class Api implements ApiInterface
      * @param array $queryParams
      * @return string
      */
-    public static function buildQueryString(array $queryParams)
+    public static function buildQueryString(array $queryParams): string
     {
         return http_build_query($queryParams, '', '&', PHP_QUERY_RFC3986);
     }
@@ -70,7 +72,7 @@ abstract class Api implements ApiInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public static function create($method, $uri)
+    public static function create($method, $uri): static
     {
         return new static($method, $uri);
     }
@@ -79,7 +81,7 @@ abstract class Api implements ApiInterface
      * @param array $binding
      * @return bool
      */
-    protected static function guessArrayIsSequence(array $binding)
+    protected static function guessArrayIsSequence(array $binding): bool
     {
         if (empty($binding)) {
             return false;
@@ -87,7 +89,7 @@ abstract class Api implements ApiInterface
 
         $keys = array_keys($binding);
 
-        return \is_int($keys[0]);
+        return is_int($keys[0]);
     }
 
     /**
@@ -95,7 +97,7 @@ abstract class Api implements ApiInterface
      * @param string $uri
      * @throws InvalidArgumentException
      */
-    public function __construct($method, $uri)
+    public function __construct(string $method, string $uri)
     {
         $method = strtoupper($method);
 
@@ -112,7 +114,7 @@ abstract class Api implements ApiInterface
      * @return string
      * @throws InvalidArgumentException
      */
-    public function bindUri(array $binding = [])
+    public function bindUri(array $binding = []): string
     {
         $uri = $this->getUri();
 
@@ -137,7 +139,7 @@ abstract class Api implements ApiInterface
     /**
      * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -146,7 +148,7 @@ abstract class Api implements ApiInterface
      * @param bool $withBinding
      * @return string
      */
-    public function getUri($withBinding = true)
+    public function getUri(bool $withBinding = true): string
     {
         if ($withBinding) {
             return $this->uri;
@@ -158,7 +160,7 @@ abstract class Api implements ApiInterface
     /**
      * @return array
      */
-    public function getUriBindingKeys()
+    public function getUriBindingKeys(): array
     {
         $binding = [];
 
@@ -170,7 +172,7 @@ abstract class Api implements ApiInterface
     /**
      * @return string
      */
-    public function getUriWithoutBinding()
+    public function getUriWithoutBinding(): string
     {
         return $this->getUri(false);
     }

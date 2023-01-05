@@ -12,7 +12,7 @@ trait AsynchronousTrait
     /**
      * @return bool
      */
-    public function isAsynchronous()
+    public function isAsynchronous(): bool
     {
         return true;
     }
@@ -20,7 +20,7 @@ trait AsynchronousTrait
     /**
      * @return bool
      */
-    public function isSynchronous()
+    public function isSynchronous(): bool
     {
         return false;
     }

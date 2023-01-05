@@ -17,7 +17,7 @@ trait BaseUrlAwareTrait
     /**
      * @param mixed $instance
      */
-    public function duplicateBaseUrlTo($instance)
+    public function duplicateBaseUrlTo($instance): void
     {
         if ($instance instanceof BaseUrlAwareInterface) {
             $instance->setBaseUrl($this->baseUrl);

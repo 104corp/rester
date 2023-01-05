@@ -10,6 +10,11 @@ use Corp104\Rester\Exceptions\InvalidArgumentException;
 use Corp104\Rester\Support\BaseUrlAwareInterface;
 use Corp104\Rester\Support\BaseUrlAwareTrait;
 
+use function array_key_exists;
+use function call_user_func_array;
+use function is_array;
+use function is_callable;
+
 /**
  * REST API mapping collection
  */
@@ -20,7 +25,7 @@ class Mapping implements BaseUrlAwareInterface
     /**
      * @var array
      */
-    protected $list = [];
+    protected array $list = [];
 
     /**
      * @param array $mapping
@@ -33,7 +38,7 @@ class Mapping implements BaseUrlAwareInterface
     /**
      * @return array
      */
-    public function all()
+    public function all(): array
     {
         return $this->list;
     }
@@ -57,7 +62,7 @@ class Mapping implements BaseUrlAwareInterface
      * @return ApiInterface
      * @throws ApiNotFoundException
      */
-    public function get($name)
+    public function get(string $name): ApiInterface
     {
         if (!isset($this->list[$name])) {
             throw new ApiNotFoundException("Invalid API: {$name}");
@@ -74,7 +79,7 @@ class Mapping implements BaseUrlAwareInterface
      * @param string $name
      * @return bool
      */
-    public function has($name)
+    public function has(string $name): bool
     {
         return array_key_exists($name, $this->list);
     }
@@ -108,14 +113,14 @@ class Mapping implements BaseUrlAwareInterface
      * @param ApiInterface|array $api
      * @throws InvalidArgumentException
      */
-    public function set($name, $api)
+    public function set(string $name, $api)
     {
         if ($api instanceof ApiInterface) {
             $this->setByInstance($name, $api);
             return;
         }
 
-        if (\is_array($api)) {
+        if (is_array($api)) {
             $this->setBySetting($name, $api);
             return;
         }
@@ -128,7 +133,7 @@ class Mapping implements BaseUrlAwareInterface
      * @param ApiInterface $api
      * @throws InvalidArgumentException
      */
-    public function setByInstance($name, ApiInterface $api)
+    public function setByInstance(string $name, ApiInterface $api)
     {
         $this->list[$name] = $api;
     }
@@ -140,7 +145,7 @@ class Mapping implements BaseUrlAwareInterface
      * @param array $api
      * @throws InvalidArgumentException
      */
-    public function setBySetting($name, array $api)
+    public function setBySetting(string $name, array $api)
     {
         $api = array_values($api);
 
@@ -148,11 +153,11 @@ class Mapping implements BaseUrlAwareInterface
             throw new InvalidArgumentException('Api array count must be 2');
         }
 
-        if (!\is_callable($api[0])) {
+        if (!is_callable($api[0])) {
             throw new InvalidArgumentException('Api array[0] is not callable');
         }
 
-        if (!\is_array($api[1])) {
+        if (!is_array($api[1])) {
             throw new InvalidArgumentException('Api array[1] is not array');
         }
 
@@ -174,12 +179,12 @@ class Mapping implements BaseUrlAwareInterface
      * @return ApiInterface
      * @throws ApiNotFoundException
      */
-    protected function resolve(array $setting)
+    protected function resolve(array $setting): ApiInterface
     {
         $callable = $setting[0];
 
         /** @var ApiInterface $api */
-        $api = \call_user_func_array($callable, $setting[1]);
+        $api = call_user_func_array($callable, $setting[1]);
 
         $this->duplicateBaseUrlTo($api);
 

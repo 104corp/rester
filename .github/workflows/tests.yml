@@ -1,0 +1,46 @@
+name: tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  linux_tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [ 8.2, 8.1, 8.0 ]
+        stability: [ prefer-lowest, prefer-stable ]
+
+    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: xdebug
+
+      - name: Install dependencies
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
+
+      - name: Execute phpcs
+        run: php vendor/bin/phpcs
+
+      - name: Execute tests
+        run: php -dxdebug.mode=coverage vendor/bin/phpunit
+
+      - name: Code coverage
+        uses: codecov/codecov-action@v1

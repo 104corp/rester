@@ -28,7 +28,7 @@ class ResterClient implements
      * @param string|null $baseUrl
      * @param array $httpOptions
      */
-    public function __construct($baseUrl = null, array $httpOptions = [])
+    public function __construct(string $baseUrl = null, array $httpOptions = [])
     {
         $this->setBaseUrl($baseUrl);
         $this->httpOptions = array_merge([
