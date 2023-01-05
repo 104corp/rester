@@ -121,12 +121,12 @@ abstract class Api implements ApiInterface
         if (static::guessArrayIsSequence($binding)) {
             $binding = static::buildBindingBySequence(
                 $this->getUriBindingKeys(),
-                $binding
+                $binding,
             );
         }
 
         foreach ($binding as $key => $value) {
-            $uri = str_replace("{{$key}}", $value, $uri);
+            $uri = str_replace("{{$key}}", "$value", $uri);
         }
 
         if (preg_match('/{.+}/', $uri)) {
