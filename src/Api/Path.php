@@ -9,7 +9,9 @@ use Corp104\Rester\Support\BaseUrlAwareInterface;
 use Corp104\Rester\Support\BaseUrlAwareTrait;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
-use GuzzleHttp\Utils;
+use JsonException;
+
+use function json_encode;
 
 /**
  * Api Class
@@ -34,6 +36,9 @@ class Path extends Api implements BaseUrlAwareInterface
         parent::__construct($method, $path);
     }
 
+    /**
+     * @throws JsonException
+     */
     public function createRequest(array $binding = [], array $queryParams = [], array $parsedBody = []): Request
     {
         $headers = $this->getHeaders();
@@ -49,7 +54,7 @@ class Path extends Api implements BaseUrlAwareInterface
             $headers['Content-type'] = 'application/json; charset=UTF-8';
             $headers['Expect'] = '100-continue';
 
-            $body = Utils::jsonEncode($parsedBody);
+            $body = json_encode($parsedBody, JSON_THROW_ON_ERROR);
         }
 
         return new Request(

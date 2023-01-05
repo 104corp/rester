@@ -9,7 +9,7 @@
     "require": {
         "php": "^8.0",
         "104corp/support": "^1.2",
-        "guzzlehttp/guzzle": "^7.5",
+        "guzzlehttp/guzzle": "^6.5 | ^7.5",
         "psr/http-message": "^1.0"
     },
     "require-dev": {
