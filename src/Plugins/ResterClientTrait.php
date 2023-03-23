@@ -6,8 +6,8 @@ namespace Corp104\Rester\Plugins;
 
 use Corp104\Rester\Api\ApiInterface;
 use Corp104\Rester\Support\BaseUrlAwareTrait;
-use Corp104\Support\HttpClientAwareTrait;
 use Exception;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
@@ -19,8 +19,43 @@ use Psr\Http\Message\ResponseInterface;
 trait ResterClientTrait
 {
     use BaseUrlAwareTrait;
-    use HttpClientAwareTrait;
     use MappingTrait;
+
+    /**
+     * @var ClientInterface
+     */
+    protected $httpClient;
+
+    /**
+     * @var array
+     */
+    protected array $httpOptions = [];
+
+    /**
+     * @return ClientInterface
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+
+    public function setHttpClient(ClientInterface $httpClient): void
+    {
+        $this->httpClient = $httpClient;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHttpOptions(): array
+    {
+        return $this->httpOptions;
+    }
+
+    public function setHttpOptions(array $httpOptions): void
+    {
+        $this->httpOptions = $httpOptions;
+    }
 
     /**
      * @param string $name
