@@ -77,7 +77,7 @@ class ResterRequest
     /**
      * @return array
      */
-    public function getBinding()
+    public function getBinding(): array
     {
         return $this->binding;
     }
@@ -102,7 +102,7 @@ class ResterRequest
      * @param array $binding
      * @return static
      */
-    public function setBinding(array $binding = []): static
+    public function setBinding(array $binding = []): ResterRequest
     {
         $this->binding = $binding;
         return $this;
@@ -112,7 +112,7 @@ class ResterRequest
      * @param array $parsedBody
      * @return static
      */
-    public function setParsedBody(array $parsedBody = []): static
+    public function setParsedBody(array $parsedBody = []): ResterRequest
     {
         $this->parsedBody = $parsedBody;
         return $this;
@@ -122,7 +122,7 @@ class ResterRequest
      * @param array $queryParams
      * @return static
      */
-    public function setQueryParams(array $queryParams = []): static
+    public function setQueryParams(array $queryParams = []): ResterRequest
     {
         $this->queryParams = $queryParams;
         return $this;

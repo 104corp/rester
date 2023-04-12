@@ -72,7 +72,7 @@ abstract class Api implements ApiInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public static function create($method, $uri): static
+    public static function create(string $method, string $uri): Api
     {
         return new static($method, $uri);
     }
